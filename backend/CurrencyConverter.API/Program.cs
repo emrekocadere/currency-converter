@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient<CurrencyConverterService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddSingleton<CurrencyConverterService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
