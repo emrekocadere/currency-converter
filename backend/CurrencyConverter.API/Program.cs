@@ -1,4 +1,5 @@
 using CurrencyConverter.API;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient<CurrencyConverterService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<CurrencyConverterService>();
+
+var connString=builder.Configuration.GetConnectionString("ConnectionString");
+
+builder.Services.AddDbContext<CurrencyConverterDbContext>(builder=>builder.UseSqlServer(connString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
