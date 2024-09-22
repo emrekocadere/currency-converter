@@ -25,6 +25,9 @@ public class CurrencyConverterService
             return jsonResponse;
      }
 
-
+     public List<Currency> GetCurrencies()
+     {
+         return _dbContext.Currencies.ToList();
+     }
  
 }
