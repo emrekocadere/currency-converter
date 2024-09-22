@@ -1,3 +1,4 @@
+using CurrencyConverter.API.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +14,12 @@ namespace CurrencyConverter.API.Controllers
             this.service = service;
         }
         [HttpPost]
-        public async Task<ActionResult> currency()
+        public async Task<ActionResult> currency(ExchangeReqDTO dto)
         {
 
-            return Ok(await service.SendRequest());
+            return Ok(await service.SendRequest(dto));
         }
+
+ 
     }
 }
