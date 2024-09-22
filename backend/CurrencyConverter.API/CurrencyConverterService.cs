@@ -20,7 +20,7 @@ public class CurrencyConverterService
     {
           
             _httpClient.DefaultRequestHeaders.Add("apikey", _configuration["ApiKey"]); 
-            using HttpResponseMessage response = await _httpClient.GetAsync("https://api.apilayer.com/currency_data/convert?to=eur&from=try&amount=100");
+            using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/currency_data/convert?to={dto.ToCurrency}&from={dto.FromCurrency}&amount={dto.Amount}");
             var jsonResponse = await response.Content.ReadAsStringAsync();
             return jsonResponse;
      }
