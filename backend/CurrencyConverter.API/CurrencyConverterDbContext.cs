@@ -8,5 +8,6 @@ public class CurrencyConverterDbContext : DbContext
 {
     public CurrencyConverterDbContext(DbContextOptions<CurrencyConverterDbContext> options) : base(options) { }
     public DbSet<Currency> Currencies { get; set; }
+    public DbSet<News> News { get; set; }
 
 }
