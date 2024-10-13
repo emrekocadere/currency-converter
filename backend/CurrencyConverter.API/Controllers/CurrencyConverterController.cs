@@ -20,9 +20,15 @@ namespace CurrencyConverter.API.Controllers
         }
 
         [HttpGet]
-        public  ActionResult GetCurrencies( )
+        public ActionResult GetCurrencies()
         {
-            return Ok( service.GetCurrencies());
+            return Ok(service.GetCurrencies());
+        }
+
+        [HttpGet("GetNewsFromDb")]
+        public ActionResult GetNewsFromDb()
+        {
+            return Ok(service.GetNewsFromDb());
         }
     }
 }

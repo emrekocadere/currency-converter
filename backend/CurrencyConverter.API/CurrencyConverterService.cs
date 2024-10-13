@@ -37,13 +37,19 @@ public class CurrencyConverterService
         _httpClient.DefaultRequestHeaders.Add("apikey", _configuration["ApiKey"]);
         using HttpResponseMessage response = await _httpClient.GetAsync($"http://api.mediastack.com/v1/news?access_key={_configuration["ApiKeyMediastack"]}&categories=business&keywords=currency");
         var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
-       var mediastackResponse=JsonSerializer.Deserialize<MediastackResponse>(jsonResponse);
-    
-       _dbContext.News.AddRange(mediastackResponse.data);
-       _dbContext.SaveChanges();
-       return mediastackResponse;
+        var mediastackResponse = JsonSerializer.Deserialize<MediastackResponse>(jsonResponse);
+
+        _dbContext.News.AddRange(mediastackResponse.data);
+        _dbContext.SaveChanges();
+        return mediastackResponse;
     }
-    
+
+
+    public List<News> GetNewsFromDb()
+    {
+        return _dbContext.News.ToList();
+    }
+
 
 
 
