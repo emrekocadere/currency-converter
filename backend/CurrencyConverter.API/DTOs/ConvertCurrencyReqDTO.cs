@@ -2,7 +2,7 @@ using System;
 
 namespace CurrencyConverter.API.DTOs;
 
-public class ExchangeReqDTO
+public class ConvertCurrencyReqDTO
 {
     public double Amount { get; set; }
     required public string FromCurrency{ get; set; }
