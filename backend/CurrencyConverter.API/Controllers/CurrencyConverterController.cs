@@ -13,17 +13,15 @@ namespace CurrencyConverter.API.Controllers
         {
             this.service = service;
         }
-        [HttpPost]
-        public async Task<ActionResult> currency(ExchangeReqDTO dto)
+        [HttpPost("ConvertCurrency")]
+        public async Task<ActionResult> ConvertCurrency(ConvertCurrencyReqDTO dto)
         {
-
-            return Ok(await service.SendRequest(dto));
+            return Ok(await service.GetNewsFromMediastack());
         }
 
         [HttpGet]
         public  ActionResult GetCurrencies( )
         {
-
             return Ok( service.GetCurrencies());
         }
     }

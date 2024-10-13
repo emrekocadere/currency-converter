@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient<CurrencyConverterService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-builder.Services.AddSingleton<CurrencyConverterService>();
+builder.Services.AddScoped<CurrencyConverterService>();
 
 var connString=builder.Configuration.GetConnectionString("ConnectionString");
 
