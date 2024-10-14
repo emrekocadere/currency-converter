@@ -10,4 +10,5 @@ public class CurrencyRatio
     public  Currency? TargetCurrency { get; set; }
     public int TargetCurrencyId { get; set; }
     public double Ratio { get; set; }
+    public DateTime Date { get; set; }
 }
