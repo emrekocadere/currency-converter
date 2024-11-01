@@ -52,9 +52,11 @@ public class CurrencyConverterService
 
     public async Task<string> GetConvertCurrencyRates()
     {
-        var todayDate = DateTime.Today;
+        var todayDate = DateTime.Today.ToString("yyyy-MM-dd");
+        var pastDate=DateTime.Today.AddMonths(-3).ToString("yyyy-MM-dd");
+
         _httpClient.DefaultRequestHeaders.Add("apikey", _configuration["ApiKey"]);
-        using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date=2024-06-01&end_date=2024-10-01&base=TRY&symbols=eur");
+        using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date={pastDate}&end_date={todayDate}&base=TRY&symbols=eur");
         var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
 
         return jsonResponse;
