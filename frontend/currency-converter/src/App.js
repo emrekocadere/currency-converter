@@ -5,11 +5,25 @@ import { Flex, Layout } from 'antd';
 import NewsCard from './NewsCard';
 import CustomFooter from './CustomFooter';
 import CustomHeader from './CustomHeader';
+import HomePageContent from './HomepageContent';
 const { Header, Footer, Sider, Content } = Layout;
 
 function App() {
   return (
-<CustomHeader/>
+    <div>
+
+   
+        <CustomHeader />
+
+
+
+      <HomePageContent></HomePageContent>
+      
+        <CustomFooter />
+      
+
+    </div>
+
   );
 }
 
