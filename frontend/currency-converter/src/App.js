@@ -4,11 +4,12 @@ import CurrencyConverter from './CurrencyConverter';
 import { Flex, Layout } from 'antd';
 import NewsCard from './NewsCard';
 import CustomFooter from './CustomFooter';
+import CustomHeader from './CustomHeader';
 const { Header, Footer, Sider, Content } = Layout;
 
 function App() {
   return (
-<CustomFooter></CustomFooter>
+<CustomHeader/>
   );
 }
 
