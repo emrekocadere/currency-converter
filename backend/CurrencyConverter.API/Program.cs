@@ -10,6 +10,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost3000", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") // İzin verilen URL
+              .AllowAnyHeader() // Herhangi bir header'a izin ver
+              .AllowAnyMethod(); // Herhangi bir HTTP metoduna izin ver
+    });
+});
+
 builder.Services.AddHttpClient<CurrencyConverterService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddScoped<CurrencyConverterService>();
@@ -25,6 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowLocalhost3000");
 
 app.UseHttpsRedirection();
 
