@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form } from 'antd';
-import { GetNewsFromDb } from './apiService';
+import { ConvertCurrency } from './apiService';
 
 const onFinish = (values) => {
   console.log(values)
-};
 
+  ConvertCurrency({
+    "amount": 1000,
+    "fromCurrency": "Eur",
+    "toCurrency": "TRY"
+  })
+};
 
 
 

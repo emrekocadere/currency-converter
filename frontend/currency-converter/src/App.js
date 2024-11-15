@@ -6,14 +6,14 @@ import NewsCard from './NewsCard';
 import CustomFooter from './CustomFooter';
 import CustomHeader from './CustomHeader';
 import HomePageContent from './HomepageContent';
-import GoogleChart from './GoogleLineChart';
+import NewsPage from './Pages/NewsPage';
 const { Header, Footer, Sider, Content } = Layout;
 function App() {
   return (
     <div>
 
         <CustomHeader />
-      <HomePageContent></HomePageContent>
+      <NewsPage></NewsPage>
         <CustomFooter />
       
 
