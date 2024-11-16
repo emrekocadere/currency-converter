@@ -19,7 +19,7 @@ namespace CurrencyConverter.API.Controllers
             return Ok(await service.ConvertCurrency(dto));
         }
 
-        [HttpGet]
+        [HttpGet("GetCurrencies")]
         public ActionResult GetCurrencies()
         {
             return Ok(service.GetCurrencies());
