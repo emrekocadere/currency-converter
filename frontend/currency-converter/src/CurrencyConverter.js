@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { InputNumber, Select, DatePicker, Button, Form } from 'antd';
+import { InputNumber, Select, DatePicker, Button, Form,ConfigProvider } from 'antd';
 import { GetCurrenciesAsync, ConvertCurrencyAsync } from './apiService';
 
 
@@ -46,6 +46,13 @@ function CurrencyConverter() {
 
 
   return (
+    <ConfigProvider
+    theme={{
+      token: {
+        colorPrimary: 'rgb(239,135,51)' // 
+      }
+    }}
+  >
     <div className="App" style={{ background: "rgb(246, 246, 246)", width: "40vw", borderRadius: "25px", boxShadow: "0px 0px 15px 7px rgb(222, 222, 222)", justifyContent: "space-between", padding: "3vh 3vw" }}>
 
       {/* <DatePicker style={{ width: '200px', height: '40px' }} /> */}
@@ -111,6 +118,7 @@ function CurrencyConverter() {
 
 
     </div>
+      </ConfigProvider>
   );
 }
 
