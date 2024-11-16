@@ -1,25 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form } from 'antd';
-import { ConvertCurrency } from './apiService';
+import { GetCurrenciesAsync, ConvertCurrencyAsync } from './apiService';
 
-const onFinish = (values) => {
-  console.log(values)
 
-  ConvertCurrency({
-    "amount": 1000,
-    "fromCurrency": "Eur",
-    "toCurrency": "TRY"
-  })
-};
 
 
 
 function CurrencyConverter() {
 
-
-  const [input, setInput] = useState(0);
   const [output, setOutput] = useState(0);
+  const [currencies, setCurrencies] = useState([]);
+
+  async function ConvertCurrency(values) {
+
+    let response = await ConvertCurrencyAsync({
+      "amount": values.inputAmount,
+      "fromCurrency": values.inputCurrency,
+      "toCurrency": values.outputCurrency
+    });
+    setOutput(response.data.result)
+
+  }
+
+
+  async function GetCurrencies() {
+    let response = await GetCurrenciesAsync()
+    setCurrencies(response)
+  }
+
+
+
+  useEffect(() => {
+    GetCurrencies()
+  }, [])
+
+
+
+  const onFinish = (values) => {
+
+
+    ConvertCurrency(values)
+
+  };
+
 
   return (
     <div className="App" style={{ background: "rgb(246, 246, 246)", width: "40vw", borderRadius: "25px", boxShadow: "0px 0px 15px 7px rgb(222, 222, 222)", justifyContent: "space-between", padding: "3vh 3vw" }}>
@@ -30,11 +54,11 @@ function CurrencyConverter() {
 
         <div style={{ display: "flex", flexDirection: "column" }}>
 
-          <Form.Item    
-          name="inputAmount" >
+          <Form.Item
+            name="inputAmount" >
             <InputNumber min={0} defaultValue={3} size={'large'} style={{ marginBottom: "20px", width: "15vw", height: "5vh" }} />
           </Form.Item>
-          <Form.Item   name="inputCurrency"> 
+          <Form.Item name="inputCurrency">
             <Select
               showSearch
               style={{ width: "15vw", height: "5vh" }}
@@ -42,23 +66,15 @@ function CurrencyConverter() {
               filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
               }
-              options={[
-                {
-                  value: '1',
-                  label: 'Jack',
-                },
-                {
-                  value: '2',
-                  label: 'Lucy',
-                },
-                {
-                  value: '3',
-                  label: 'Tom',
-                },
-              ]}
+              options={
+                currencies.map((currency) => ({
+                  value: currency.code,  // Örneğin: 'USD'
+                  label: currency.code   // Örneğin: 'US Dollar'
+                }))
+              }
             />
           </Form.Item>
-        </div>  
+        </div>
 
         <div style={{ padding: "3vw" }}>
           <Form.Item>
@@ -68,9 +84,9 @@ function CurrencyConverter() {
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Form.Item name="outputAmount" >
-            <InputNumber min={0} defaultValue={3} size={'large'} style={{ marginBottom: "20px", width: "15vw", height: "5vh" }} />
+            <InputNumber min={0} defaultValue={3} value={output} size={'large'} style={{ marginBottom: "20px", width: "15vw", height: "5vh" }} />
           </Form.Item>
-          <Form.Item name="outputCurrency" >
+          <Form.Item name="outputCurrency">
             <Select
               showSearch
               style={{ width: "15vw", height: "5vh" }}
@@ -78,22 +94,15 @@ function CurrencyConverter() {
               filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
               }
-              options={[
-                {
-                  value: '1',
-                  label: 'Jack',
-                },
-                {
-                  value: '2',
-                  label: 'Lucy',
-                },
-                {
-                  value: '3',
-                  label: 'Tom',
-                },
-              ]}
+              options={
+                currencies.map((currency) => ({
+                  value: currency.code,  // Örneğin: 'USD'
+                  label: currency.code   // Örneğin: 'US Dollar'
+                }))
+              }
             />
           </Form.Item>
+          <InputNumber min={0} defaultValue={3} value={output} size={'large'} style={{ marginBottom: "20px", width: "15vw", height: "5vh" }} />
         </div>
       </Form>
 

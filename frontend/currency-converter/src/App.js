@@ -13,7 +13,7 @@ function App() {
     <div>
 
         <CustomHeader />
-      <NewsPage></NewsPage>
+      <HomePageContent></HomePageContent>
         <CustomFooter />
       
 

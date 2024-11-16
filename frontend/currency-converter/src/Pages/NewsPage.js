@@ -1,4 +1,4 @@
-import { Card, Typography } from 'antd';
+import { Card, Divider, Typography, Button, Flex } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { GetNewsFromDb } from '../apiService';
 
@@ -23,10 +23,14 @@ function NewsPage() {
                 News
             </Typography.Title>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+
                 {news.map((item, index) => (
+
                     <Card
+                        href
                         key={index}
                         hoverable
+
                         style={{
                             width: "50%",
                             height: "18vh",
@@ -51,11 +55,22 @@ function NewsPage() {
                             </div>
                         }
                     >
+
                         <Meta title={<Typography.Paragraph style={{ marginBottom: 0, whiteSpace: 'normal', wordWrap: 'break-word' }}>
                             {item.title}
                         </Typography.Paragraph>} description={item.description} />
+                        <Divider style={{margin:"10px"}}></Divider>
+                        <div style={{width:"28vw",  display:"flex",justifyContent:"flex-end"}}>
+                            <Button href={item.url} >
+                                Read
+                            </Button>
+                        </div>
+
+
                     </Card>
+
                 ))}
+
             </div>
 
 
