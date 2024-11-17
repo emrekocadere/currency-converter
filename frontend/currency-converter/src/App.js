@@ -6,12 +6,12 @@ import { Flex, Layout } from 'antd';
 import NewsCard from './NewsCard';
 import CustomFooter from './CustomFooter';
 import CustomHeader from './CustomHeader';
-import HomePageContent from './HomepageContent';
+import HomePage from './HomePage';
 import NewsPage from './Pages/NewsPage';
 const { Header, Footer, Sider, Content } = Layout;
 function App() {
 
-  const [page, setPage] = useState("HomePageContent");
+  const [page, setPage] = useState("HomePage");
 
 
   useState(() => {
@@ -23,7 +23,7 @@ function App() {
 
       <CustomHeader />
       
-      {page === "HomePageContent" ? <HomePageContent /> :  <NewsPage /> }
+      {page === "HomePage" ? <HomePage /> :  <NewsPage /> }
 
       <CustomFooter />
 

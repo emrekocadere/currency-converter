@@ -4,7 +4,7 @@ import { Typography } from 'antd';
 import CurrencyConverter from './CurrencyConverter';
 import GoogleChart from './GoogleLineChart';
 
-function HomePageContent() {
+export default function HomePage() {
     return (
         <div style={{ paddingInline: "8vw", paddingTop: "2vh" }}>
 
@@ -34,5 +34,5 @@ function HomePageContent() {
     );
 }
 
-export default HomePageContent;
+
 
