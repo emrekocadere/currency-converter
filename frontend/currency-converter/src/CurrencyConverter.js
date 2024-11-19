@@ -1,28 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form,ConfigProvider } from 'antd';
-import { GetCurrenciesAsync, ConvertCurrencyAsync } from './apiService';
+import { GetCurrenciesAsync, ConvertCurrencyAsync,GetConvertCurrencyRatesAsync } from './apiService';
 
 
 
 
 
-function CurrencyConverter() {
+function CurrencyConverter(props) {
 
   const [output, setOutput] = useState(0);
   const [currencies, setCurrencies] = useState([]);
+  
+  let fromCurrency,toCurrency;
+
 
   async function ConvertCurrency(values) {
-
+    toCurrency=values.inputCurrency;
+    fromCurrency=values.outputCurrency;
     let response = await ConvertCurrencyAsync({
       "amount": values.inputAmount,
       "fromCurrency": values.inputCurrency,
       "toCurrency": values.outputCurrency
     });
     setOutput(response.data.result)
-
+    GetConvertCurrencyRates({
+      "FromCurrency": values.inputCurrency,
+      "ToCurrency": values.outputCurrency
+    });
   }
 
+  
+  async function GetConvertCurrencyRates(values) {
+    let response = await GetConvertCurrencyRatesAsync(values)
+    
+    props.sendCurrencyData(
+  response.rates
+
+    )
+  }
 
   async function GetCurrencies() {
     let response = await GetCurrenciesAsync()
@@ -103,8 +119,8 @@ function CurrencyConverter() {
               }
               options={
                 currencies.map((currency) => ({
-                  value: currency.code,  // Örneğin: 'USD'
-                  label: currency.code   // Örneğin: 'US Dollar'
+                  value: currency.code, 
+                  label: currency.code   
                 }))
               }
             />
