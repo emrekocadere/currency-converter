@@ -31,10 +31,10 @@ namespace CurrencyConverter.API.Controllers
             return Ok(service.GetNewsFromDb());
         }
 
-        [HttpGet("GetConvertCurrencyRates")]
-        public async Task<ActionResult> GetConvertCurrencyRates()
+        [HttpPost("GetConvertCurrencyRates")]
+        public async Task<ActionResult> GetConvertCurrencyRates(GetCurrencyRatesDTO dto)
         {
-            var response = await service.GetConvertCurrencyRates();
+            var response = await service.GetCurrencyRates(dto);
             return Ok(response);
         }
     }
