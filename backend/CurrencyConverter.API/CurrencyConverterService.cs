@@ -50,13 +50,13 @@ public class CurrencyConverterService
         return _dbContext.News.ToList();
     }
 
-    public async Task<string> GetConvertCurrencyRates()
+    public async Task<string> GetCurrencyRates(GetCurrencyRatesDTO dto)
     {
         var todayDate = DateTime.Today.ToString("yyyy-MM-dd");
-        var pastDate=DateTime.Today.AddMonths(-3).ToString("yyyy-MM-dd");
+        var pastDate=DateTime.Today.AddMonths(-2).ToString("yyyy-MM-dd");
 
         _httpClient.DefaultRequestHeaders.Add("apikey", _configuration["ApiKey"]);
-        using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date={pastDate}&end_date={todayDate}&base=TRY&symbols=eur");
+        using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date={pastDate}&end_date={todayDate}&base={dto.FromCurrency}&symbols={dto.ToCurrency}");
         var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
 
         return jsonResponse;
