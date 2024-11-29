@@ -13,16 +13,14 @@ function NewsPage() {
             let response = await GetNewsFromDb();
             setNews(response)
         }
-        fetchNews(); // Asenkron fonksiyonu çağırın
+        fetchNews(); 
     }, []);
 
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", paddingInline: "8vw", paddingTop: "2vh" }}>
-            <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
-                News
-            </Typography.Title>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+      
+
+            <div style={{ display: "flex", flexDirection: "column" }}>
 
                 {news.map((item, index) => (
 
@@ -32,12 +30,12 @@ function NewsPage() {
                         hoverable
 
                         style={{
-                            width: "50%",
+                            width: "100%",
                             height: "18vh",
                             display: "flex",
                             flexDirection: "row",
                             background: "rgb(246, 246, 246)",
-                            marginBottom: "1vh" // Her kart arasında boşluk bırakmak için
+                            marginBottom: "1vh" 
                         }}
                         cover={
                             <div style={{ height: "18vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -50,13 +48,13 @@ function NewsPage() {
                                         borderRadius: "10%",
                                         objectFit: "cover"
                                     }}
-                                    src={item.imageUrl || item.image} // Varsayılan bir görsel ekledim
+                                    src={item.imageUrl || item.image}
                                 />
                             </div>
                         }
                     >
 
-                        <Meta title={<Typography.Paragraph style={{ marginBottom: 0, whiteSpace: 'normal', wordWrap: 'break-word' }}>
+                        <Meta title={<Typography.Paragraph style={{ marginBottom: 0, whiteSpace: 'normal' }}>
                             {item.title}
                         </Typography.Paragraph>} description={item.description} />
                         <Divider style={{margin:"10px"}}></Divider>
@@ -74,7 +72,7 @@ function NewsPage() {
             </div>
 
 
-        </div>
+ 
 
     );
 }
