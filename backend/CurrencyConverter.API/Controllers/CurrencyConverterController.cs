@@ -37,5 +37,11 @@ namespace CurrencyConverter.API.Controllers
             var response = await service.GetCurrencyRates(dto);
             return Ok(response);
         }
+                [HttpGet("GetCommonCurrencies")]
+        public async Task<ActionResult> GetCommonCurrencies( )
+        {
+            var response = await service.GetCommonCurrencies();
+            return Ok(response);
+        }
     }
 }
