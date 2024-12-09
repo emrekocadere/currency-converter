@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Chart } from "react-google-charts";
-
+import "./index.css"
 const datas = [
   ["x", "dogs"],
   [0, 0],
@@ -9,8 +9,6 @@ const datas = [
   [0, 0],
   [0, 0],
 ];
-
-
 
 const options = {
   hAxis: { title: "Date" },
@@ -21,7 +19,6 @@ const options = {
 
 function GoogleLineChart(props) {
 
-  
   const [data, setData] = useState(datas);
 
   function convertRatesToData() {
@@ -42,14 +39,13 @@ function GoogleLineChart(props) {
   }
 
 
-
 useEffect(()=>{convertRatesToData() },[props.currencyRates])
 
   return (
-    <div style={{}}>
+    <div className='googleChart'>
       <Chart
         chartType="LineChart"
-        width="30vw"
+        // width="30vw"
         height="40vh"
         data={data}
         options={options}

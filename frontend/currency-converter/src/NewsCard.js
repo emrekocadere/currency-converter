@@ -6,16 +6,11 @@ const { Meta } = Card;
 
 function NewsCard() {
     return (
-        <div style={{}}>
+        <div >
             <Card
-            
+                className='newsCard'
                 hoverable
-                style={{
-                width:"12.5vw",
-                    
-                    
-                }}
-                cover={<img style={{width:"12.5vw", height:"20vh",objectFit:"cover"}}alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                cover={<img style={{ width: "12.5vw", height: "20vh", objectFit: "cover" }} alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
             >
                 <Meta title="Europe Street beat " description="www.instagram.com" />
             </Card>
