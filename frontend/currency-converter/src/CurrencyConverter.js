@@ -6,8 +6,6 @@ import { ArrowRightOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive'
 import "./index.css"
 
-
-
 function CurrencyConverter(props) {
 
   const isDesktopOrLaptop = useMediaQuery({
@@ -23,8 +21,6 @@ function CurrencyConverter(props) {
   const [baseCurrency, setBaseCurrency] = useState(0);
   const [targetCurrency, setTargetCurrency] = useState(0);
   const [currencyOptions, setCurrencyOptions] = useState([]);
-
-
 
 
   async function ConvertCurrency(values) {
@@ -44,7 +40,6 @@ function CurrencyConverter(props) {
     });
   }
 
-
   async function GetConvertCurrencyRates(values) {
     let response = await GetConvertCurrencyRatesAsync(values)
 
@@ -53,24 +48,18 @@ function CurrencyConverter(props) {
 
     )
   }
-
   async function GetCurrencies() {
     let response = await GetCurrenciesAsync()
     setCurrencyOptions(response)
   }
 
-
-
   useEffect(() => {
     GetCurrencies()
   }, [])
 
-
-
   const onFinish = (values) => {
     ConvertCurrency(values)
   };
-
 
   return (
     <ConfigProvider
@@ -92,9 +81,9 @@ function CurrencyConverter(props) {
               <InputNumber className="inputNumber" min={0} defaultValue={3} size={'large'} />
             </Form.Item>
 
-            <Form.Item name="baseCurrency">
+            <Form.Item className='selectWidth' name="baseCurrency">
               <Select
-                className='select'
+                className='selectHeight'
                 showSearch
                 placeholder="Select Base Currency"
                 filterOption={(input, option) =>
@@ -115,9 +104,9 @@ function CurrencyConverter(props) {
               </div>}
 
 
-            <Form.Item name="targetCurrency">
+            <Form.Item className='selectWidth' name="targetCurrency" >
               <Select
-                className='select'
+                className='selectHeight'
                 showSearch
                 placeholder="Select Base Currency"
                 filterOption={(input, option) =>
@@ -136,11 +125,16 @@ function CurrencyConverter(props) {
 
           <div className='secondRowForm'>
 
+            <Form.Item>
+              <DatePicker className='datePicker' />
+            </Form.Item>
+            <Form.Item>
 
-            <DatePicker className='datePicker' />
-            <div className='currencyConverterOutput'>
-              {input} {baseCurrency} = {output} {targetCurrency}
-            </div>
+              <div className='currencyConverterOutput'>
+                {input} {baseCurrency} = {output} {targetCurrency}
+              </div>
+            </Form.Item>
+
 
             <Form.Item >
               <Button className='button' htmlType='submit' >Convert</Button>
