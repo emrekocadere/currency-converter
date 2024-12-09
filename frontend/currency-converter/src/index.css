@@ -11,3 +11,49 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ConvertCurrencyDiv {
+  background: rgb(246, 246, 246);
+  border-radius: 25px;
+  box-shadow: 0px 0px 15px 7px rgb(222, 222, 222);
+  padding: 3vh 1vw;
+}
+
+Form {
+  display: flex;
+  flex-direction: column;
+}
+
+.firstRowOfForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.secondRowForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.inputNumber,
+.select,
+.button,
+.datePicker {
+  width: 10vw;
+  height: 5vh;
+}
+
+.currencyConverterOutput {
+  background: white;
+  border-color: rgb(239, 135, 51);
+  border-radius: 10px;
+  border-width: .1vw;
+  border-style: solid;
+  width: 15vw;
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

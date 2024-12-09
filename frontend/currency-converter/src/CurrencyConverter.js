@@ -3,12 +3,20 @@ import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'antd';
 import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import { Color } from 'antd/es/color-picker';
-
+import { useMediaQuery } from 'react-responsive'
+import "./index.css"
 
 
 
 function CurrencyConverter(props) {
+
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-width: 1224px)'
+  })
+  const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
+  const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
 
   const [output, setOutput] = useState(0);
   const [input, setInput] = useState(0);
@@ -60,10 +68,7 @@ function CurrencyConverter(props) {
 
 
   const onFinish = (values) => {
-
-
     ConvertCurrency(values)
-
   };
 
 
@@ -75,22 +80,22 @@ function CurrencyConverter(props) {
         }
       }}
     >
-      <div className="App" style={{ background: "rgb(246, 246, 246)", borderRadius: "25px", boxShadow: "0px 0px 15px 7px rgb(222, 222, 222)", padding: "3vh 1vw" }}>
+      <div className="ConvertCurrencyDiv" >
 
 
-        <Form style={{ display: "flex", flexDirection: "column" }} onFinish={onFinish}>
+        <Form onFinish={onFinish}>
 
-          <div style={{ display: "flex", flexDirection: "row", justifyContent:"space-between",alignItems:"baseline" }}>
+          <div className="firstRowOfForm">
 
             <Form.Item
               name="inputAmount" >
-              <InputNumber min={0} defaultValue={3} size={'large'} style={{ width: "10vw", height: "5vh" }} />
+              <InputNumber className="inputNumber" min={0} defaultValue={3} size={'large'} />
             </Form.Item>
 
             <Form.Item name="baseCurrency">
               <Select
+                className='select'
                 showSearch
-                style={{ width: "10vw", height: "5vh"}}
                 placeholder="Select Base Currency"
                 filterOption={(input, option) =>
                   (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -104,14 +109,16 @@ function CurrencyConverter(props) {
               />
             </Form.Item>
 
-            <div style={{ color: "rgb(239,135,51)" }}>
-              <ArrowRightOutlined />
-            </div>
+            {isTabletOrMobile ? null :
+              <div style={{ color: "rgb(239,135,51)" }}>
+                <ArrowRightOutlined />
+              </div>}
+
 
             <Form.Item name="targetCurrency">
               <Select
+                className='select'
                 showSearch
-                style={{ width: "10vw", height: "5vh" }}
                 placeholder="Select Base Currency"
                 filterOption={(input, option) =>
                   (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -127,20 +134,18 @@ function CurrencyConverter(props) {
 
           </div>
 
-          <div style={{ display: "flex", flexDirection: "row",justifyContent:"space-between" }}>
+          <div className='secondRowForm'>
 
 
-            <DatePicker style={{ width: "10vw", height: "5vh" }} />
-             <div style={{background:"white",borderColor:"rgb(239,135,51)",borderRadius:"10px",borderWidth:".1vw",borderStyle:"solid",width:"15vw",height:"5vh",display:"flex",justifyContent:"center",alignItems:"center"}}>
-               {input} {baseCurrency} = {output} {targetCurrency}
-              </div> 
+            <DatePicker className='datePicker' />
+            <div className='currencyConverterOutput'>
+              {input} {baseCurrency} = {output} {targetCurrency}
+            </div>
 
             <Form.Item >
-              <Button style={{ width: "10vw", height: "5vh" }} htmlType='submit' >Convert</Button>
+              <Button className='button' htmlType='submit' >Convert</Button>
             </Form.Item>
-
           </div>
-          {/* <InputNumber min={0} defaultValue={3} value={output} size={'large'} style={{ marginBottom: "20px", width: "15vw", height: "5vh" }} /> */}
 
 
         </Form>
