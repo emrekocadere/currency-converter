@@ -1,6 +1,7 @@
-import { Card, Divider, Typography, Button, Flex } from 'antd';
+import { Card, Divider, Typography, Button, Flex, ConfigProvider } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { GetNewsFromDb } from '../apiService';
+import "../index.css"
 
 const { Meta } = Card;
 
@@ -13,14 +14,20 @@ function NewsPage() {
             let response = await GetNewsFromDb();
             setNews(response)
         }
-        fetchNews(); 
+        fetchNews();
     }, []);
 
 
     return (
-      
 
-            <div style={{ display: "flex", flexDirection: "column" }}>
+        <ConfigProvider
+            theme={{
+                token: {
+                    colorPrimary: 'rgb(239,135,51)' // 
+                }
+            }}
+        >
+            <div className='cardDiv'>
 
                 {news.map((item, index) => (
 
@@ -28,37 +35,29 @@ function NewsPage() {
                         href
                         key={index}
                         hoverable
+                        className='newsCard'
 
-                        style={{
-                            width: "100%",
-                            height: "18vh",
-                            display: "flex",
-                            flexDirection: "row",
-                            background: "rgb(246, 246, 246)",
-                            marginBottom: "1vh" 
-                        }}
                         cover={
-                            <div style={{ height: "18vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <div  className='newsCardImgDiv' style={{display:"flex"}}>
                                 <img
+                                className='newsCardImg'
                                     alt={item.title || "News image"}
-                                    style={{
-                                        height: "15vh",
-                                        width: "9vw",
-                                        marginLeft: "10px",
-                                        borderRadius: "10%",
-                                        objectFit: "cover"
-                                    }}
-                                    src={item.imageUrl || item.image}
+
+                                    src={item.image}
                                 />
                             </div>
                         }
                     >
 
-                        <Meta title={<Typography.Paragraph style={{ marginBottom: 0, whiteSpace: 'normal' }}>
-                            {item.title}
-                        </Typography.Paragraph>} description={item.description} />
-                        <Divider style={{margin:"10px"}}></Divider>
-                        <div style={{width:"28vw",  display:"flex",justifyContent:"flex-end"}}>
+                        <Meta
+                            title={<Typography.Paragraph style={{ marginBottom: 0, whiteSpace: 'normal' }}>
+                                {item.title}
+                            </Typography.Paragraph>}
+                            description={item.description.slice(0, 140)} />
+
+                        <Divider style={{ margin: "10px" }}></Divider>
+
+                        <div style={{ width: "28vw", height:"3.5vh",display: "flex", justifyContent: "flex-end",alignItems:"flex-end" }}>
                             <Button href={item.url} >
                                 Read
                             </Button>
@@ -70,9 +69,9 @@ function NewsPage() {
                 ))}
 
             </div>
+        </ConfigProvider>
 
 
- 
 
     );
 }
