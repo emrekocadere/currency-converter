@@ -15,13 +15,15 @@ function CustomHeader() {
                 }
             }}
         >
+
+
             <div className='customHeader' >
                 <div>
                     <img className="headerImg" src={imagee} ></img>
 
                 </div>
 
-                <Divider style={{ background: "rgb(255, 128, 0)",margin:"0px" }} />
+                <Divider className='divider' />
             </div>
         </ConfigProvider>
     );
