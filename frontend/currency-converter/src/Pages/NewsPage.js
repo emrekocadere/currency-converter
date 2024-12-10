@@ -1,12 +1,15 @@
 import { Card, Divider, Typography, Button, Flex, ConfigProvider } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { GetNewsFromDb } from '../apiService';
+import useResponsive from '../useResponsive';
 import "../index.css"
 
 const { Meta } = Card;
 
 
 function NewsPage() {
+
+    const { isTabletOrMobile } = useResponsive();
 
     const [news, setNews] = useState([]);
     useEffect(() => {
@@ -23,8 +26,11 @@ function NewsPage() {
         <ConfigProvider
             theme={{
                 token: {
-                    colorPrimary: 'rgb(239,135,51)' // 
-                }
+                    colorPrimary: 'rgb(239,135,51)',
+                    paddingLG: isTabletOrMobile ? "2vw":  "24px"
+                   // telephone    
+                },
+
             }}
         >
             <div className='cardDiv'>
@@ -36,7 +42,7 @@ function NewsPage() {
                         key={index}
                         hoverable
                         className='newsCard'
-
+                        style={{padding:"0px"}}
                         cover={
                             <div  className='newsCardImgDiv' style={{display:"flex"}}>
                                 <img
@@ -50,10 +56,11 @@ function NewsPage() {
                     >
 
                         <Meta
-                            title={<Typography.Paragraph style={{ marginBottom: 0, whiteSpace: 'normal' }}>
-                                {item.title}
-                            </Typography.Paragraph>}
-                            description={item.description.slice(0, 140)} />
+                        style={{fontSize:"2.8vw"}}
+                            title={<p style={{whiteSpace:"normal",fontSize:"3vw",margin:"0px"}}> {item.title}</p>}
+                          
+                         
+                            description={item.description.slice(0, isTabletOrMobile ? 40 : 140)} />
 
                         <Divider style={{ margin: "10px" }}></Divider>
 
