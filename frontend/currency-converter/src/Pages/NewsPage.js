@@ -56,19 +56,19 @@ function NewsPage() {
                     >
 
                         <Meta
-                        style={{fontSize:"2.8vw"}}
-                            title={<p style={{whiteSpace:"normal",fontSize:"3vw",margin:"0px"}}> {item.title}</p>}
+                        style={{}}
+                            title={<p className='newsCardTitle'> {item.title}</p>}
                           
                          
-                            description={item.description.slice(0, isTabletOrMobile ? 40 : 140)} />
+                            description={<div className='newsCardDescription'>{item.description.slice(0, isTabletOrMobile ? 40 : 140)}</div>} />
 
                         <Divider style={{ margin: "10px" }}></Divider>
 
-                        <div style={{ width: "28vw", height:"3.5vh",display: "flex", justifyContent: "flex-end",alignItems:"flex-end" }}>
+                        {/* <div style={{ width: "28vw", height:"3.5vh",display: "flex", justifyContent: "flex-end",alignItems:"flex-end" }}>
                             <Button href={item.url} >
                                 Read
                             </Button>
-                        </div>
+                        </div> */}
 
 
                     </Card>
