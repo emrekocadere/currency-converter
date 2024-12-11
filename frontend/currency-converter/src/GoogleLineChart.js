@@ -45,7 +45,7 @@ useEffect(()=>{convertRatesToData() },[props.currencyRates])
     <div className='googleChart'>
       <Chart
         chartType="LineChart"
-        // width="30vw"
+       
         height="40vh"
         data={data}
         options={options}

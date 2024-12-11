@@ -69,7 +69,7 @@ function CurrencyConverter(props) {
         }
       }}
     >
-      <div className="ConvertCurrencyDiv" >
+      <div className="convertCurrencyDiv"  >
 
 
         <Form onFinish={onFinish}>
