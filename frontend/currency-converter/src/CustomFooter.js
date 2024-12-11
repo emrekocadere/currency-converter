@@ -3,10 +3,12 @@ import './index.css';
 import React from 'react';
 import { Button, Divider } from 'antd';
 import { GithubOutlined, LinkedinOutlined, MailOutlined } from '@ant-design/icons';
+import useResponsive from './useResponsive';
 
 function CustomFooter() {
+    const { isTabletOrMobile } = useResponsive();
     return (
-        <div className='customFooterDiv'  style={{  }}>
+        <div className='customFooterDiv' style={{}}>
 
 
             <div className='customFooterLinks' >
@@ -16,7 +18,7 @@ function CustomFooter() {
 
             </div>
 
-            < Divider  className="customFooterDivider" type="vertical" style={{  }} />
+            < Divider className="customFooterDivider" type={isTabletOrMobile ? "horizontal" : "vertical"} />
 
             <div style={{ display: "flex", alignItems: "center" }}>
                 <p style={{ color: "white" }}>Developed By Salih Emre Kocadere</p>

@@ -5,18 +5,11 @@ import CurrencyConverter from './CurrencyConverter';
 import GoogleChart from './GoogleLineChart';
 import NewsPage from './Pages/NewsPage';
 import CommonCurrenciesRates from './CommonCurrenciesRates';
-import { useMediaQuery } from 'react-responsive'
+import useResponsive from './useResponsive';
 
 export default function HomePage() {
+    const { isDesktopOrLaptop } = useResponsive();
 
-
-    const isDesktopOrLaptop = useMediaQuery({
-        query: '(min-width: 900px)'
-    })
-    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-    const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
-    const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
 
     const [currencyGraph, setCurrencyGraph] = useState("HomePage");
 
