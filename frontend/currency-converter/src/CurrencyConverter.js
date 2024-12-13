@@ -4,17 +4,11 @@ import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'a
 import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive'
+
 import "./index.css"
 
 function CurrencyConverter(props) {
 
-  const isDesktopOrLaptop = useMediaQuery({
-    query: '(min-width: 1224px)'
-  })
-  const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
-  const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
 
   const [output, setOutput] = useState(0);
   const [input, setInput] = useState(0);
@@ -24,6 +18,8 @@ function CurrencyConverter(props) {
 
 
   async function ConvertCurrency(values) {
+
+
 
     let response = await ConvertCurrencyAsync({
       "amount": values.inputAmount,
@@ -53,12 +49,14 @@ function CurrencyConverter(props) {
     setCurrencyOptions(response)
   }
 
+
   useEffect(() => {
     GetCurrencies()
   }, [])
 
   const onFinish = (values) => {
     ConvertCurrency(values)
+
   };
 
   return (
@@ -69,19 +67,22 @@ function CurrencyConverter(props) {
         }
       }}
     >
-      <div className="convertCurrencyDiv"  >
 
+      <div className="convertCurrencyDiv"  >
 
         <Form onFinish={onFinish}>
 
           <div className="firstRowOfForm">
-
             <Form.Item
-              name="inputAmount" >
+              name="inputAmount"
+              rules={[{ required: true, message: 'Please enter an amount' }]} >
               <InputNumber className="inputNumber" min={0} defaultValue={3} size={'large'} />
             </Form.Item>
 
-            <Form.Item className='selectWidth' name="baseCurrency">
+            <Form.Item
+              className='selectWidth'
+              name="baseCurrency"
+              rules={[{ required: true, message: 'Select a currency' }]}>
               <Select
                 className='selectHeight'
                 showSearch
@@ -98,16 +99,20 @@ function CurrencyConverter(props) {
               />
             </Form.Item>
 
-            {isTabletOrMobile ? null :
+            {/* {isTabletOrMobile ? null :
               <div style={{ color: "rgb(239,135,51)" }}>
                 <ArrowRightOutlined />
-              </div>}
+              </div>} */}
 
 
-            <Form.Item className='selectWidth' name="targetCurrency" >
+            <Form.Item
+              className='selectWidth'
+              name="targetCurrency"
+              rules={[{ required: true, message: 'Select a currency' }]}>
               <Select
                 className='selectHeight'
                 showSearch
+
                 placeholder="Select Base Currency"
                 filterOption={(input, option) =>
                   (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
