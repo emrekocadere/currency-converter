@@ -6,22 +6,22 @@ import { GithubOutlined, LinkedinOutlined, MailOutlined } from '@ant-design/icon
 import useResponsive from './useResponsive';
 
 function CustomFooter() {
-    const { isTabletOrMobile } = useResponsive();
+    const { isMobile } = useResponsive();
     return (
-        <div className='customFooterDiv' style={{}}>
+        <div className='customFooterDiv' >
 
 
-            <div className='customFooterLinks' >
-                <Button color="default" variant="link" ><LinkedinOutlined />LinkedIn</Button>
-                <Button color="default" variant="link"><GithubOutlined />Github</Button>
-                <Button color="default" variant="link"><MailOutlined />Email</Button>
+            <div className='customFooterLinksDiv'  >
+                <Button color="default" variant="link" className='cutomFooterLinks'><LinkedinOutlined />LinkedIn</Button>
+                <Button color="default" variant="link" className='cutomFooterLinks'><GithubOutlined />Github</Button>
+                <Button color="default" variant="link" className='cutomFooterLinks'><MailOutlined />Email</Button>
 
             </div>
 
-            < Divider className="customFooterDivider" type={isTabletOrMobile ? "horizontal" : "vertical"} />
+            < Divider className="customFooterDivider" type={isMobile ? "horizontal" : "vertical"} />
 
-            <div style={{ display: "flex", alignItems: "center" }}>
-                <p style={{ color: "white" }}>Developed By Salih Emre Kocadere</p>
+            <div style={{ display: "flex", alignItems: "center",color: "white",fontSize:"80%" }}>
+                <p >Developed By Salih Emre Kocadere</p>
             </div>
 
 

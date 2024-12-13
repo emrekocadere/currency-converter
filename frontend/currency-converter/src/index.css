@@ -11,8 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.cutomFooterLinks{
+  font-size: 80%;
+}
 
-.customFooterLinks {
+.customFooterLinksDiv {
   display: flex;
 }
 
@@ -20,6 +23,43 @@ code {
   background: rgb(255, 128, 0);
   display: flex;
 }
+.divider {
+  background: rgb(255, 128, 0);
+}
+
+.convertCurrencyDiv {
+  background: rgb(246, 246, 246);
+  border-radius: 25px;
+  box-shadow: 0px 0px 15px 7px rgb(222, 222, 222);
+  padding: 3vh 1vw;
+}
+
+.currencyConverterOutput {
+  background: white;
+  border-color: rgb(239, 135, 51);
+  border-radius: 10px;
+  border-width: .1vw;
+  border-style: solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homePageDiv {
+  padding-inline: 8vw;
+  padding-top: 2vh;
+}
+.headerImg{
+  padding-left: 5vw;
+  padding-top: 1vh;
+}
+
+.newsCardImg {
+  margin-left: 10px;
+  border-radius: 10%;
+  object-fit: cover;
+}
+
 
 /* telephone */
 @media (max-width: 450px)  {
@@ -41,7 +81,7 @@ code {
   .currencyConverterOutput,
   .datePicker {
     width: 50vw;
-    height: 5vh;
+    height: 4vh;
 
   }
 
@@ -50,14 +90,12 @@ code {
   }
 
   .selectHeight {
-    height: 5vh;
+    height: 4vh;
   }
 
   .headerImg {
     height: 7vh;
-    width: 30vw;
-    padding-left: 5vw;
-    padding-top: 1vh;
+    width:  14vh;
   }
 
   .cardDiv {
@@ -82,10 +120,7 @@ code {
 
   .newsCardImg {
     height: 10vh;
-    width: 20vw;
-    margin-left: 10px;
-    border-radius: 10%;
-    object-fit: cover;
+    width: 10vh;
   }
 
 
@@ -94,7 +129,6 @@ code {
   }
 
   .divider {
-    background: rgb(255, 128, 0);
     margin: 0px;
     margin-block: 1vh;
   }
@@ -109,10 +143,9 @@ code {
     font-size: 1.25vh;
   }
 
-  .customFooterLinks {
+  .customFooterLinksDiv {
     flex-direction: row;
-
-
+    
   }
   .customFooterDiv {
     flex-direction: column;
@@ -122,7 +155,6 @@ code {
     margin: 0px;
 
   }
-
 
 }
 
@@ -171,9 +203,8 @@ code {
 
   .headerImg {
     height: 10vh;
-    width: 12.5vw;
-    padding-left: 5vw;
-    padding-top: 1vh;
+    width:  20vh;
+
   }
 
   .newsCard {
@@ -187,10 +218,7 @@ code {
 
   .newsCardImg {
     height: 15vh;
-    width: 9vw;
-    margin-left: 10px;
-    border-radius: 10%;
-    object-fit: cover;
+    width: 15vh;
   }
 
   .cardDiv {
@@ -210,7 +238,7 @@ code {
 
   .divider {
     background: rgb(255, 128, 0);
-    margin: "0px";
+    margin: 0px;
   }
 
   .newsCardTitle {
@@ -223,7 +251,7 @@ code {
     font-size: 1.5vh;
   }
 
-  .customFooterLinks {
+  .customFooterLinksDiv {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -237,62 +265,45 @@ code {
     height: 10vh;
 
   }
-  
-
-
 }
 
 /* Tablet */
 @media  (min-width: 600px) and (max-width: 1280px)  {
   .firstRowOfForm {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-
+    flex-direction: column;
+    align-items: center;
+    background-color: aqua;
   }
 
   .secondRowForm {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+
   }
 
-  .inputNumber,
-  .select,
   .button,
+  .inputNumber,
+  .currencyConverterOutput,
   .datePicker {
-    width: 10vw;
+    width: 50vw;
     height: 5vh;
+
   }
 
-  .currencyConverterOutput {
-    width: 15vw;
+  .selectWidth {
+    width: 50vw;
+  }
+
+  .selectHeight {
     height: 5vh;
   }
 
   .headerImg {
-    height: 10vh;
-    width: 12.5vw;
-    padding-left: 5vw;
-    padding-top: 1vh;
-  }
+    height: 7vh;
+    width: 30vw;
 
-  .newsCard {
-    width: 100%;
-    height: 18vh;
-    display: flex;
-    flex-direction: row;
-    background: rgb(246, 246, 246);
-    margin-bottom: 1vh
-  }
-
-  .newsCardImg {
-    height: 15vh;
-    width: 9vw;
-    margin-left: 10px;
-    border-radius: 10%;
-    object-fit: cover;
   }
 
   .cardDiv {
@@ -300,32 +311,58 @@ code {
     flex-direction: column;
   }
 
+  .newsCard {
+    width: 100%;
+    height: 12vh;
+    display: flex;
+    flex-direction: row;
+    background: rgb(246, 246, 246);
+    margin-bottom: 1vh;
+
+  }
+
   .newsCardImgDiv {
-    height: 18vh;
+    height: 12vh;
     align-items: center;
+  }
+
+  .newsCardImg {
+    height: 10vh;
+    width: 20vw;
+  }
+
+
+  .googleChart {
+    width: 100vw;
+  }
+
+  .divider {
+    margin: 0px;
+    margin-block: 1vh;
+  }
+
+  .newsCardTitle {
+    white-space: normal;
+    font-size: 1.3vh;
+    margin: 0px
+  }
+
+  .newsCardDescription {
+    font-size: 1.25vh;
+  }
+
+  .customFooterLinksDiv {
+    flex-direction: row;
+
+
+  }
+  .customFooterDiv {
+    flex-direction: column;
+    align-items: center;
+  }
+  .customFooterDivider{
+    margin: 0px;
 
   }
 }
 
-.convertCurrencyDiv {
-  background: rgb(246, 246, 246);
-  border-radius: 25px;
-  box-shadow: 0px 0px 15px 7px rgb(222, 222, 222);
-  padding: 3vh 1vw;
-}
-
-.currencyConverterOutput {
-  background: white;
-  border-color: rgb(239, 135, 51);
-  border-radius: 10px;
-  border-width: .1vw;
-  border-style: solid;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.homePageDiv {
-  padding-inline: 8vw;
-  padding-top: 2vh;
-}
