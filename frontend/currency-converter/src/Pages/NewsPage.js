@@ -9,7 +9,7 @@ const { Meta } = Card;
 
 function NewsPage() {
 
-    const { isTabletOrMobile } = useResponsive();
+    const { isMobile } = useResponsive();
 
     const [news, setNews] = useState([]);
     useEffect(() => {
@@ -27,7 +27,7 @@ function NewsPage() {
             theme={{
                 token: {
                     colorPrimary: 'rgb(239,135,51)',
-                    paddingLG: isTabletOrMobile ? "2vw":  "24px"
+                    paddingLG: isMobile ? "2vw":  "24px"
                    // telephone    
                 },
 
@@ -38,7 +38,7 @@ function NewsPage() {
                 {news.map((item, index) => (
 
                     <Card
-                        href
+                 
                         key={index}
                         hoverable
                         className='newsCard'
@@ -53,27 +53,23 @@ function NewsPage() {
                                 />
                             </div>
                         }
+                        onClick={() =>window.open(item.url, '_blank')}
                     >
 
                         <Meta
-                        style={{}}
+                    
                             title={<p className='newsCardTitle'> {item.title}</p>}
                           
                          
-                            description={<div className='newsCardDescription'>{item.description.slice(0, isTabletOrMobile ? 40 : 140)}</div>} />
-
-                        <Divider style={{ margin: "10px" }}></Divider>
-
-                        {/* <div style={{ width: "28vw", height:"3.5vh",display: "flex", justifyContent: "flex-end",alignItems:"flex-end" }}>
-                            <Button href={item.url} >
-                                Read
-                            </Button>
-                        </div> */}
+                            description={<div className='newsCardDescription'>{item.description.slice(0, isMobile ? 40 : 140)}</div>} />
 
 
                     </Card>
+              
+              
 
                 ))}
+            
 
             </div>
         </ConfigProvider>
