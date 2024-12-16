@@ -22,10 +22,10 @@ function GoogleLineChart(props) {
   const [data, setData] = useState(datas);
 
   function convertRatesToData() {
-   
+   console.log(props)
     const dates = Object.keys(props.currencyRates);
    let currency = Object.keys(props.currencyRates[dates[0]])[0]; 
-    const newData = [["x", currency]]; 
+    const newData = [["y", currency]]; 
    
 
     dates.forEach((date, index) => {
@@ -34,8 +34,9 @@ function GoogleLineChart(props) {
       newData.push([date, value]);
     });
 
-    console.log(newData);  // Log the new data
+   // console.log(newData);  // Log the new data
     setData(newData);  // Update the state with the new data
+    console.log(data)
   }
 
 
@@ -45,8 +46,8 @@ useEffect(()=>{convertRatesToData() },[props.currencyRates])
     <div className='googleChart'>
       <Chart
         chartType="LineChart"
-       
-        height="40vh"
+        width="105%"
+        // height="40vh"
         data={data}
         options={options}
       />
