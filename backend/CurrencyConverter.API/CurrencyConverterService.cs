@@ -31,17 +31,10 @@ public class CurrencyConverterService
         return _dbContext.Currencies.ToList();
     }
 
-    public async Task<MediastackResponse> GetNewsFromMediastack()
+    public void SaveTheNewsToDb(List<News>news)
     {
-
-        _httpClient.DefaultRequestHeaders.Add("apikey", _configuration["ApiKey"]);
-        using HttpResponseMessage response = await _httpClient.GetAsync($"http://api.mediastack.com/v1/news?access_key={_configuration["ApiKeyMediastack"]}&categories=business&keywords=currency");
-        var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
-        var mediastackResponse = JsonSerializer.Deserialize<MediastackResponse>(jsonResponse);
-
-        _dbContext.News.AddRange(mediastackResponse.data);
-        _dbContext.SaveChanges();
-        return mediastackResponse;
+         _dbContext.News.AddRange(news);
+         _dbContext.SaveChanges();
     }
 
 
@@ -91,8 +84,6 @@ public class CurrencyConverterService
               var getCommonCurrenciesResponseDTO = JsonSerializer.Deserialize<GetCommonCurrenciesResponseDTO>(jsonResponse);
               getCommonCurrenciesResponseDTOList.Add(getCommonCurrenciesResponseDTO);
         }
-
-        
 
         return getCommonCurrenciesResponseDTOList;
     }

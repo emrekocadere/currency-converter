@@ -1,5 +1,6 @@
 using CurrencyConverter.API;
 using Microsoft.EntityFrameworkCore;
+using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+builder.Services.AddQuartzHostedService(options =>
+{
+    options.WaitForJobsToComplete = true;
+});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost3000", policy =>
@@ -18,6 +26,22 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader() // Herhangi bir header'a izin ver
               .AllowAnyMethod(); // Herhangi bir HTTP metoduna izin ver
     });
+});
+
+
+
+
+builder.Services.AddQuartz(configure =>
+{
+    var jobKey = new JobKey("GetNewsFromMediastack");
+
+    configure
+        .AddJob<MediaStackNewsFetcherJob>(jobKey)
+        .AddTrigger(
+            trigger => trigger.ForJob(jobKey).WithSimpleSchedule(
+                schedule => schedule.WithIntervalInHours(12).RepeatForever()));
+
+ 
 });
 
 builder.Services.AddHttpClient<CurrencyConverterService>();
