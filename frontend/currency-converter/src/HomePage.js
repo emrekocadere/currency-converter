@@ -8,7 +8,7 @@ import CommonCurrenciesRates from './CommonCurrenciesRates';
 import useResponsive from './useResponsive';
 
 export default function HomePage() {
-    const { isDesktopOrLaptop } = useResponsive();
+    const { isDesktop,isMobile } = useResponsive();
 
 
     const [currencyGraph, setCurrencyGraph] = useState("HomePage");
@@ -29,13 +29,13 @@ export default function HomePage() {
             </Row>
 
             {/* Eğer isDesktopOrLaptop ise düzenleme yapılır */}
-            <Row gutter={[16, 16]} style={{ flexDirection: isDesktopOrLaptop ? 'row' : 'column' }}>
-                <Col span={isDesktopOrLaptop ? 12 : 24}>
+            <Row gutter={[16, 16]} style={{ flexDirection: isMobile ? 'column' : 'row' }}>
+                <Col span={isDesktop ? 12 : 24}>
                     <CurrencyConverter sendCurrencyData={fetchCurrencyData} />
                 </Col>
                 <Col
-                    span={isDesktopOrLaptop ? 12 : 24}
-                    style={{ display: "flex", justifyContent: "center", marginTop: isDesktopOrLaptop ? "-7vh" : "0" }}
+                    span={isDesktop ? 12 : 24}
+                    style={{ display: "flex", justifyContent: "center", marginTop: isDesktop ? "-7vh" : "0" }}
                 >
                     <GoogleChart currencyRates={currencyGraph}></GoogleChart>
                 </Col>
@@ -47,11 +47,11 @@ export default function HomePage() {
                 </Typography.Title>
             </Row>
 
-            <Row gutter={[16, 16]} style={{ flexDirection: isDesktopOrLaptop ? 'row' : 'column' }}>
-                <Col span={isDesktopOrLaptop ? 12 : 24}>
+            <Row gutter={[16, 16]} style={{ flexDirection: isDesktop ? 'row' : 'column' }}>
+                <Col span={isDesktop ? 12 : 24}>
                     <NewsPage />
                 </Col>
-                <Col span={isDesktopOrLaptop ? 12 : 24}>
+                <Col span={isDesktop ? 12 : 24}>
                     <CommonCurrenciesRates />
                 </Col>
             </Row>
