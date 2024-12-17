@@ -3,7 +3,7 @@ import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'antd';
 import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import { useMediaQuery } from 'react-responsive'
+import useResponsive from "./useResponsive"
 
 import "./index.css"
 
@@ -16,6 +16,7 @@ function CurrencyConverter(props) {
   const [targetCurrency, setTargetCurrency] = useState(0);
   const [currencyOptions, setCurrencyOptions] = useState([]);
 
+  const { isMobile } = useResponsive();
 
   async function ConvertCurrency(values) {
 
@@ -70,13 +71,15 @@ function CurrencyConverter(props) {
 
       <div className="convertCurrencyDiv"  >
 
-        <Form onFinish={onFinish}>
+        <Form onFinish={onFinish} >
+
 
           <div className="firstRowOfForm">
+
             <Form.Item
               name="inputAmount"
               rules={[{ required: true, message: 'Please enter an amount' }]} >
-              <InputNumber className="inputNumber" min={0} defaultValue={3} size={'large'} />
+              <InputNumber className="inputNumber" min={0} defaultValue={0} size={'large'} />
             </Form.Item>
 
             <Form.Item
@@ -130,20 +133,48 @@ function CurrencyConverter(props) {
 
           <div className='secondRowForm'>
 
-            <Form.Item>
-              <DatePicker className='datePicker' />
-            </Form.Item>
-            <Form.Item>
 
-              <div className='currencyConverterOutput'>
-                {input} {baseCurrency} = {output} {targetCurrency}
-              </div>
-            </Form.Item>
+            {isMobile ?
+              <>
+                <Form.Item>
+                  <DatePicker className='datePicker' />
+                </Form.Item>
 
 
-            <Form.Item >
-              <Button className='button' htmlType='submit' >Convert</Button>
-            </Form.Item>
+                <Form.Item >
+                  <Button className='button' htmlType='submit' >Convert</Button>
+                </Form.Item>
+                <Form.Item>
+
+                  <div className='currencyConverterOutput'>
+                    {input} {baseCurrency} = {output} {targetCurrency}
+                  </div>
+                </Form.Item>
+
+
+              </>
+              :
+              <>
+                <Form.Item>
+                  <DatePicker className='datePicker' />
+                </Form.Item>
+                <Form.Item>
+
+                  <div className='currencyConverterOutput'>
+                    {input} {baseCurrency} = {output} {targetCurrency}
+                  </div>
+                </Form.Item>
+
+
+                <Form.Item >
+                  <Button className='button' htmlType='submit' >Convert</Button>
+                </Form.Item>
+              </>
+            }
+
+
+
+
           </div>
 
 
