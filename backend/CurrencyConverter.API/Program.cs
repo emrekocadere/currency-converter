@@ -34,7 +34,6 @@ builder.Services.AddCors(options =>
 builder.Services.AddQuartz(configure =>
 {
     var jobKey = new JobKey("GetNewsFromMediastack");
-
     configure
         .AddJob<MediaStackNewsFetcherJob>(jobKey)
         .AddTrigger(

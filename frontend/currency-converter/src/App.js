@@ -12,8 +12,11 @@ const { Header, Footer, Sider, Content } = Layout;
 function App() {
 
   const [page, setPage] = useState("HomePage");
+ 
 
+  
 
+  //hooklar fonksiyon içinde kullanılır
   useState(() => {
 
   }, [page]);
@@ -22,8 +25,8 @@ function App() {
     <div>
 
       <CustomHeader />
-      
-      {page === "HomePage" ? <HomePage /> :  <NewsPage /> }
+
+      {page === "HomePage" ? <HomePage /> : <NewsPage />}
 
       <CustomFooter />
 

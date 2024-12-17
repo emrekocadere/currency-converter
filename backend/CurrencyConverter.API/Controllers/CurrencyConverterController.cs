@@ -20,10 +20,11 @@ namespace CurrencyConverter.API.Controllers
         }
 
         [HttpGet("GetCurrencies")]
-        public ActionResult GetCurrencies()
+        public async Task<ActionResult> GetCurrencies()
         {
-            return Ok(service.GetCurrencies());
+            return Ok( service.GetCurrencies());
         }
+
 
         [HttpGet("GetNewsFromDb")]
         public ActionResult GetNewsFromDb()

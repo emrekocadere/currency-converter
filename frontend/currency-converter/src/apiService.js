@@ -19,7 +19,8 @@ import axios from 'axios';
 
 
 export async function ConvertCurrencyAsync(requestbody) {
-
+    
+    console.log(requestbody)
     const response = await axios.post('http://localhost:5203/api/CurrencyConverter/ConvertCurrency', requestbody)
     return response
 }

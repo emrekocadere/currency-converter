@@ -59,8 +59,6 @@ function NewsPage() {
                         <Meta
                     
                             title={<p className='newsCardTitle'> {item.title}</p>}
-                          
-                         
                             description={<div className='newsCardDescription'>{item.description.slice(0, isMobile ? 40 : 140)}</div>} />
 
 

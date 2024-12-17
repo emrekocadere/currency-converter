@@ -47,7 +47,7 @@ useEffect(()=>{convertRatesToData() },[props.currencyRates])
       <Chart
         chartType="LineChart"
         width="105%"
-        // height="40vh"
+         height="40vh"
         data={data}
         options={options}
       />

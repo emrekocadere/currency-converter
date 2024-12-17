@@ -54,8 +54,6 @@ public class CurrencyConverterService
 
         return jsonResponse;
     }
-
-
     public async Task<List<GetCommonCurrenciesResponseDTO>> GetCommonCurrencies()
     {
         string[,] currencies = new string[3, 4];

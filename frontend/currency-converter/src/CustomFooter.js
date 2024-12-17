@@ -12,15 +12,20 @@ function CustomFooter() {
 
 
             <div className='customFooterLinksDiv'  >
-                <Button color="default" variant="link" className='cutomFooterLinks'><LinkedinOutlined />LinkedIn</Button>
-                <Button color="default" variant="link" className='cutomFooterLinks'><GithubOutlined />Github</Button>
+                <Button color="default" variant="link" className='cutomFooterLinks' href='https://www.linkedin.com/in/salih-emre-kocadere-7a61b0203/'         target="_blank" 
+        rel="noopener noreferrer">
+                    <LinkedinOutlined />LinkedIn
+                </Button>
+                <Button color="default" variant="link" className='cutomFooterLinks' href='https://github.com/emrekocadere'>
+                    <GithubOutlined />Github
+                </Button>
                 <Button color="default" variant="link" className='cutomFooterLinks'><MailOutlined />Email</Button>
 
             </div>
 
             < Divider className="customFooterDivider" type={isMobile ? "horizontal" : "vertical"} />
 
-            <div style={{ display: "flex", alignItems: "center",color: "white",fontSize:"80%" }}>
+            <div style={{ display: "flex", alignItems: "center", color: "white", fontSize: "80%" }}>
                 <p >Developed By Salih Emre Kocadere</p>
             </div>
 
