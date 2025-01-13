@@ -1,4 +1,5 @@
 using CurrencyConverter.API;
+using CurrencyConverter.API.Jobs;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
@@ -17,6 +18,8 @@ builder.Services.AddQuartzHostedService(options =>
 {
     options.WaitForJobsToComplete = true;
 });
+
+
 
 builder.Services.AddCors(options =>
 {
@@ -38,6 +41,13 @@ builder.Services.AddQuartz(configure =>
         .AddJob<MediaStackNewsFetcherJob>(jobKey)
         .AddTrigger(
             trigger => trigger.ForJob(jobKey).WithSimpleSchedule(
+                schedule => schedule.WithIntervalInHours(12).RepeatForever()));
+
+    var jobKey2 = new JobKey("GetCurrencyRates");
+    configure
+        .AddJob<CurrencyRatesFetcherJob>(jobKey2)
+        .AddTrigger(
+            trigger => trigger.ForJob(jobKey2).WithSimpleSchedule(
                 schedule => schedule.WithIntervalInHours(12).RepeatForever()));
 
  
