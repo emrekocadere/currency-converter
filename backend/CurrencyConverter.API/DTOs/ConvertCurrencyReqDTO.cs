@@ -4,8 +4,7 @@ namespace CurrencyConverter.API.DTOs;
 
 public class ConvertCurrencyReqDTO
 {
-    public double Amount { get; set; }
-    required public string FromCurrency{ get; set; }
-    required public string ToCurrency{ get; set; }
+    public decimal Amount { get; set; }
+    public required string Currencies { get; set; }
     
 }

@@ -29,7 +29,6 @@ public class MediaStackNewsFetcherJob : IJob
                 newsList.Add(data);
             }
         }
-
         _currencyConverterService.SaveTheNewsToDb(newsList);
 
 

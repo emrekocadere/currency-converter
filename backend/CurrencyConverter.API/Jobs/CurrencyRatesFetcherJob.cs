@@ -25,7 +25,8 @@ public class CurrencyRatesFetcherJob: IJob
         foreach (var currency in currencyList)
         {
 
-            using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/currency_data/live?source={currency.Code}&currencies=EUR%2CJPY%2CGBP%2CAUD%2CCAD%2CCHF%2CUSD");
+            using HttpResponseMessage response = await _httpClient.GetAsync(
+                $"https://api.apilayer.com/currency_data/live?source={currency.Code}&currencies=EUR%2CJPY%2CGBP%2CAUD%2CCAD%2CCHF%2CUSD");
             var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
             var apiLayerCurrencyData = JsonSerializer.Deserialize<GetCurrencyRatesResponse>(jsonResponse);
             List<CurrencyRatio> currencyRatioList = new List<CurrencyRatio>();

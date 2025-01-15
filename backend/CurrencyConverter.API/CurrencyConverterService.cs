@@ -10,6 +10,7 @@ public class CurrencyConverterService
     readonly private HttpClient _httpClient;
     readonly private IConfiguration _configuration;
     readonly private CurrencyConverterDbContext _dbContext;
+    private List<CurrencyRatio>currencyRates;
     public CurrencyConverterService(HttpClient httpClient, IConfiguration configuration, CurrencyConverterDbContext dbContext)
     {
         _httpClient = httpClient;
@@ -17,13 +18,11 @@ public class CurrencyConverterService
         _dbContext = dbContext;
     }
 
-    public async Task<string> ConvertCurrency(ConvertCurrencyReqDTO dto)
+    public decimal ConvertCurrency(ConvertCurrencyReqDTO dto)
     {
-
-        _httpClient.DefaultRequestHeaders.Add("apikey", _configuration["ApiKey"]);
-        using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/currency_data/convert?to={dto.ToCurrency}&from={dto.FromCurrency}&amount={dto.Amount}");
-        var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
-        return jsonResponse;
+        var currencyRate=currencyRates.Where(x=>x.Currencies==dto.Currencies).FirstOrDefault();
+        decimal result=dto.Amount*currencyRate.Rate;
+        return result;
     }
 
     public List<Currency> GetCurrencies()
@@ -37,10 +36,19 @@ public class CurrencyConverterService
         _dbContext.SaveChanges();
     }
 
-
     public List<News> GetNewsFromDb()
     {
         return _dbContext.News.ToList();
+    }
+    public void GetCurrencyRatesFromDb()
+    {
+        currencyRates=_dbContext.CurrencyRatios.ToList();
+    }
+    
+    public void SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
+    {
+            _dbContext.CurrencyRatios.AddRange(currencyRatioList);
+            _dbContext.SaveChanges();
     }
 
     public async Task<string> GetCurrencyRates(GetCurrencyRatesDTO dto)
@@ -53,12 +61,6 @@ public class CurrencyConverterService
         var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
 
         return jsonResponse;
-    }
-
-    public void  SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
-    {
-            _dbContext.CurrencyRatios.AddRange(currencyRatioList);
-            _dbContext.SaveChanges();
     }
 
 
