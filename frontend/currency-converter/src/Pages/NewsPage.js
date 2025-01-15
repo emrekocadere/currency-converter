@@ -10,8 +10,8 @@ const { Meta } = Card;
 function NewsPage() {
 
     const { isMobile } = useResponsive();
-
     const [news, setNews] = useState([]);
+
     useEffect(() => {
         async function fetchNews() {
             let response = await GetNewsFromDb();
@@ -19,7 +19,6 @@ function NewsPage() {
         }
         fetchNews();
     }, []);
-
 
     return (
 
@@ -30,15 +29,11 @@ function NewsPage() {
                     paddingLG: isMobile ? "2vw":  "24px"
                    // telephone    
                 },
-
             }}
         >
             <div className='cardDiv'>
-
                 {news.map((item, index) => (
-
                     <Card
-                 
                         key={index}
                         hoverable
                         className='newsCard'
@@ -55,26 +50,14 @@ function NewsPage() {
                         }
                         onClick={() =>window.open(item.url, '_blank')}
                     >
-
                         <Meta
                     
                             title={<p className='newsCardTitle'> {item.title}</p>}
                             description={<div className='newsCardDescription'>{item.description.slice(0, isMobile ? 40 : 140)}</div>} />
-
-
                     </Card>
-              
-              
-
                 ))}
-            
-
             </div>
         </ConfigProvider>
-
-
-
     );
 }
-
 export default NewsPage;

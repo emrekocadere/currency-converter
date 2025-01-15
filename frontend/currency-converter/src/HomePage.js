@@ -10,16 +10,13 @@ import useResponsive from './useResponsive';
 export default function HomePage() {
     const { isDesktop,isMobile } = useResponsive();
 
-
+    const [currentCurrency, setCurrentCurrency] = useState("USD");
     const [currencyGraph, setCurrencyGraph] = useState("HomePage");
 
-    function fetchCurrencyData(currencyGraph) {
-        setCurrencyGraph(
-            currencyGraph
-
-        );
-        console.log(currencyGraph)
+    function setCurrentCurrencyCallback(currency) {
+        setCurrentCurrency(currency);
     }
+
     return (
         <div className='homePageDiv'>
             <Row>
@@ -31,14 +28,14 @@ export default function HomePage() {
             {/* Eğer isDesktopOrLaptop ise düzenleme yapılır */}
             <Row gutter={[16, 16]} style={{ flexDirection: isMobile ? 'column' : 'row' }}>
                 <Col span={isDesktop ? 12 : 24}>
-                    <CurrencyConverter sendCurrencyData={fetchCurrencyData} />
+                    <CurrencyConverter onCurrencyChange={setCurrentCurrencyCallback} />
                 </Col>
-                <Col
+                {/* <Col
                     span={isDesktop ? 12 : 24}
                     style={{ display: "flex", justifyContent: "center", marginTop: isDesktop ? "-7vh" : "0" }}
                 >
                     <GoogleChart currencyRates={currencyGraph}></GoogleChart>
-                </Col>
+                </Col> */}
             </Row>
 
             <Row>
@@ -52,7 +49,7 @@ export default function HomePage() {
                     <NewsPage />
                 </Col>
                 <Col span={isDesktop ? 12 : 24}>
-                    <CommonCurrenciesRates />
+                    <CommonCurrenciesRates currentCurrency={currentCurrency}/>
                 </Col>
             </Row>
         </div>
