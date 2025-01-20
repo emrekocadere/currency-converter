@@ -20,7 +20,7 @@ function CustomFooter() {
                     <GithubOutlined />Github
                 </Button>
                 <Button color="default" variant="link" className='cutomFooterLinks'><MailOutlined />Email</Button>
-
+     
             </div>
 
             < Divider className="customFooterDivider" type={isMobile ? "horizontal" : "vertical"} />

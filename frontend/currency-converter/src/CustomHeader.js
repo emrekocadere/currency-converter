@@ -10,13 +10,11 @@ function CustomHeader() {
             theme={{
                 components: {
                     Divider: {
-                        orientationMargin: "0px"
+                       
                     }
                 }
             }}
         >
-
-
             <div className='customHeader' >
                 <div>
                     <img className="headerImg" src={imagee} ></img>
