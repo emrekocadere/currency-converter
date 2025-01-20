@@ -2,12 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { GetCurrencyRatesAsync } from "./apiService"
 import { Divider, Typography } from 'antd';
 // import Flag_of_European_Union from "./Images/Euro.svg"
-import USD from "./Images/usa.svg"
-import Eu from "./Images/Eu.svg"
-import Japan from "./Images/Japan.svg"
-import Uk from "./Images/Uk.svg"
+import Usd from "./Images/us.svg"
+import Eur from "./Images/eu.svg"
+import Jpy from "./Images/jp.svg"
+import Gbp from "./Images/gb.svg"
+import Aud from "./Images/au.svg"
+import Cad from "./Images/ca.svg"
+import Chf from "./Images/ch.svg"
 
 const { Title, Paragraph, Text, Link } = Typography;
+
+const currencyImages = {
+  USD: Usd,
+  EUR: Eur,
+  CAD: Cad,
+  AUD: Aud,
+  CHF: Chf,
+  JPY: Jpy,
+  GBP: Gbp
+
+};
 
 
 function CommonCurrenciesRates(props) {
@@ -18,7 +32,7 @@ function CommonCurrenciesRates(props) {
 
 
   async function GetCommonCurrenciesRates() {
-    let response = await GetCurrencyRatesAsync(props.currentCurrency)
+    let response = await GetCurrencyRatesAsync(props.currentBaseCurrency)
     //  console.log(response.data)
     setCurrenyRates(response.data)
   }
@@ -26,7 +40,7 @@ function CommonCurrenciesRates(props) {
 
   useEffect(() => {
     GetCommonCurrenciesRates()
-  }, [props.currentCurrency])
+  }, [props.currentBaseCurrency])
 
 
   return (
@@ -36,14 +50,24 @@ function CommonCurrenciesRates(props) {
     }}>
       {
         currenyRates.map((item, index) => {
-         {/* //slice is used to get the first 3 characters of the currency */}
-          let baseCurrency = item.currencies.slice(0,3);
-          let targetCurrency = item.currencies.slice(3,6);
+          {/* //slice is used to get the first 3 characters of the currency */ }
+          let baseCurrency = item.currencies.slice(0, 3);
+          let targetCurrency = item.currencies.slice(3, 6);
           return (
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
 
-              <div> <p>  <img src={baseCurrency} style={{width:"25px"}}></img> {baseCurrency} / {targetCurrency}</p></div> 
-              <div> <p>{item.rate}</p></div>
+              <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }} >
+               
+                  <img src={currencyImages[baseCurrency]} style={{ width: "1vw" }} />
+                  <p style={{marginInline:".5vw"}}> {baseCurrency} / {targetCurrency} </p>
+                  <img src={currencyImages[targetCurrency]} style={{ width: "1vw" }} />
+                
+              </div>
+
+              <div>
+                <p>{item.rate}</p>
+              </div>
+
             </div>
 
           )
