@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'antd';
-import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync } from './apiService';
+import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync,GetCurrencyRatesAsync } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import useResponsive from "./useResponsive"
 
@@ -20,31 +20,25 @@ function CurrencyConverter(props) {
 
   async function ConvertCurrency(values) {
 
-
-
     let response = await ConvertCurrencyAsync({
       "amount": values.inputAmount,
-      "fromCurrency": values.baseCurrency,
-      "toCurrency": values.targetCurrency
+      "currencies": values.baseCurrency+values.targetCurrency
     });
-    setOutput(response.data.result)
-    setInput(values.inputAmount)
-    setBaseCurrency(values.baseCurrency)
-    setTargetCurrency(values.targetCurrency)
-    GetConvertCurrencyRates({
-      "FromCurrency": values.baseCurrency,
-      "ToCurrency": values.targetCurrency
-    });
+
+     setOutput(response.data)
+     setInput(values.inputAmount)
+      setBaseCurrency(values.baseCurrency)
+     setTargetCurrency(values.targetCurrency)
+    props.onCurrencyChange(
+      {
+      "baseCurrency":values.baseCurrency,
+      "targetCurrency":values.targetCurrency
+      }
+    )  
   }
 
-  async function GetConvertCurrencyRates(values) {
-    let response = await GetConvertCurrencyRatesAsync(values)
 
-    props.sendCurrencyData(
-      response.rates
-
-    )
-  }
+  
   async function GetCurrencies() {
     let response = await GetCurrenciesAsync()
     setCurrencyOptions(response)
@@ -102,10 +96,10 @@ function CurrencyConverter(props) {
               />
             </Form.Item>
 
-            {/* {isTabletOrMobile ? null :
+            {isMobile ? null :
               <div style={{ color: "rgb(239,135,51)" }}>
                 <ArrowRightOutlined />
-              </div>} */}
+              </div>} 
 
 
             <Form.Item

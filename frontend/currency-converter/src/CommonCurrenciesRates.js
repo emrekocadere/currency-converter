@@ -58,10 +58,10 @@ function CommonCurrenciesRates(props) {
 
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }} >
                
-                  <img src={currencyImages[baseCurrency]} style={{ width: "1vw" }} />
+                  <img src={currencyImages[baseCurrency]} style={{ width: "1.5vw",borderRadius:"15%" }} />
                   <p style={{marginInline:".5vw"}}> {baseCurrency} / {targetCurrency} </p>
-                  <img src={currencyImages[targetCurrency]} style={{ width: "1vw" }} />
-                
+                  <img src={currencyImages[targetCurrency]} style={{ width: "1.5vw",borderRadius:"15%" }} />
+    
               </div>
 
               <div>
