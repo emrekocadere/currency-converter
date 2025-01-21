@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'antd';
-import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync,GetCurrencyRatesAsync } from './apiService';
+import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync, GetCurrencyRatesAsync } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import useResponsive from "./useResponsive"
 
@@ -22,23 +22,15 @@ function CurrencyConverter(props) {
 
     let response = await ConvertCurrencyAsync({
       "amount": values.inputAmount,
-      "currencies": values.baseCurrency+values.targetCurrency
+      "currencies": values.baseCurrency + values.targetCurrency
     });
 
-     setOutput(response.data)
-     setInput(values.inputAmount)
-      setBaseCurrency(values.baseCurrency)
-     setTargetCurrency(values.targetCurrency)
-    props.onCurrencyChange(
-      {
-      "baseCurrency":values.baseCurrency,
-      "targetCurrency":values.targetCurrency
-      }
-    )  
+    setOutput(response.data)
+
   }
 
 
-  
+
   async function GetCurrencies() {
     let response = await GetCurrenciesAsync()
     setCurrencyOptions(response)
@@ -50,7 +42,21 @@ function CurrencyConverter(props) {
   }, [])
 
   const onFinish = (values) => {
-    ConvertCurrency(values)
+    setInput(values.inputAmount)
+    setBaseCurrency(values.baseCurrency)
+    setTargetCurrency(values.targetCurrency)
+    props.onCurrencyChange(
+      {
+        "baseCurrency": values.baseCurrency,
+        "targetCurrency": values.targetCurrency
+      }
+    )
+
+    if (values.baseCurrency === values.targetCurrency) {
+      setOutput(values.inputAmount)
+    }
+    else
+      ConvertCurrency(values)
 
   };
 
@@ -99,7 +105,7 @@ function CurrencyConverter(props) {
             {isMobile ? null :
               <div style={{ color: "rgb(239,135,51)" }}>
                 <ArrowRightOutlined />
-              </div>} 
+              </div>}
 
 
             <Form.Item
