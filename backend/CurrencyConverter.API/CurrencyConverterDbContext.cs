@@ -10,5 +10,6 @@ public class CurrencyConverterDbContext : DbContext
     public DbSet<Currency> Currencies { get; set; }
     public DbSet<News> News { get; set; }
     public DbSet<CurrencyRatio>CurrencyRatios { get; set; }
+    public DbSet<CurrencyRatesTimestamp> CurrencyRatesTimestamps { get; set; }
 
 }
