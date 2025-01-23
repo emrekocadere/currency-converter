@@ -33,9 +33,9 @@ namespace CurrencyConverter.API.Controllers
         }
 
         [HttpGet("GetCurrencyRates")]
-        public async Task<ActionResult> GetCurrencyRates(string currencies)
+        public async Task<ActionResult> GetCurrencyRates(string currentCurrency)
         {
-            var response = service.GetCurrencyRates(currencies);
+            var response = service.GetCurrencyRates(currentCurrency);
             return Ok(response);
         }
 
@@ -43,6 +43,13 @@ namespace CurrencyConverter.API.Controllers
         public async Task<ActionResult> GetCurrencyRatesForThreeMonths(string currencies)
         {
             var response = service.GetCurrencyRatesForThreeMonths("currencies");
+            return Ok(response);
+        }
+
+        [HttpPost("ConvertCurrencyForSpecificDate")]
+        public async Task<ActionResult> ConvertCurrencyForSpecificDate(ConvertCurrencyForSpecificDateDTO dto)
+        {
+            var response = service.ConvertCurrencyForSpecificDate(dto);
             return Ok(response);
         }
 
