@@ -2,6 +2,7 @@ using System;
 using System.Text.Json;
 using CurrencyConverter.API.DTOs;
 using CurrencyConverter.API.Entities;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace CurrencyConverter.API;
 
@@ -25,10 +26,10 @@ public class CurrencyConverterService
         decimal result = dto.Amount * currencyRate.Rate;
         return result;
     }
-    public List<CurrencyRatio> GetCurrencyRates()
+    public List<CurrencyRatio> GetCurrencyRates(string currentCurrency)
     {
 
-        return currencyRates.Where(x=>x.Currencies.StartsWith("USD")).ToList();
+        return currencyRates.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
     }
 
     public List<Currency> GetCurrencies()
@@ -53,35 +54,77 @@ public class CurrencyConverterService
 
     public void SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
     {
-        foreach(var currencyRate in currencyRatioList)
+        foreach (var currencyRate in currencyRatioList)
         {
-                 if(_dbContext.CurrencyRatios.Any(cr => cr.Currencies == currencyRate.Currencies))
-                 {
-                   var currency =  _dbContext.CurrencyRatios.Where(x=>x.Currencies==currencyRate.Currencies).FirstOrDefault();
-                   currency.Rate = currencyRate.Rate;
+            if (_dbContext.CurrencyRatios.Any(cr => cr.Currencies == currencyRate.Currencies))
+            {
+                var currency = _dbContext.CurrencyRatios.Where(x => x.Currencies == currencyRate.Currencies).FirstOrDefault();
+                currency.Rate = currencyRate.Rate;
 
-                 }
-                 else{
+            }
+            else
+            {
 
-                    _dbContext.CurrencyRatios.Add(currencyRate);
-                 }
+                _dbContext.CurrencyRatios.Add(currencyRate);
+            }
         }
-       
-        
         _dbContext.SaveChanges();
     }
 
-    // public async Task<string> GetCurrencyRates(GetCurrencyRatesDTO dto)
+    // public async Task<dynamic> GetCurrencyRatesss()
     // {
-    //     var todayDate = DateTime.Today.ToString("yyyy-MM-dd");
-    //     var pastDate = DateTime.Today.AddMonths(-2).ToString("yyyy-MM-dd");
+
 
     //     _httpClient.DefaultRequestHeaders.Add("apikey", _configuration["ApiKey"]);
-    //     using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date={pastDate}&end_date={todayDate}&base={dto.FromCurrency}&symbols={dto.ToCurrency}");
-    //     var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
+    //     var currencyList = GetCurrencies();
 
-    //     return jsonResponse;
+    //     foreach (var currency in currencyList)
+    //     {
+
+    //         using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date=2025-01-01&end_date=2025-01-22&base={currency.Code}&symbols=EUR,JPY,GBP,AUD,CAD,CHF,USD");
+    //         var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
+    //         var abc = JsonSerializer.Deserialize<RateTimeSeriesResponse>(jsonResponse);
+
+    //         foreach (var rate in abc.rates)
+    //         {
+
+    //             foreach (var rateValue in rate.Value)
+    //             {
+    //                 var CurrenyRatesTimestamp = new CurrencyRatesTimestamp();
+    //                 CurrenyRatesTimestamp.Timestamp = rate.Key;
+    //                 CurrenyRatesTimestamp.Rate = rateValue.Value;
+    //                 CurrenyRatesTimestamp.Currencies = abc.Base + rateValue.Key;
+    //                 _dbContext.CurrencyRatesTimestamps.Add(CurrenyRatesTimestamp);
+    //                 _dbContext.SaveChanges();
+    //             }
+    //         }
+
+    //     }
+
+
+    //     List<CurrencyRatesTimestamp> currencyRatesTimestamps = new List<CurrencyRatesTimestamp>();
+
+
+    //     return currencyRatesTimestamps;
     // }
+
+
+    public dynamic GetCurrencyRatesForThreeMonths(string currencies)
+    {
+        var date = DateTime.Now.AddMonths(-15).ToString("yyyy-MM-dd");
+        var startDate = DateTime.Parse(date);
+
+        var endDate = DateTime.Parse(DateTime.Now.AddMonths(-14).ToString("yyyy-MM-dd"));
+
+        var currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
+            .Where(x => x.Currencies == currencies)
+            .ToList()
+            .Where(x => DateTime.Parse(x.Timestamp) <= endDate && DateTime.Parse(x.Timestamp) >= startDate)
+            .ToList();
+
+        return currencyRatesTimestamps;
+
+    }
 
 
 

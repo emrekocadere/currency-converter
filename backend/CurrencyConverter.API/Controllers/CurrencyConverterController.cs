@@ -1,6 +1,7 @@
 using CurrencyConverter.API.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace CurrencyConverter.API.Controllers
 {
@@ -16,15 +17,14 @@ namespace CurrencyConverter.API.Controllers
         [HttpPost("ConvertCurrency")]
         public async Task<ActionResult> ConvertCurrency(ConvertCurrencyReqDTO dto)
         {
-            return Ok(await service.ConvertCurrency(dto));
+            return Ok(service.ConvertCurrency(dto));
         }
 
         [HttpGet("GetCurrencies")]
         public async Task<ActionResult> GetCurrencies()
         {
-            return Ok( service.GetCurrencies());
+            return Ok(service.GetCurrencies());
         }
-
 
         [HttpGet("GetNewsFromDb")]
         public ActionResult GetNewsFromDb()
@@ -32,17 +32,19 @@ namespace CurrencyConverter.API.Controllers
             return Ok(service.GetNewsFromDb());
         }
 
-        [HttpPost("GetConvertCurrencyRates")]
-        public async Task<ActionResult> GetConvertCurrencyRates(GetCurrencyRatesDTO dto)
+        [HttpGet("GetCurrencyRates")]
+        public async Task<ActionResult> GetCurrencyRates(string currencies)
         {
-            var response = await service.GetCurrencyRates(dto);
+            var response = service.GetCurrencyRates(currencies);
             return Ok(response);
         }
-                [HttpGet("GetCommonCurrencies")]
-        public async Task<ActionResult> GetCommonCurrencies( )
+
+        [HttpGet("GetCurrencyRatesForThreeMonths")]
+        public async Task<ActionResult> GetCurrencyRatesForThreeMonths(string currencies)
         {
-            var response = await service.GetCommonCurrencies();
+            var response = service.GetCurrencyRatesForThreeMonths("currencies");
             return Ok(response);
         }
+
     }
 }
