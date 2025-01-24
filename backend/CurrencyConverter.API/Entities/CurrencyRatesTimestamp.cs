@@ -5,7 +5,7 @@ namespace CurrencyConverter.API.Entities;
 public class CurrencyRatesTimestamp
 {
     public int Id { get; set; }
-    public required string Currencies { get; set; }
-    public DateTime Timestamp { get; set; }
-    public float Rate { get; set; }
+    public  string ?Currencies { get; set; }
+    public  string ?Timestamp { get; set; }
+    public decimal Rate { get; set; }
 }
