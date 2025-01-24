@@ -68,7 +68,7 @@ export async function GetCurrenciesAsync() {
 export async function GetConvertCurrencyRatesAsync(requestbody) {
 
     const response =await axios.post('http://localhost:5203/api/CurrencyConverter/GetConvertCurrencyRates',requestbody)
-    console.log(response)
+    //console.log(response)
     return response.data
 }
 
@@ -76,5 +76,11 @@ export async function GetCurrencyRatesAsync(request) {
 
     const response =await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRates?currentCurrency='+request)
    // console.log(response)
+    return response
+}
+
+export async function ConvertCurrencyForSpecificDateAsync(request) {
+
+    const response =await axios.post('http://localhost:5203/api/CurrencyConverter/ConvertCurrencyForSpecificDate',request)
     return response
 }

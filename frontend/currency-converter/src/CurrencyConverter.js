@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'antd';
-import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync, GetCurrencyRatesAsync } from './apiService';
+import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync, GetCurrencyRatesAsync, ConvertCurrencyForSpecificDateAsync } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import useResponsive from "./useResponsive"
 
@@ -31,10 +31,28 @@ function CurrencyConverter(props) {
 
 
 
+
+  async function ConvertCurrencyForSpecificDate(values) {
+    const date = values.datePicker.$d
+    const year = date.getFullYear(); 
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Ay (0'dan başlar, bu yüzden +1 eklenir, 2 basamaklı hale getirilir)
+    const day = String(date.getDate()).padStart(2, '0'); // Gün (2 basamaklı hale getirilir)
+
+    const formatedDate = `${year}-${month}-${day}`;
+
+    let responseBody={
+      date:formatedDate,
+      currencies:values.baseCurrency+values.targetCurrency
+    }
+    let response = await ConvertCurrencyForSpecificDateAsync(responseBody)
+  }
+
+
   async function GetCurrencies() {
     let response = await GetCurrenciesAsync()
     setCurrencyOptions(response)
   }
+
 
 
   useEffect(() => {
@@ -55,10 +73,20 @@ function CurrencyConverter(props) {
     if (values.baseCurrency === values.targetCurrency) {
       setOutput(values.inputAmount)
     }
-    else
-      ConvertCurrency(values)
+    else {
+
+      var todayDate = new Date
+      if (values.datePicker == undefined || todayDate.toDateString() == values.datePicker.$d.toDateString()) {
+        ConvertCurrency(values)
+      }
+      else {
+        ConvertCurrencyForSpecificDate(values)
+      }
+    }
 
   };
+
+
 
   return (
     <ConfigProvider
@@ -132,32 +160,26 @@ function CurrencyConverter(props) {
           </div>
 
           <div className='secondRowForm'>
-
+            <Form.Item name="datePicker" >
+              <DatePicker className='datePicker' />
+            </Form.Item>
 
             {isMobile ?
               <>
-                <Form.Item>
-                  <DatePicker className='datePicker' />
-                </Form.Item>
-
-
                 <Form.Item >
                   <Button className='button' htmlType='submit' >Convert</Button>
                 </Form.Item>
-                <Form.Item>
 
+
+                <Form.Item>
                   <div className='currencyConverterOutput'>
                     {input} {baseCurrency} = {output} {targetCurrency}
                   </div>
                 </Form.Item>
-
-
               </>
               :
               <>
-                <Form.Item>
-                  <DatePicker className='datePicker' />
-                </Form.Item>
+
                 <Form.Item>
 
                   <div className='currencyConverterOutput'>
@@ -169,11 +191,9 @@ function CurrencyConverter(props) {
                 <Form.Item >
                   <Button className='button' htmlType='submit' >Convert</Button>
                 </Form.Item>
+
               </>
             }
-
-
-
 
           </div>
 
