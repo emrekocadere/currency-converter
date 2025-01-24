@@ -30,8 +30,6 @@ function CurrencyConverter(props) {
   }
 
 
-
-
   async function ConvertCurrencyForSpecificDate(values) {
     const date = values.datePicker.$d
     const year = date.getFullYear(); 
@@ -42,9 +40,11 @@ function CurrencyConverter(props) {
 
     let responseBody={
       date:formatedDate,
-      currencies:values.baseCurrency+values.targetCurrency
+      currencies:values.baseCurrency+values.targetCurrency,
+      amount:values.inputAmount
     }
     let response = await ConvertCurrencyForSpecificDateAsync(responseBody)
+    setOutput(response.data)
   }
 
 
@@ -85,7 +85,6 @@ function CurrencyConverter(props) {
     }
 
   };
-
 
 
   return (
@@ -134,7 +133,6 @@ function CurrencyConverter(props) {
               <div style={{ color: "rgb(239,135,51)" }}>
                 <ArrowRightOutlined />
               </div>}
-
 
             <Form.Item
               className='selectWidth'
