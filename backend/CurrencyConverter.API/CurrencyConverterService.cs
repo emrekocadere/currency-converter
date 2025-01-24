@@ -128,12 +128,13 @@ public class CurrencyConverterService
 
         public dynamic ConvertCurrencyForSpecificDate(ConvertCurrencyForSpecificDateDTO dto)
     {
-        var date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
    
         var currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
             .Where(x => x.Currencies == dto.Currencies && x.Timestamp==dto.Date).FirstOrDefault();
 
-        return currencyRatesTimestamps;
+        decimal result = dto.Amount * currencyRatesTimestamps.Rate;
+
+        return result;
 
     }
 
