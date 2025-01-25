@@ -9,7 +9,6 @@ import "./index.css"
 
 function CurrencyConverter(props) {
 
-
   const [output, setOutput] = useState(0);
   const [input, setInput] = useState(0);
   const [baseCurrency, setBaseCurrency] = useState(0);
@@ -24,11 +23,8 @@ function CurrencyConverter(props) {
       "amount": values.inputAmount,
       "currencies": values.baseCurrency + values.targetCurrency
     });
-
     setOutput(response.data)
-
   }
-
 
   async function ConvertCurrencyForSpecificDate(values) {
     const date = values.datePicker.$d
@@ -47,13 +43,10 @@ function CurrencyConverter(props) {
     setOutput(response.data)
   }
 
-
   async function GetCurrencies() {
     let response = await GetCurrenciesAsync()
     setCurrencyOptions(response)
   }
-
-
 
   useEffect(() => {
     GetCurrencies()
@@ -86,7 +79,6 @@ function CurrencyConverter(props) {
 
   };
 
-
   return (
     <ConfigProvider
       theme={{
@@ -95,7 +87,6 @@ function CurrencyConverter(props) {
         }
       }}
     >
-
       <div className="convertCurrencyDiv"  >
 
         <Form onFinish={onFinish} >
@@ -194,7 +185,6 @@ function CurrencyConverter(props) {
             }
 
           </div>
-
 
         </Form>
 
