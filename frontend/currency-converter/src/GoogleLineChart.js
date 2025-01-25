@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Chart } from "react-google-charts";
 import "./index.css"
-import {GetCurrencyRatesForThreeMonthsAsync} from './apiService';
+import { GetCurrencyRatesForThreeMonthsAsync } from './apiService';
 const datas = [
   ["x", "sd"],
   [0, 0],
@@ -26,8 +26,8 @@ const datas = [
 const options = {
   hAxis: { title: "Date" },
   vAxis: { title: "Worth" },
-  legend:"none",
-  colors: ["rgb(239,135,51)"] 
+  legend: "none",
+  colors: ["rgb(239,135,51)"]
 };
 
 function GoogleLineChart(props) {
@@ -35,27 +35,23 @@ function GoogleLineChart(props) {
   const [data, setData] = useState(datas);
 
   function ConvertData(currencyRatesForThreeMonths) {
-    const newData = [["xdsf", currencyRatesForThreeMonths[0].currencies.slice(3,6)]]; 
+    const newData = [["xdsf", currencyRatesForThreeMonths[0].currencies.slice(3, 6)]];
     currencyRatesForThreeMonths.forEach((rate, index) => {
 
       newData.push([rate.timestamp, rate.rate]);
     });
-
     setData(newData);
-
   }
-
-
-  async function  GetCurrencyRatesForThreeMonths()
-  {
-    let response=await GetCurrencyRatesForThreeMonthsAsync("EURUSD")
+  async function GetCurrencyRatesForThreeMonths() {
+    const request=props.currentBaseCurrency+props.currentTargetCurrency
+    let response = await GetCurrencyRatesForThreeMonthsAsync(request)
     ConvertData(response.data)
   }
 
 
-useEffect(()=>{
- GetCurrencyRatesForThreeMonths();
- },[props.currencyRates])
+  useEffect(() => {
+    GetCurrencyRatesForThreeMonths();
+  }, [props.CurrentTargetCurrency,props.currentBaseCurrency]);
 
   return (
     <div className='googleChart'>

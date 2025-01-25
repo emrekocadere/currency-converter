@@ -10,8 +10,8 @@ import useResponsive from './useResponsive';
 export default function HomePage() {
     const { isDesktop,isMobile } = useResponsive();
 
-    const [currentBaseCurrency, setCurrentBaseCurrency] = useState("USD");
-    const [currentTargetCurrency, setCurrentTargetCurrency] = useState("EUR");
+    const [currentBaseCurrency, setCurrentBaseCurrency] = useState("AUD");
+    const [currentTargetCurrency, setCurrentTargetCurrency] = useState("CAD");
     const [currencyGraph, setCurrencyGraph] = useState("HomePage");
 
     function setCurrentCurrenciesCallback(currencies) {
