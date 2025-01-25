@@ -48,10 +48,10 @@ function GoogleLineChart(props) {
     ConvertData(response.data)
   }
 
-
   useEffect(() => {
     GetCurrencyRatesForThreeMonths();
-  }, [props.CurrentTargetCurrency,props.currentBaseCurrency]);
+   
+  }, [props.currentTargetCurrency , props.currentBaseCurrency]);
 
   return (
     <div className='googleChart'>
