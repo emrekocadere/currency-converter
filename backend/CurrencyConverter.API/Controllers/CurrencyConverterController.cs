@@ -42,7 +42,7 @@ namespace CurrencyConverter.API.Controllers
         [HttpGet("GetCurrencyRatesForThreeMonths")]
         public  ActionResult GetCurrencyRatesForThreeMonths(string currencies)
         {
-            var response = service.GetCurrencyRatesForThreeMonths("currencies");
+            var response = service.GetCurrencyRatesForThreeMonths(currencies);
             return Ok(response);
         }
 
