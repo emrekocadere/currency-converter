@@ -84,3 +84,9 @@ export async function ConvertCurrencyForSpecificDateAsync(request) {
     const response =await axios.post('http://localhost:5203/api/CurrencyConverter/ConvertCurrencyForSpecificDate',request)
     return response
 }
+
+export async function GetCurrencyRatesForThreeMonthsAsync(request) {
+
+    const response =await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRatesForThreeMonths?currencies='+request)
+    return response
+}

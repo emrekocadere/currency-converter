@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Chart } from "react-google-charts";
 import "./index.css"
+import {GetCurrencyRatesForThreeMonthsAsync} from './apiService';
 const datas = [
-  ["x", "dogs"],
+  ["x", "sd"],
+  [0, 0],
+  [1, 10],
+  [2, 23],
+  [3, 17],
+  [4, 18],
+  [5, 9],
+  [6, 11],
+  [7, 27],
+  [8, 33],
+  [9, 40],
+  [10, 32],
+  [11, 35],
   [0, 0],
   [0, 0],
   [0, 0],
-  [0, 0],
-  [0, 0],
+  [2, 0],
+  [0, 3],
 ];
 
 const options = {
@@ -21,33 +34,35 @@ function GoogleLineChart(props) {
 
   const [data, setData] = useState(datas);
 
-  function convertRatesToData() {
-   console.log(props)
-    const dates = Object.keys(props.currencyRates);
-   let currency = Object.keys(props.currencyRates[dates[0]])[0]; 
-    const newData = [["y", currency]]; 
-   
+  function ConvertData(currencyRatesForThreeMonths) {
+    const newData = [["xdsf", currencyRatesForThreeMonths[0].currencies.slice(3,6)]]; 
+    currencyRatesForThreeMonths.forEach((rate, index) => {
 
-    dates.forEach((date, index) => {
-     // const currency=Object.keys(props.currencyRates[date])[0];
-      const value = props.currencyRates[date][currency];
-      newData.push([date, value]);
+      newData.push([rate.timestamp, rate.rate]);
     });
 
-   // console.log(newData);  // Log the new data
-    setData(newData);  // Update the state with the new data
-    console.log(data)
+    setData(newData);
+
   }
 
 
-useEffect(()=>{convertRatesToData() },[props.currencyRates])
+  async function  GetCurrencyRatesForThreeMonths()
+  {
+    let response=await GetCurrencyRatesForThreeMonthsAsync("EURUSD")
+    ConvertData(response.data)
+  }
+
+
+useEffect(()=>{
+ GetCurrencyRatesForThreeMonths();
+ },[props.currencyRates])
 
   return (
     <div className='googleChart'>
       <Chart
         chartType="LineChart"
-        width="105%"
-         height="40vh"
+        //width="102  %"
+        height="40vh"
         data={data}
         options={options}
       />
