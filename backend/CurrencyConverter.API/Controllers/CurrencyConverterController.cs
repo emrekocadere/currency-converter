@@ -53,5 +53,13 @@ namespace CurrencyConverter.API.Controllers
             return Ok(response);
         }
 
+
+        [HttpPost("pagination")]
+        public ActionResult Paginate(int pageNumber)
+        {
+           
+             return Ok( service.Paginate(pageNumber));
+           
+        }
     }
 }

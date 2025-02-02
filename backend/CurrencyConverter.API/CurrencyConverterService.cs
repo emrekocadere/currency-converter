@@ -3,6 +3,7 @@ using System.Text.Json;
 using CurrencyConverter.API.DTOs;
 using CurrencyConverter.API.Entities;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyConverter.API;
 
@@ -12,12 +13,14 @@ public class CurrencyConverterService
     readonly private IConfiguration _configuration;
     readonly private CurrencyConverterDbContext _dbContext;
     private List<CurrencyRatio> currencyRates;
+    private int _pageSize;
     public CurrencyConverterService(HttpClient httpClient, IConfiguration configuration, CurrencyConverterDbContext dbContext)
     {
         _httpClient = httpClient;
         _configuration = configuration;
         _dbContext = dbContext;
         currencyRates = _dbContext.CurrencyRatios.ToList();
+        _pageSize=6;
     }
 
     public decimal ConvertCurrency(ConvertCurrencyReqDTO dto)
@@ -126,15 +129,29 @@ public class CurrencyConverterService
 
     }
 
-        public dynamic ConvertCurrencyForSpecificDate(ConvertCurrencyForSpecificDateDTO dto)
+    public dynamic ConvertCurrencyForSpecificDate(ConvertCurrencyForSpecificDateDTO dto)
     {
-   
+
         var currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
-            .Where(x => x.Currencies == dto.Currencies && x.Timestamp==dto.Date).FirstOrDefault();
+            .Where(x => x.Currencies == dto.Currencies && x.Timestamp == dto.Date).FirstOrDefault();
 
         decimal result = dto.Amount * currencyRatesTimestamps.Rate;
 
         return result;
+
+    }
+
+
+    public List<News> Paginate(int pageNumber)
+    {
+
+            
+            // sayfaSayısı=toplamEleman/sayfadaGösterilcekeElemanSayısı
+            // şuankiSayfaSayısı-1 * sayfadaGösterilcekeElemanSayısı skip
+            // take(sayfadaGösterilcekeElemanSayısı)
+
+            var news=_dbContext.News.Skip((pageNumber-1)*_pageSize).Take(_pageSize).ToList();
+            return news;
 
     }
 
