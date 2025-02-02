@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Chart } from "react-google-charts";
 import "./index.css"
 import { GetCurrencyRatesForThreeMonthsAsync } from './apiService';
+import useResponsive from "./useResponsive"
+
 const datas = [
   ["x", "sd"],
   [0, 0],
@@ -24,20 +26,18 @@ const datas = [
 ];
 
 const options = {
-  hAxis: { title: "Date" },
-  vAxis: { title: "Worth" },
+  // hAxis: { title: "Date" },
+  // vAxis: { title: "Worth" },
   legend: "none",
   colors: ["rgb(239,135,51)"]
 };
 
 function GoogleLineChart(props) {
-
+  const { isMobile } = useResponsive();
   const [data, setData] = useState(datas);
-
   function ConvertData(currencyRatesForThreeMonths) {
     const newData = [["xdsf", currencyRatesForThreeMonths[0].currencies.slice(3, 6)]];
     currencyRatesForThreeMonths.forEach((rate, index) => {
-
       newData.push([rate.timestamp, rate.rate]);
     });
     setData(newData);
@@ -47,18 +47,16 @@ function GoogleLineChart(props) {
     let response = await GetCurrencyRatesForThreeMonthsAsync(request)
     ConvertData(response.data)
   }
-
   useEffect(() => {
     GetCurrencyRatesForThreeMonths();
-   
   }, [props.currentTargetCurrency , props.currentBaseCurrency]);
 
   return (
     <div className='googleChart'>
       <Chart
         chartType="LineChart"
-        //width="102  %"
-        height="40vh"
+         width="100%"
+        height={isMobile ? "28vh" : "32vh"}
         data={data}
         options={options}
       />
