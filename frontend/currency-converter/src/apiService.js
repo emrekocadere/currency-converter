@@ -90,3 +90,11 @@ export async function GetCurrencyRatesForThreeMonthsAsync(request) {
     const response =await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRatesForThreeMonths?currencies='+request)
     return response
 }
+
+export async function PaginateAsync(request) {
+
+    const response =await axios.get('http://localhost:5203/api/CurrencyConverter/pagination?pageNumber='+request)
+    return response
+}
+
+
