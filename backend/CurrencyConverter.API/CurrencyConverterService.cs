@@ -1,8 +1,10 @@
 using System;
 using System.Text.Json;
+using CurrencyConverter.API.CutomResponses;
 using CurrencyConverter.API.DTOs;
 using CurrencyConverter.API.Entities;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyConverter.API;
@@ -20,14 +22,21 @@ public class CurrencyConverterService
         _configuration = configuration;
         _dbContext = dbContext;
         currencyRates = _dbContext.CurrencyRatios.ToList();
-        _pageSize=6;
+        _pageSize = 6;
     }
 
-    public decimal ConvertCurrency(ConvertCurrencyReqDTO dto)
+    public CustomResponse ConvertCurrency(ConvertCurrencyReqDTO dto)
     {
         var currencyRate = currencyRates.Where(x => x.Currencies == dto.Currencies).FirstOrDefault();
+        if (currencyRate == null)
+        {
+            return new NotFoundOnDb();
+        }
         decimal result = dto.Amount * currencyRate.Rate;
-        return result;
+        return new SuccessResponse()
+        {
+            Data = result
+        };
     }
     public List<CurrencyRatio> GetCurrencyRates(string currentCurrency)
     {
@@ -40,10 +49,19 @@ public class CurrencyConverterService
         return _dbContext.Currencies.ToList();
     }
 
-    public void SaveTheNewsToDb(List<News> news)
+    public CustomResponse SaveTheNewsToDb(List<News> news)
     {
-        _dbContext.News.AddRange(news);
-        _dbContext.SaveChanges();
+        try
+        {
+            _dbContext.News.AddRange(news);
+            _dbContext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            return new ExceptionResponse(ex.Message);
+        }
+        return new SuccessResponse();
+
     }
 
     public List<News> GetNewsFromDb()
@@ -55,7 +73,7 @@ public class CurrencyConverterService
         currencyRates = _dbContext.CurrencyRatios.ToList();
     }
 
-    public void SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
+    public CustomResponse SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
     {
         foreach (var currencyRate in currencyRatioList)
         {
@@ -71,46 +89,16 @@ public class CurrencyConverterService
                 _dbContext.CurrencyRatios.Add(currencyRate);
             }
         }
-        _dbContext.SaveChanges();
+        var affectedRow = _dbContext.SaveChanges();
+        if (affectedRow == currencyRatioList.Count)
+        {
+            return new SuccessResponse();
+        }
+        else
+        {
+            return new NotSavedToDb();
+        }
     }
-
-    // public async Task<dynamic> GetCurrencyRatesss()
-    // {
-
-
-    //     _httpClient.DefaultRequestHeaders.Add("apikey", _configuration["ApiKey"]);
-    //     var currencyList = GetCurrencies();
-
-    //     foreach (var currency in currencyList)
-    //     {
-
-    //         using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date=2025-01-01&end_date=2025-01-22&base={currency.Code}&symbols=EUR,JPY,GBP,AUD,CAD,CHF,USD");
-    //         var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
-    //         var abc = JsonSerializer.Deserialize<RateTimeSeriesResponse>(jsonResponse);
-
-    //         foreach (var rate in abc.rates)
-    //         {
-
-    //             foreach (var rateValue in rate.Value)
-    //             {
-    //                 var CurrenyRatesTimestamp = new CurrencyRatesTimestamp();
-    //                 CurrenyRatesTimestamp.Timestamp = rate.Key;
-    //                 CurrenyRatesTimestamp.Rate = rateValue.Value;
-    //                 CurrenyRatesTimestamp.Currencies = abc.Base + rateValue.Key;
-    //                 _dbContext.CurrencyRatesTimestamps.Add(CurrenyRatesTimestamp);
-    //                 _dbContext.SaveChanges();
-    //             }
-    //         }
-
-    //     }
-
-
-    //     List<CurrencyRatesTimestamp> currencyRatesTimestamps = new List<CurrencyRatesTimestamp>();
-
-
-    //     return currencyRatesTimestamps;
-    // }
-
 
     public dynamic GetCurrencyRatesForThreeMonths(string currencies)
     {
@@ -138,20 +126,16 @@ public class CurrencyConverterService
         decimal result = dto.Amount * currencyRatesTimestamps.Rate;
 
         return result;
-
     }
-
 
     public List<News> Paginate(int pageNumber)
     {
+        // sayfaSayısı=toplamEleman/sayfadaGösterilcekeElemanSayısı
+        // şuankiSayfaSayısı-1 * sayfadaGösterilcekeElemanSayısı skip
+        // take(sayfadaGösterilcekeElemanSayısı)
 
-            
-            // sayfaSayısı=toplamEleman/sayfadaGösterilcekeElemanSayısı
-            // şuankiSayfaSayısı-1 * sayfadaGösterilcekeElemanSayısı skip
-            // take(sayfadaGösterilcekeElemanSayısı)
-
-            var news=_dbContext.News.Skip((pageNumber-1)*_pageSize).Take(_pageSize).ToList();
-            return news;
+        var news = _dbContext.News.Skip((pageNumber - 1) * _pageSize).Take(_pageSize).ToList();
+        return news;
 
     }
 
