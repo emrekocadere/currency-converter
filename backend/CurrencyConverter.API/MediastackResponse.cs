@@ -13,6 +13,6 @@ public class Pagination
 
 public class MediastackResponse
 {
-    public Pagination pagination{ get; set; }
-    public List<News> data{ get; set; }
+    public Pagination? pagination{ get; set; }
+    public List<News>? data{ get; set; }
 }
