@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Chart } from "react-google-charts";
 import "./index.css"
-import { GetCurrencyRatesForThreeMonthsAsync } from './apiService';
+import { GetCurrencyRatesLastThreeMonthsAsync } from './apiService';
 import useResponsive from "./useResponsive"
 
 const datas = [
@@ -42,13 +42,13 @@ function GoogleLineChart(props) {
     });
     setData(newData);
   }
-  async function GetCurrencyRatesForThreeMonths() {
+  async function GetCurrencyRatesLastThreeMonths() {
     const request=props.currentBaseCurrency+props.currentTargetCurrency
-    let response = await GetCurrencyRatesForThreeMonthsAsync(request)
+    let response = await GetCurrencyRatesLastThreeMonthsAsync(request)
     ConvertData(response.data)
   }
   useEffect(() => {
-    GetCurrencyRatesForThreeMonths();
+    GetCurrencyRatesLastThreeMonths();
   }, [props.currentTargetCurrency , props.currentBaseCurrency]);
 
   return (

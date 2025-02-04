@@ -23,7 +23,6 @@ const currencyImages = {
 
 };
 
-
 function CommonCurrenciesRates(props) {
 
   const [currencyGraph, setCurrencyGraph] = useState("HomePage");

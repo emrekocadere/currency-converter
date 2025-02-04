@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'antd';
-import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync, GetCurrencyRatesAsync, ConvertCurrencyForSpecificDateAsync } from './apiService';
+import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync,  ConvertCurrencyOnDateAsync } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import useResponsive from "./useResponsive"
 
@@ -17,20 +17,23 @@ function CurrencyConverter(props) {
 
   const { isMobile } = useResponsive();
 
+
   async function ConvertCurrency(values) {
 
     let response = await ConvertCurrencyAsync({
       "amount": values.inputAmount,
       "currencies": values.baseCurrency + values.targetCurrency
     });
-    setOutput(response.data)
+    setOutput(response.data.data)
   }
+
+
 
   async function ConvertCurrencyForSpecificDate(values) {
     const date = values.datePicker.$d
     const year = date.getFullYear(); 
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Ay (0'dan başlar, bu yüzden +1 eklenir, 2 basamaklı hale getirilir)
-    const day = String(date.getDate()).padStart(2, '0'); // Gün (2 basamaklı hale getirilir)
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0'); 
 
     const formatedDate = `${year}-${month}-${day}`;
 
@@ -39,7 +42,7 @@ function CurrencyConverter(props) {
       currencies:values.baseCurrency+values.targetCurrency,
       amount:values.inputAmount
     }
-    let response = await ConvertCurrencyForSpecificDateAsync(responseBody)
+    let response = await ConvertCurrencyOnDateAsync(responseBody)
     setOutput(response.data)
   }
 
@@ -50,6 +53,7 @@ function CurrencyConverter(props) {
 
   useEffect(() => {
     GetCurrencies()
+
   }, [])
 
   const onFinish = (values) => {
@@ -93,7 +97,7 @@ function CurrencyConverter(props) {
 
 
           <div className="firstRowOfForm">
-
+      
             <Form.Item
               name="inputAmount"
               rules={[{ required: true, message: 'Please enter an amount' }]} >
