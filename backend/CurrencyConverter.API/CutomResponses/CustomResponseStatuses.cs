@@ -8,4 +8,5 @@ public enum CustomResponseStatuses
     NotFoundOnDb = 404,
     BadRequest = 400,
     InternalServerError = 500
+    
 }
