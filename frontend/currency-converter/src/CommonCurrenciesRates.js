@@ -49,7 +49,6 @@ function CommonCurrenciesRates(props) {
     }}>
       {
         currenyRates.map((item, index) => {
-          {/* //slice is used to get the first 3 characters of the currency */ }
           let baseCurrency = item.currencies.slice(0, 3);
           let targetCurrency = item.currencies.slice(3, 6);
           return (
@@ -57,9 +56,9 @@ function CommonCurrenciesRates(props) {
 
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }} >
                
-                  <img src={currencyImages[baseCurrency]} style={{ width: "1.5vw",borderRadius:"15%" }} />
+                  <img className='countryFlag' src={currencyImages[baseCurrency]} />
                   <p style={{marginInline:".5vw"}}> {baseCurrency} / {targetCurrency} </p>
-                  <img src={currencyImages[targetCurrency]} style={{ width: "1.5vw",borderRadius:"15%" }} />
+                  <img className='countryFlag' src={currencyImages[targetCurrency]} />
     
               </div>
 
