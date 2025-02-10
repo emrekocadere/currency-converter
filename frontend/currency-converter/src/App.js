@@ -1,32 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import CurrencyConverter from './CurrencyConverter';
 import { Flex, Layout } from 'antd';
-import NewsCard from './NewsCard';
+import { GetUserIpAsync, SaveUserLocationAsync } from './apiService';
 import CustomFooter from './CustomFooter';
 import CustomHeader from './CustomHeader';
 import HomePage from './HomePage';
-import NewsPage from './Pages/NewsPage';
-const { Header, Footer, Sider, Content } = Layout;
 function App() {
 
-  const [page, setPage] = useState("HomePage");
- 
+  async function GetUserIp() {
+    let response = await GetUserIpAsync()
+    let userLocationInfo = {
+      IpAddress: response.data.ip,
+      Country: response.data.country_name,
+      City: response.data.city,
+    }
+    SaveUserLocation(userLocationInfo)
+  }
 
-  
+  async function SaveUserLocation(value) {
+    let response = await SaveUserLocationAsync(value)
+  }
 
   //hooklar fonksiyon içinde kullanılır
   useState(() => {
+    GetUserIp();
+ //   SaveUserLocationAsync();
 
-  }, [page]);
+  }, []);
 
   return (
     <div>
 
       <CustomHeader />
 
-      {page === "HomePage" ? <HomePage /> : <NewsPage />}
+      <HomePage />
 
       <CustomFooter />
 

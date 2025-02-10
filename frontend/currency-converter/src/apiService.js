@@ -87,6 +87,14 @@ export async function GetConvertCurrencyRatesAsync(requestbody) {
         return response
     }
 
+
+    export async function SaveUserLocationAsync(request) {
+
+        const response = await axios.post('http://localhost:5203/api/CurrencyConverter/SaveUserLocation', request)
+        return response
+    }
+
+
     export async function GetCurrencyRatesLastThreeMonthsAsync(request) {
 
         const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRatesForThreeMonths?currencies=' + request)
@@ -104,4 +112,5 @@ export async function GetConvertCurrencyRatesAsync(requestbody) {
         const response = await axios.get('https://ipapi.co/json')
         return response
     }
+
 
