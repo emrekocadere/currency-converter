@@ -15,7 +15,7 @@ namespace CurrencyConverter.API.Controllers
             this.service = service;
         }
         [HttpPost("ConvertCurrency")]
-        public  ActionResult ConvertCurrency(ConvertCurrencyReqDTO dto)
+        public ActionResult ConvertCurrency(ConvertCurrencyReqDTO dto)
         {
             return Ok(service.ConvertCurrency(dto));
         }
@@ -33,14 +33,14 @@ namespace CurrencyConverter.API.Controllers
         }
 
         [HttpGet("GetCurrencyRates")]
-        public  ActionResult GetCurrencyRates(string currentCurrency)
+        public ActionResult GetCurrencyRates(string currentCurrency)
         {
-            var response =  service.GetCurrencyRates(currentCurrency);
+            var response = service.GetCurrencyRates(currentCurrency);
             return Ok(response);
         }
 
         [HttpGet("GetCurrencyRatesForThreeMonths")]
-        public  ActionResult GetCurrencyRatesForThreeMonths(string currencies)
+        public ActionResult GetCurrencyRatesForThreeMonths(string currencies)
         {
             var response = service.GetCurrencyRatesForThreeMonths(currencies);
             return Ok(response);
@@ -54,12 +54,18 @@ namespace CurrencyConverter.API.Controllers
         }
 
 
-        [HttpPost("pagination")]
+        [HttpGet("pagination")]
         public ActionResult Paginate(int pageNumber)
         {
-           
-             return Ok( service.Paginate(pageNumber));
-           
+            return Ok(service.Paginate(pageNumber));
+        }
+
+
+        [HttpPost("SaveUserLocation")]
+        public ActionResult SaveUserLocation(UserLocationDTO dto)
+        {
+            var response = service.SaveUserLocation(dto);
+            return Ok(response);
         }
     }
 }

@@ -138,6 +138,29 @@ public class CurrencyConverterService
         return news;
 
     }
+    public CustomResponse SaveUserLocation(UserLocationDTO dto)
+    {
+        _dbContext.VisitingUserss.Add(new VisitingUser()
+        {
+            IpAddress = dto.IpAddress,
+            City = dto.City,
+            Country = dto.Country
+        });
+
+        var affectedRows= _dbContext.SaveChanges();
+
+        if (affectedRows == 1)
+        {
+
+            return new SuccessResponse();
+        }
+        else
+        {
+            return new NotSavedToDb();
+        }
+
+
+    }
 
 
 
