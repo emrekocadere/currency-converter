@@ -36,30 +36,37 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddQuartz(configure =>
 {
-    var jobKey = new JobKey("GetNewsFromMediastack");
-    configure
-        .AddJob<MediaStackNewsFetcherJob>(jobKey)
-        .AddTrigger(
-            trigger => trigger.ForJob(jobKey).WithSimpleSchedule(
-                schedule => schedule.WithIntervalInHours(12).RepeatForever()));
+    // var jobKey = new JobKey("GetNewsFromMediastack");
+    // configure
+    //     .AddJob<MediaStackNewsFetcherJob>(jobKey)
+    //     .AddTrigger(
+    //         trigger => trigger.ForJob(jobKey).WithSimpleSchedule(
+    //             schedule => schedule.WithIntervalInHours(12).RepeatForever()));
 
-    var jobKey2 = new JobKey("GetCurrencyRates");
-    configure
-        .AddJob<CurrencyRatesFetcherJob>(jobKey2)
-        .AddTrigger(
-            trigger => trigger.ForJob(jobKey2).WithSimpleSchedule(
-                schedule => schedule.WithIntervalInHours(12).RepeatForever()));
+    // var jobKey2 = new JobKey("GetCurrencyRates");
+    // configure
+    //     .AddJob<CurrencyRatesFetcherJob>(jobKey2)
+    //     .AddTrigger(
+    //         trigger => trigger.ForJob(jobKey2).WithSimpleSchedule(
+    //             schedule => schedule.WithIntervalInHours(12).RepeatForever()));
 
- 
+    // var jobKey3 = new JobKey("aaa");
+    // configure
+    //     .AddJob<GetCurrencyRatesFromDbJob>(jobKey2)
+    //     .AddTrigger(
+    //         trigger => trigger.ForJob(jobKey2).WithSimpleSchedule(
+    //             schedule => schedule.WithIntervalInHours(12).RepeatForever()));
+
+
 });
 
 builder.Services.AddHttpClient<CurrencyConverterService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddScoped<CurrencyConverterService>();
 
-var connString=builder.Configuration.GetConnectionString("ConnectionString");
+var connString = builder.Configuration.GetConnectionString("ConnectionString");
 
-builder.Services.AddDbContext<CurrencyConverterDbContext>(builder=>builder.UseSqlServer(connString));
+builder.Services.AddDbContext<CurrencyConverterDbContext>(builder => builder.UseSqlServer(connString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

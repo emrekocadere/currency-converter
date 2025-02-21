@@ -8,7 +8,7 @@ import CommonCurrenciesRates from './CommonCurrenciesRates';
 import useResponsive from './useResponsive';
 
 export default function HomePage() {
-    const { isDesktop,isMobile } = useResponsive();
+    const { isDesktop, isMobile } = useResponsive();
 
     const [currentBaseCurrency, setCurrentBaseCurrency] = useState("AUD");
     const [currentTargetCurrency, setCurrentTargetCurrency] = useState("CAD");
@@ -39,21 +39,38 @@ export default function HomePage() {
                     <GoogleChart currencyRates={currencyGraph} currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency}></GoogleChart>
                 </Col>
             </Row>
+            {isMobile ? <>
 
-            <Row>
-                <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
-                    News
-                </Typography.Title>
-            </Row>
+                <Row gutter={[16, 16]} style={{ flexDirection: isDesktop ? 'row' : 'column' }}>
+                    <Col span={isDesktop ? 12 : 24}>
+                        <CommonCurrenciesRates currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency} />
+                    </Col>
 
-            <Row gutter={[16, 16]} style={{ flexDirection: isDesktop ? 'row' : 'column' }}>
-                <Col span={isDesktop ? 12 : 24}>
-                    <NewsPage />
-                </Col>
-                <Col span={isDesktop ? 12 : 24}>
-                    <CommonCurrenciesRates currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency}/>
-                </Col>
-            </Row>
+                    <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
+                        News
+                    </Typography.Title>ı
+                    <Col span={isDesktop ? 12 : 24}>
+                        <NewsPage />
+                    </Col>
+
+                </Row>
+            </>
+                : <> <Row>
+                    <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
+                        News
+                    </Typography.Title>
+                </Row>
+
+                    <Row gutter={[16, 16]} style={{ flexDirection: isDesktop ? 'row' : 'column' }}>
+                        <Col span={isDesktop ? 12 : 24}>
+                            <NewsPage />
+                        </Col>
+                        <Col span={isDesktop ? 12 : 24}>
+                            <CommonCurrenciesRates currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency} />
+                        </Col>
+                    </Row></>}
+
+
         </div>
     );
 }

@@ -124,10 +124,10 @@ function CurrencyConverter(props) {
               />
             </Form.Item>
 
-            {isMobile ? null :
+            
               <div style={{ color: "rgb(239,135,51)" }}>
-                <ArrowRightOutlined />
-              </div>}
+                <ArrowRightOutlined  />
+              </div>
 
             <Form.Item
               className='selectWidth'
@@ -162,13 +162,13 @@ function CurrencyConverter(props) {
                 <Form.Item >
                   <Button className='button' htmlType='submit' >Convert</Button>
                 </Form.Item>
-
+{/* 
 
                 <Form.Item>
                   <div className='currencyConverterOutput'>
                     {input} {baseCurrency} = {output} {targetCurrency}
                   </div>
-                </Form.Item>
+                </Form.Item> */}
               </>
               :
               <>

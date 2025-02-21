@@ -57,7 +57,7 @@ function CommonCurrenciesRates(props) {
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }} >
                
                   <img className='countryFlag' src={currencyImages[baseCurrency]} />
-                  <p style={{marginInline:".5vw"}}> {baseCurrency} / {targetCurrency} </p>
+                  <p style={{marginInline:".5vw" , fontWeight:"500"}}> {baseCurrency} / {targetCurrency} </p>
                   <img className='countryFlag' src={currencyImages[targetCurrency]} />
     
               </div>

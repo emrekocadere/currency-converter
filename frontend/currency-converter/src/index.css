@@ -78,6 +78,7 @@ code {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: baseline;
   }
 
   .secondRowForm {
@@ -95,9 +96,8 @@ code {
   .inputNumber,
   .currencyConverterOutput,
   .datePicker {
-    width: 20vw;
+    width: 23vw;
     height: 4vh;
-
   }
 
   /* .currencyConverterOutput{
@@ -105,7 +105,7 @@ code {
   } */
 
   .selectWidth {
-    width: 20vw;
+    width: 23vw;
   }
 
   .selectHeight {

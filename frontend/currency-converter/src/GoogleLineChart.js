@@ -1,28 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Chart } from "react-google-charts";
+
+import { LineChart } from '@mui/x-charts/LineChart';
+
 import "./index.css"
 import { GetCurrencyRatesLastThreeMonthsAsync } from './apiService';
 import useResponsive from "./useResponsive"
 
 const datas = [
-  ["x", "sd"],
-  [0, 0],
-  [1, 10],
-  [2, 23],
-  [3, 17],
-  [4, 18],
-  [5, 9],
-  [6, 11],
-  [7, 27],
-  [8, 33],
-  [9, 40],
-  [10, 32],
-  [11, 35],
-  [0, 0],
-  [0, 0],
-  [0, 0],
-  [2, 0],
-  [0, 3],
+  []
 ];
 
 const options = {
@@ -34,31 +20,64 @@ const options = {
 
 function GoogleLineChart(props) {
   const { isMobile } = useResponsive();
-  const [data, setData] = useState(datas);
+  const [data, setData] = useState([]);
+  const [times, setTimes] = useState([]);
+  const [minValue, setMinValue] = useState(0);
+  const [maxValue, setMaxValue] = useState(0);
+  const [yPadding, setYPadding] = useState(0);
+
+
   function ConvertData(currencyRatesForThreeMonths) {
-    const newData = [["xdsf", currencyRatesForThreeMonths[0].currencies.slice(3, 6)]];
-    currencyRatesForThreeMonths.forEach((rate, index) => {
-      newData.push([rate.timestamp, rate.rate]);
-    });
+    // let newData = currencyRatesForThreeMonths.map(rate => rate.rate);
+    // let timestamps = currencyRatesForThreeMonths.map(rate => rate.timestamp);
+
+
+    let newData = currencyRatesForThreeMonths.map(rate => Number(rate.rate) || 0);
+    let timestamps = currencyRatesForThreeMonths.map(rate => new Date(rate.timestamp).getTime());
+ 
     setData(newData);
+    setTimes(timestamps);
+
+    let min = Math.min(...newData);
+    let max = Math.max(...newData);
+    let padding = (max - min) * 0.1; // %10 ekleme
+
+    setMinValue(min);
+    setMaxValue(max);
+    setYPadding(padding);
+
+
   }
+
+
   async function GetCurrencyRatesLastThreeMonths() {
-    const request=props.currentBaseCurrency+props.currentTargetCurrency
+    const request = props.currentBaseCurrency + props.currentTargetCurrency
     let response = await GetCurrencyRatesLastThreeMonthsAsync(request)
     ConvertData(response.data)
   }
+
   useEffect(() => {
     GetCurrencyRatesLastThreeMonths();
-  }, [props.currentTargetCurrency , props.currentBaseCurrency]);
+  }, [props.currentTargetCurrency, props.currentBaseCurrency]);
 
   return (
     <div className='googleChart'>
-      <Chart
-        chartType="LineChart"
-         width="100%"
-        height={isMobile ? "28vh" : "32vh"}
-        data={data}
-        options={options}
+
+
+      <LineChart
+        // xAxis={[{ data: times,label:"date" }]}
+        xAxis={[{ data: times.map(time => new Date(time)), scaleType: "time", label: "Date" }]}
+        yAxis={[{ min: minValue - yPadding, max: maxValue + yPadding }]}
+        series={[
+          {
+            data: data,
+            label: props.currentTargetCurrency,
+            showMark: false,
+          },
+        ]}
+        width={500}
+        height={300}
+        colors={['rgb(239,135,51)']}
       />
     </div>
 
