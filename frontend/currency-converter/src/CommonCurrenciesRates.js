@@ -43,11 +43,8 @@ function CommonCurrenciesRates(props) {
 
 
   return (
-    <div style={{
-      borderRadius: "10px", borderWidth: ".1vw", borderStyle: "solid", borderColor: "rgb(239,135,51)", padding: "1.5vh", marginInline: "10px", display: "flex",
-      flexDirection: "column"
-    }}>
-      {
+    <div className='Rates' >
+      {  
         currenyRates.map((item, index) => {
           let baseCurrency = item.currencies.slice(0, 3);
           let targetCurrency = item.currencies.slice(3, 6);

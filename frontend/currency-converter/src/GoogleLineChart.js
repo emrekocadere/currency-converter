@@ -61,7 +61,7 @@ function GoogleLineChart(props) {
   }, [props.currentTargetCurrency, props.currentBaseCurrency]);
 
   return (
-    <div className='googleChart'>
+    <div className='chart' style={{  }}>
 
 
       <LineChart
@@ -75,7 +75,7 @@ function GoogleLineChart(props) {
             showMark: false,
           },
         ]}
-        width={500}
+   
         height={300}
         colors={['rgb(239,135,51)']}
       />

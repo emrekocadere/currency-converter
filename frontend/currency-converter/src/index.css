@@ -11,9 +11,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.chart{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Rates {
+  border-radius: 10px;
+  border-width: .11vw;
+  border-style: solid;
+  border-color: rgb(239, 135, 51);
+  padding: 1.5vh;
+  margin-inline: 10px;
+  display: flex;
+  width: 30vw;
+  flex-direction: column;
+  background-color: rgba(253, 243, 234, 1);
+}
 
-
-.countryFlag{
+.countryFlag {
   border-radius: 15%;
 }
 
@@ -143,8 +159,8 @@ code {
   }
 
 
-  .googleChart {
-    width: 100vw;
+  .chart {
+    width: 100%;
   }
 
   .divider {
@@ -257,8 +273,8 @@ code {
 
   }
 
-  .googleChart {
-    width: 40vw;
+  .chart {
+    width: 32vw;
   }
 
   .divider {
