@@ -43,7 +43,7 @@ function CommonCurrenciesRates(props) {
 
 
   return (
-    <div className='Rates' >
+    <div className='common-currencies-rates'>
       {  
         currenyRates.map((item, index) => {
           let baseCurrency = item.currencies.slice(0, 3);
