@@ -1,6 +1,6 @@
 import { Card, Divider, Typography, Button, Flex, ConfigProvider } from 'antd';
 import React, { useState, useEffect, useRef } from 'react';
-import { GetNewsFromDb, GetPaginatedResultsAsync } from '../apiService';
+import { GetNewsFromDb, getPaginatedResults } from '../apiService';
 import useResponsive from '../useResponsive';
 import "../index.css"
 
@@ -16,7 +16,7 @@ function NewsPage() {
 
     async function Paginate() {
         pageNumber++;
-        let response = await GetPaginatedResultsAsync(pageNumber);
+        let response = await getPaginatedResults(pageNumber);
         setNews((prevNews) => [...prevNews, ...response.data]);
     }
 

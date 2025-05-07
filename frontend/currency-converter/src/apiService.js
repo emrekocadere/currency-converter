@@ -2,23 +2,7 @@ import axios from 'axios';
 
 
 
-// export function ConvertCurrency(requestbody) {
-// console.log("sdfsd")
-//     axios.post('http://localhost:5203/api/CurrencyConverter/ConvertCurrency',
-//         requestbody)
-//         .then(function (response) {
-//             console.log(response);
-
-
-//         })
-//         .catch(function (error) {
-//             console.log(error);
-//         });
-// }
-
-
-
-export async function ConvertCurrencyAsync(requestbody) {
+export async function convertCurrency(requestbody) {
 
     console.log(requestbody)
     const response = await axios.post('http://localhost:5203/api/CurrencyConverter/ConvertCurrency', requestbody)
@@ -26,7 +10,7 @@ export async function ConvertCurrencyAsync(requestbody) {
 }
 
 
-export async function GetNewsFromDb() {
+export async function getNews() {
 
     // await axios.get('http://localhost:5203/api/CurrencyConverter/GetNewsFromDb')
     //   .then(function (response) {
@@ -48,7 +32,7 @@ export async function GetNewsFromDb() {
 
 
 
-export async function GetCurrenciesAsync() {
+export async function getCurrencies() {
 
     const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencies')
     console.log(response)
@@ -65,52 +49,52 @@ export async function GetCurrenciesAsync() {
 
 
 
-export async function GetConvertCurrencyRatesAsync(requestbody) {
+export async function getConvertedRates(requestbody) {
 
     const response = await axios.post('http://localhost:5203/api/CurrencyConverter/GetConvertCurrencyRates', requestbody)
     //console.log(response)
     return response.data
 
- 
-    }
 
-    export async function GetCurrencyRatesAsync(request) {
+}
 
-        const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRates?currentCurrency=' + request)
-        // console.log(response)
-        return response
-    }
+export async function getRatesForCurrency(request) {
 
-    export async function ConvertCurrencyOnDateAsync(request) {
+    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRates?currentCurrency=' + request)
+    // console.log(response)
+    return response
+}
 
-        const response = await axios.post('http://localhost:5203/api/CurrencyConverter/ConvertCurrencyForSpecificDate', request)
-        return response
-    }
+export async function convertCurrencyOnDate(request) {
 
-
-    export async function SaveUserLocationAsync(request) {
-
-        const response = await axios.post('http://localhost:5203/api/CurrencyConverter/SaveUserLocation', request)
-        return response
-    }
+    const response = await axios.post('http://localhost:5203/api/CurrencyConverter/ConvertCurrencyForSpecificDate', request)
+    return response
+}
 
 
-    export async function GetCurrencyRatesLastThreeMonthsAsync(request) {
+export async function saveUserLocation(request) {
 
-        const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRatesForThreeMonths?currencies=' + request)
-        return response
-    }
+    const response = await axios.post('http://localhost:5203/api/CurrencyConverter/SaveUserLocation', request)
+    return response
+}
 
-    export async function GetPaginatedResultsAsync(request) {
 
-        const response = await axios.get('http://localhost:5203/api/CurrencyConverter/pagination?pageNumber=' + request)
-        return response
-    }
+export async function getRatesLastThreeMonths(request) {
 
-    export async function GetUserIpAsync() {
+    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRatesForThreeMonths?currencies=' + request)
+    return response
+}
 
-        const response = await axios.get('https://ipapi.co/json')
-        return response
-    }
+export async function getPaginatedResults(request) {
+
+    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/pagination?pageNumber=' + request)
+    return response
+}
+
+export async function getUserIp() {
+
+    const response = await axios.get('https://ipapi.co/json')
+    return response
+}
 
 

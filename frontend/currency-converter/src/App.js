@@ -1,14 +1,14 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { Flex, Layout } from 'antd';
-import { GetUserIpAsync, SaveUserLocationAsync } from './apiService';
+import { getUserIp, saveUserLocation } from './apiService';
 import CustomFooter from './CustomFooter';
 import CustomHeader from './CustomHeader';
 import HomePage from './HomePage';
 function App() {
 
   async function GetUserIp() {
-    let response = await GetUserIpAsync()
+    let response = await getUserIp()
     let userLocationInfo = {
       IpAddress: response.data.ip,
       Country: response.data.country_name,
@@ -18,12 +18,12 @@ function App() {
   }
 
   async function SaveUserLocation(value) {
-    let response = await SaveUserLocationAsync(value)
+    let response = await saveUserLocation(value)
   }
 
   //hooklar fonksiyon içinde kullanılır
   useState(() => {
-    GetUserIp();
+   // GetUserIp();
  //   SaveUserLocationAsync();
 
   }, []);

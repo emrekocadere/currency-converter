@@ -10,7 +10,7 @@ function CustomHeader() {
             theme={{
                 components: {
                     Divider: {
-                       
+            
                     }
                 }
             }}

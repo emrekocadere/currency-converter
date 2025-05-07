@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GetCurrencyRatesAsync } from "./apiService"
+import { getRatesForCurrency } from "./apiService"
 import { Divider, Typography } from 'antd';
 // import Flag_of_European_Union from "./Images/Euro.svg"
 import Usd from "./Images/us.svg"
@@ -31,7 +31,7 @@ function CommonCurrenciesRates(props) {
 
 
   async function GetCommonCurrenciesRates() {
-    let response = await GetCurrencyRatesAsync(props.currentBaseCurrency)
+    let response = await getRatesForCurrency(props.currentBaseCurrency)
     //  console.log(response.data)
     setCurrenyRates(response.data)
   }

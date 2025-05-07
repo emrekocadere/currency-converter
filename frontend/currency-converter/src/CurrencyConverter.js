@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'antd';
-import { GetCurrenciesAsync, ConvertCurrencyAsync, GetConvertCurrencyRatesAsync,  ConvertCurrencyOnDateAsync } from './apiService';
+import { getCurrencies, convertCurrency, GetConvertCurrencyRatesAsync,  convertCurrencyOnDate } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import useResponsive from "./useResponsive"
 
@@ -20,7 +20,7 @@ function CurrencyConverter(props) {
 
   async function ConvertCurrency(values) {
 
-    let response = await ConvertCurrencyAsync({
+    let response = await convertCurrency({
       "amount": values.inputAmount,
       "currencies": values.baseCurrency + values.targetCurrency
     });
@@ -42,12 +42,12 @@ function CurrencyConverter(props) {
       currencies:values.baseCurrency+values.targetCurrency,
       amount:values.inputAmount
     }
-    let response = await ConvertCurrencyOnDateAsync(responseBody)
+    let response = await convertCurrencyOnDate(responseBody)
     setOutput(response.data)
   }
 
   async function GetCurrencies() {
-    let response = await GetCurrenciesAsync()
+    let response = await getCurrencies()
     setCurrencyOptions(response)
   }
 

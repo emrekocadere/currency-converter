@@ -8,7 +8,7 @@ import CommonCurrenciesRates from './CommonCurrenciesRates';
 import useResponsive from './useResponsive';
 
 export default function HomePage() {
-    const { isDesktop, isMobile } = useResponsive();
+    const { isDesktop, isMobile, isTablet } = useResponsive();
 
     const [currentBaseCurrency, setCurrentBaseCurrency] = useState("AUD");
     const [currentTargetCurrency, setCurrentTargetCurrency] = useState("CAD");
@@ -34,12 +34,15 @@ export default function HomePage() {
                 </Col>
                 <Col
                     span={isDesktop ? 12 : 24}
-                    style={{ display: "flex", justifyContent: "center", marginTop: isDesktop ? "-7vh" : "0" }}
+                    style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: isDesktop ? "-7vh" : "0" }}
                 >
                     <GoogleChart currencyRates={currencyGraph} currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency}></GoogleChart>
                 </Col>
+                
             </Row>
-            {isMobile ? <>
+
+      
+            {isMobile ?
 
                 <Row gutter={[16, 16]} style={{ flexDirection: isDesktop ? 'row' : 'column' }}>
                     <Col span={isDesktop ? 12 : 24}>
@@ -48,27 +51,31 @@ export default function HomePage() {
 
                     <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
                         News
-                    </Typography.Title>ı
+                    </Typography.Title>
                     <Col span={isDesktop ? 12 : 24}>
                         <NewsPage />
                     </Col>
 
                 </Row>
-            </>
-                : <> <Row>
+
+                :
+
+                <> <Row>
                     <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
                         News
                     </Typography.Title>
                 </Row>
 
-                    <Row gutter={[16, 16]} style={{ flexDirection: isDesktop ? 'row' : 'column' }}>
-                        <Col span={isDesktop ? 12 : 24}>
+                    <Row gutter={[16, 16]} style={{ flexDirection: 'row' }}>
+                        <Col span={12}>
                             <NewsPage />
                         </Col>
-                        <Col span={isDesktop ? 12 : 24}>
+                        <Col span={12} className="common-currencies-rates-col" >
                             <CommonCurrenciesRates currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency} />
                         </Col>
-                    </Row></>}
+                    </Row></>
+
+            }
 
 
         </div>

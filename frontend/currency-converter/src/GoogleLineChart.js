@@ -4,7 +4,7 @@ import { Chart } from "react-google-charts";
 import { LineChart } from '@mui/x-charts/LineChart';
 
 import "./index.css"
-import { GetCurrencyRatesLastThreeMonthsAsync } from './apiService';
+import { getRatesLastThreeMonths } from './apiService';
 import useResponsive from "./useResponsive"
 
 const datas = [
@@ -52,7 +52,7 @@ function GoogleLineChart(props) {
 
   async function GetCurrencyRatesLastThreeMonths() {
     const request = props.currentBaseCurrency + props.currentTargetCurrency
-    let response = await GetCurrencyRatesLastThreeMonthsAsync(request)
+    let response = await getRatesLastThreeMonths(request)
     ConvertData(response.data)
   }
 
