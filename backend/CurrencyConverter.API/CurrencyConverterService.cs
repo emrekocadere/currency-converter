@@ -1,33 +1,26 @@
-using System;
-using System.Text.Json;
 using CurrencyConverter.API.CutomResponses;
 using CurrencyConverter.API.DTOs;
 using CurrencyConverter.API.Entities;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyConverter.API;
 
 public class CurrencyConverterService
 {
-    readonly private HttpClient _httpClient;
-    readonly private IConfiguration _configuration;
+
     readonly private CurrencyConverterDbContext _dbContext;
-    private List<CurrencyRatio> currencyRates;
+    private List<CurrencyRatio> _currencyRates;
     private int _pageSize;
-    public CurrencyConverterService(HttpClient httpClient, IConfiguration configuration, CurrencyConverterDbContext dbContext)
+    public CurrencyConverterService(CurrencyConverterDbContext dbContext)
     {
-        _httpClient = httpClient;
-        _configuration = configuration;
         _dbContext = dbContext;
-        currencyRates = _dbContext.CurrencyRatios.ToList();
+        _currencyRates = _dbContext.CurrencyRatios.ToList();
         _pageSize = 6;
     }
 
     public CustomResponse ConvertCurrency(ConvertCurrencyReqDTO dto)
     {
-        var currencyRate = currencyRates.Where(x => x.Currencies == dto.Currencies).FirstOrDefault();
+        var currencyRate = _currencyRates.FirstOrDefault(x => x.Currencies == dto.Currencies);
         if (currencyRate == null)
         {
             return new NotFoundOnDb();
@@ -41,7 +34,7 @@ public class CurrencyConverterService
     public List<CurrencyRatio> GetCurrencyRates(string currentCurrency)
     {
 
-        return currencyRates.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
+        return _currencyRates.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
     }
 
     public List<Currency> GetCurrencies()
@@ -70,7 +63,7 @@ public class CurrencyConverterService
     }
     public void GetCurrencyRatesFromDb()
     {
-        currencyRates = _dbContext.CurrencyRatios.ToList();
+        _currencyRates = _dbContext.CurrencyRatios.ToList();
     }
 
     public CustomResponse SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
@@ -79,8 +72,8 @@ public class CurrencyConverterService
         {
             if (_dbContext.CurrencyRatios.Any(cr => cr.Currencies == currencyRate.Currencies))
             {
-                var currency = _dbContext.CurrencyRatios.Where(x => x.Currencies == currencyRate.Currencies).FirstOrDefault();
-                currency.Rate = currencyRate.Rate;
+                var currency = _dbContext.CurrencyRatios.FirstOrDefault(x => x.Currencies == currencyRate.Currencies);
+                currency!.Rate = currencyRate.Rate;
 
             }
             else
@@ -108,6 +101,7 @@ public class CurrencyConverterService
         var endDate = DateTime.Parse(DateTime.Now.AddMonths(-14).ToString("yyyy-MM-dd"));
 
         var currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
+            .AsNoTracking()
             .Where(x => x.Currencies == currencies)
             .ToList()
             .Where(x => DateTime.Parse(x.Timestamp) <= endDate && DateTime.Parse(x.Timestamp) >= startDate)
@@ -121,7 +115,7 @@ public class CurrencyConverterService
     {
 
         var currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
-            .Where(x => x.Currencies == dto.Currencies && x.Timestamp == dto.Date).FirstOrDefault();
+            .FirstOrDefault(x => x.Currencies == dto.Currencies && x.Timestamp == dto.Date);
 
         decimal result = dto.Amount * currencyRatesTimestamps.Rate;
 
