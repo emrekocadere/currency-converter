@@ -9,62 +9,62 @@ namespace CurrencyConverter.API.Controllers
     [ApiController]
     public class CurrencyConverterController : ControllerBase
     {
-        private readonly CurrencyConverterService service;
+        private readonly CurrencyConverterService _service;
         public CurrencyConverterController(CurrencyConverterService service)
         {
-            this.service = service;
+            _service = service;
         }
-        [HttpPost("ConvertCurrency")]
+        [HttpGet("exchange")]
         public ActionResult ConvertCurrency(ConvertCurrencyReqDTO dto)
         {
-            return Ok(service.ConvertCurrency(dto));
+            return Ok(_service.ConvertCurrency(dto));
         }
 
-        [HttpGet("GetCurrencies")]
+        [HttpGet("currencies")]
         public ActionResult GetCurrencies()
         {
-            return Ok(service.GetCurrencies());
+            return Ok(_service.GetCurrencies());
         }
 
-        [HttpGet("GetNewsFromDb")]
+        [HttpGet("news")]
         public ActionResult GetNewsFromDb()
         {
-            return Ok(service.GetNewsFromDb());
+            return Ok(_service.GetNewsFromDb());
         }
 
-        [HttpGet("GetCurrencyRates")]
+        [HttpGet("currency-rates")]
         public ActionResult GetCurrencyRates(string currentCurrency)
         {
-            var response = service.GetCurrencyRates(currentCurrency);
+            var response = _service.GetCurrencyRates(currentCurrency);
             return Ok(response);
         }
 
-        [HttpGet("GetCurrencyRatesForThreeMonths")]
+        [HttpGet("currency-rates/history")]
         public ActionResult GetCurrencyRatesForThreeMonths(string currencies)
         {
-            var response = service.GetCurrencyRatesForThreeMonths(currencies);
+            var response = _service.GetCurrencyRatesForThreeMonths(currencies);
             return Ok(response);
         }
 
-        [HttpPost("ConvertCurrencyForSpecificDate")]
+        [HttpPost("exchange/by-date")]
         public ActionResult ConvertCurrencyForSpecificDate(ConvertCurrencyForSpecificDateDTO dto)
         {
-            var response = service.ConvertCurrencyForSpecificDate(dto);
+            var response = _service.ConvertCurrencyForSpecificDate(dto);
             return Ok(response);
         }
 
 
-        [HttpGet("pagination")]
-        public ActionResult Paginate(int pageNumber)
+        [HttpGet("news")]
+        public ActionResult Paginate(int pageNumber, int pageSize)
         {
-            return Ok(service.Paginate(pageNumber));
+            return Ok(_service.Paginate(pageNumber));
         }
 
 
-        [HttpPost("SaveUserLocation")]
+        [HttpPost("user-locations")]
         public ActionResult SaveUserLocation(UserLocationDTO dto)
         {
-            var response = service.SaveUserLocation(dto);
+            var response = _service.SaveUserLocation(dto);
             return Ok(response);
         }
     }
