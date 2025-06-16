@@ -1,3 +1,4 @@
+using System.Text.Json;
 using CurrencyConverter.API.CutomResponses;
 using CurrencyConverter.API.DTOs;
 using CurrencyConverter.API.Entities;
@@ -8,24 +9,26 @@ namespace CurrencyConverter.API;
 public class CurrencyConverterService
 {
 
-    readonly private CurrencyConverterDbContext _dbContext;
+     private CurrencyConverterDbContext _dbContext;
     private List<CurrencyRatio> _currencyRates;
-    private int _pageSize;
+    private readonly HttpClient _httpClient;
+        private int _pageSize;
     public CurrencyConverterService(CurrencyConverterDbContext dbContext)
     {
         _dbContext = dbContext;
         _currencyRates = _dbContext.CurrencyRatios.ToList();
         _pageSize = 6;
+        _httpClient = new HttpClient();
     }
 
-    public CustomResponse ConvertCurrency(ConvertCurrencyReqDTO dto)
+    public CustomResponse ConvertCurrency(int amount, string currencies)
     {
-        var currencyRate = _currencyRates.FirstOrDefault(x => x.Currencies == dto.Currencies);
+        var currencyRate = _currencyRates.FirstOrDefault(x => x.Currencies == currencies);
         if (currencyRate == null)
         {
             return new NotFoundOnDb();
         }
-        decimal result = dto.Amount * currencyRate.Rate;
+        decimal result = amount * currencyRate.Rate;
         return new SuccessResponse()
         {
             Data = result
@@ -99,25 +102,42 @@ public class CurrencyConverterService
         var startDate = DateTime.Parse(date);
 
         var endDate = DateTime.Parse(DateTime.Now.AddMonths(-14).ToString("yyyy-MM-dd"));
+        List<CurrencyRatesTimestamp> currencyRatesTimestamps;
 
-        var currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
+        try
+        {
+            currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
             .AsNoTracking()
             .Where(x => x.Currencies == currencies)
             .ToList()
             .Where(x => DateTime.Parse(x.Timestamp) <= endDate && DateTime.Parse(x.Timestamp) >= startDate)
             .ToList();
+        }
+        catch (Exception ex)
+        {
+            return new NotFoundOnDb()
+            {
+                StatusDesc = "Currency rates not found for the specified date range.",
+                Data = ex.Message
+            };
+        }
 
-        return currencyRatesTimestamps;
 
+        return new SuccessResponse()
+        {
+
+            StatusDesc = "Currency rates retrieved successfully.",
+            Data = currencyRatesTimestamps
+        };
     }
-
-    public dynamic ConvertCurrencyForSpecificDate(ConvertCurrencyForSpecificDateDTO dto)
+    
+    public dynamic ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
     {
 
         var currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
-            .FirstOrDefault(x => x.Currencies == dto.Currencies && x.Timestamp == dto.Date);
+            .FirstOrDefault(x => x.Currencies == currencies && x.Timestamp == date);
 
-        decimal result = dto.Amount * currencyRatesTimestamps.Rate;
+        decimal result = amount * currencyRatesTimestamps.Rate;
 
         return result;
     }
@@ -141,7 +161,7 @@ public class CurrencyConverterService
             Country = dto.Country
         });
 
-        var affectedRows= _dbContext.SaveChanges();
+        var affectedRows = _dbContext.SaveChanges();
 
         if (affectedRows == 1)
         {
@@ -153,9 +173,8 @@ public class CurrencyConverterService
             return new NotSavedToDb();
         }
 
-
     }
-
-
+    
+    
 
 }

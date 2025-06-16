@@ -15,9 +15,10 @@ namespace CurrencyConverter.API.Controllers
             _service = service;
         }
         [HttpGet("exchange")]
-        public ActionResult ConvertCurrency(ConvertCurrencyReqDTO dto)
+        public ActionResult ConvertCurrency(int amount, string currencies)
+       
         {
-            return Ok(_service.ConvertCurrency(dto));
+            return Ok(_service.ConvertCurrency(amount, currencies));
         }
 
         [HttpGet("currencies")]
@@ -46,19 +47,19 @@ namespace CurrencyConverter.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("exchange/by-date")]
-        public ActionResult ConvertCurrencyForSpecificDate(ConvertCurrencyForSpecificDateDTO dto)
+        [HttpGet("exchange/by-date")]
+        public ActionResult ConvertCurrencyForSpecificDate(string date, string currencies, int amount) 
         {
-            var response = _service.ConvertCurrencyForSpecificDate(dto);
+            var response = _service.ConvertCurrencyForSpecificDate(date, currencies, amount);
             return Ok(response);
         }
 
 
-        [HttpGet("news")]
-        public ActionResult Paginate(int pageNumber, int pageSize)
-        {
-            return Ok(_service.Paginate(pageNumber));
-        }
+        // [HttpGet("news")]
+        // public ActionResult Paginate(int pageNumber, int pageSize)
+        // {
+        //     return Ok(_service.Paginate(pageNumber));
+        // }
 
 
         [HttpPost("user-locations")]
@@ -67,5 +68,6 @@ namespace CurrencyConverter.API.Controllers
             var response = _service.SaveUserLocation(dto);
             return Ok(response);
         }
+
     }
 }
