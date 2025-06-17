@@ -2,30 +2,21 @@ import axios from 'axios';
 
 
 
-export async function convertCurrency(requestbody) {
+export async function convertCurrency(amount, currencies) {
 
-    console.log(requestbody)
-    const response = await axios.post('http://localhost:5203/api/CurrencyConverter/ConvertCurrency', requestbody)
+    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/exchange',{
+        params: {
+            amount: amount,
+            currencies: currencies
+        }
+    })
     return response
 }
 
 
 export async function getNews() {
 
-    // await axios.get('http://localhost:5203/api/CurrencyConverter/GetNewsFromDb')
-    //   .then(function (response) {
-    //     // handle success
-    //     console.log(response);
-    //     return "ne haber";
-    //   })
-    //   .catch(function (error) {
-    //     // handle error
-    //     console.log(error);
-    //   });
-
-
-
-    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetNewsFromDb');
+    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/news');
     console.log(response);
     return response.data;
 }
@@ -34,7 +25,7 @@ export async function getNews() {
 
 export async function getCurrencies() {
 
-    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencies')
+    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/currencies')
     console.log(response)
     return response.data
 }
@@ -52,7 +43,6 @@ export async function getCurrencies() {
 export async function getConvertedRates(requestbody) {
 
     const response = await axios.post('http://localhost:5203/api/CurrencyConverter/GetConvertCurrencyRates', requestbody)
-    //console.log(response)
     return response.data
 
 
@@ -60,8 +50,12 @@ export async function getConvertedRates(requestbody) {
 
 export async function getRatesForCurrency(request) {
 
-    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRates?currentCurrency=' + request)
-    // console.log(response)
+    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/currency-rates',{
+        params: {
+            currency: request
+        }
+    })
+
     return response
 }
 
@@ -81,13 +75,22 @@ export async function saveUserLocation(request) {
 
 export async function getRatesLastThreeMonths(request) {
 
-    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/GetCurrencyRatesForThreeMonths?currencies=' + request)
+    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/currency-rates/history', {
+        params: {
+            currencies: request
+        }
+    })
+    console.log("Response from getRatesLastThreeMonths:", response.data);
     return response
 }
 
 export async function getPaginatedResults(request) {
 
-    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/pagination?pageNumber=' + request)
+    const response = await axios.get('http://localhost:5203/api/CurrencyConverter/news', {
+        params: {
+            pageNumber: request
+        }
+    })
     return response
 }
 

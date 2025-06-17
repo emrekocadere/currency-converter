@@ -31,7 +31,7 @@ function GoogleLineChart(props) {
     // let newData = currencyRatesForThreeMonths.map(rate => rate.rate);
     // let timestamps = currencyRatesForThreeMonths.map(rate => rate.timestamp);
 
-
+    console.log("currencyRatesForThreeMonths", currencyRatesForThreeMonths)
     let newData = currencyRatesForThreeMonths.map(rate => Number(rate.rate) || 0);
     let timestamps = currencyRatesForThreeMonths.map(rate => new Date(rate.timestamp).getTime());
  
@@ -53,7 +53,8 @@ function GoogleLineChart(props) {
   async function GetCurrencyRatesLastThreeMonths() {
     const request = props.currentBaseCurrency + props.currentTargetCurrency
     let response = await getRatesLastThreeMonths(request)
-    ConvertData(response.data)
+
+    ConvertData(response.data.data)
   }
 
   useEffect(() => {

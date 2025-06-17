@@ -20,10 +20,7 @@ function CurrencyConverter(props) {
 
   async function ConvertCurrency(values) {
 
-    let response = await convertCurrency({
-      "amount": values.inputAmount,
-      "currencies": values.baseCurrency + values.targetCurrency
-    });
+    let response = await convertCurrency(values.inputAmount,values.baseCurrency + values.targetCurrency);
     setOutput(response.data.data)
   }
 
