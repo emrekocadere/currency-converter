@@ -28,6 +28,17 @@ code {
   background-color: rgba(253, 243, 234, 1);
 }
 
+  .news-card {
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    background: rgb(246, 246, 246);
+    margin-bottom: 1vh;
+    align-items: center;
+
+  }
+
 .country-flag {
   border-radius: 15%;
 }
@@ -86,6 +97,12 @@ code {
   object-fit: cover;
 }
 
+.custom-header {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 5px 5px 5px rgb(222, 222, 222);
+}
+
 
 /* telephone */
 @media (max-width: 768px) {
@@ -138,27 +155,21 @@ code {
     flex-direction: column;
   }
 
-  .news-card {
-    width: 100%;
-    height: 12vh;
-    display: flex;
-    flex-direction: row;
-    background: rgb(246, 246, 246);
-    margin-bottom: 1vh;
 
-  }
 
   .news-card-img-div {
-    height: 12vh;
+    height: 15vh;
     align-items: center;
   }
 
   .news-card-img {
-    height: 10vh;
-    width: 10vh;
+    height: 12vh;
+    width: 15vh;
   }
 
-
+  .home-page-div {
+  padding-inline: 2vw;
+}
   .chart {
     width: 100%;
   }
@@ -170,12 +181,12 @@ code {
 
   .news-card-title {
     white-space: normal;
-    font-size: 1.3vh;
+    font-size: 1em;
     margin: 0px
   }
 
   .news-cardDescription {
-    font-size: 1.25vh;
+    font-size: 0em;
   }
 
   .custom-footer-links-div {
@@ -195,11 +206,6 @@ code {
 
 }
 
-.custom-header {
-  display: flex;
-  flex-direction: column;
-  box-shadow: 5px 5px 5px 5px rgb(222, 222, 222);
-}
 
 /* Pc */
 @media (min-width: 1280px) and (max-width: 1920px) and (min-height: 720px) and (max-height: 1080px) {
@@ -212,9 +218,10 @@ code {
   }
   .common-currencies-rates-col{
     display: flex;
-     justify-content: center;
-      align-items:flex-start;
+    justify-content: center;
+    align-items:flex-start;
   }
+
   .country-flag {
     width: 1.5vw;
   }
@@ -251,6 +258,8 @@ code {
     width: 20vh;
 
   }
+
+
 
   .news-card {
     width: 100%;

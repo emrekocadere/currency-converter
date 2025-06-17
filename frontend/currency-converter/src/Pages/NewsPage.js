@@ -56,10 +56,7 @@ function NewsPage() {
                         onClick={() => window.open(item.url, '_blank')}
                         ref={index === news.length - 1 ? lastCardRef : null}
                     >
-                        <Meta
-
-                            title={<p className='news-card-title'> {item.title}</p>}
-                            description={<div className='news-cardDescription'>{item.description.slice(0, isMobile ? 40 : 140)}</div>} />
+                        <h4>{item.title}</h4>
                     </Card>
                 ))}
 
