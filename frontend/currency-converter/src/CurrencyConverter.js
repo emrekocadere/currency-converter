@@ -88,7 +88,7 @@ function CurrencyConverter(props) {
         }
       }}
     >
-      <div className="convertCurrencyDiv"  >
+      <div className="convert-currency-div"  >
 
         <Form onFinish={onFinish} >
 
@@ -98,15 +98,15 @@ function CurrencyConverter(props) {
             <Form.Item
               name="inputAmount"
               rules={[{ required: true, message: 'Please enter an amount' }]} >
-              <InputNumber className="inputNumber" min={0} defaultValue={0} size={'large'} />
+              <InputNumber className="input-number" min={0} defaultValue={0} size={'large'} />
             </Form.Item>
 
             <Form.Item
-              className='selectWidth'
+              className='select-width'
               name="baseCurrency"
               rules={[{ required: true, message: 'Select a currency' }]}>
               <Select
-                className='selectHeight'
+                className='select-height'
                 showSearch
                 placeholder="Select Base Currency"
                 filterOption={(input, option) =>
@@ -127,11 +127,11 @@ function CurrencyConverter(props) {
               </div>
 
             <Form.Item
-              className='selectWidth'
+              className='select-width'
               name="targetCurrency"
               rules={[{ required: true, message: 'Select a currency' }]}>
               <Select
-                className='selectHeight'
+                className='select-height'
                 showSearch
 
                 placeholder="Select Base Currency"
@@ -149,9 +149,9 @@ function CurrencyConverter(props) {
 
           </div>
 
-          <div className='secondRowForm'>
-            <Form.Item name="datePicker" >
-              <DatePicker className='datePicker' />
+          <div className='second-row-form'>
+            <Form.Item name="date-picker" >
+              <DatePicker className='date-picker' />
             </Form.Item>
 
             {isMobile ?
@@ -162,7 +162,7 @@ function CurrencyConverter(props) {
 {/* 
 
                 <Form.Item>
-                  <div className='currencyConverterOutput'>
+                  <div className='currency-converter-output'>
                     {input} {baseCurrency} = {output} {targetCurrency}
                   </div>
                 </Form.Item> */}
@@ -172,7 +172,7 @@ function CurrencyConverter(props) {
 
                 <Form.Item>
 
-                  <div className='currencyConverterOutput'>
+                  <div className='currency-converter-output'>
                     {input} {baseCurrency} = {output} {targetCurrency}
                   </div>
                 </Form.Item>

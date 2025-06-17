@@ -20,7 +20,7 @@ export default function HomePage() {
     }
 
     return (
-        <div className='homePageDiv'>
+        <div className='home-page-div'>
             <Row>
                 <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
                     Converter

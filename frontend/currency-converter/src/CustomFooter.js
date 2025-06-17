@@ -8,22 +8,22 @@ import useResponsive from './useResponsive';
 function CustomFooter() {
     const { isMobile } = useResponsive();
     return (
-        <div className='customFooterDiv' >
+        <div className='custom-footer-div' >
 
 
-            <div className='customFooterLinksDiv'  >
-                <Button color="default" variant="link" className='cutomFooterLinks' href='https://www.linkedin.com/in/salih-emre-kocadere-7a61b0203/'         target="_blank" 
+            <div className='custom-footer-links-div'  >
+                <Button color="default" variant="link" className='cutom-footer-links' href='https://www.linkedin.com/in/salih-emre-kocadere-7a61b0203/'         target="_blank" 
         rel="noopener noreferrer">
                     <LinkedinOutlined />LinkedIn
                 </Button>
-                <Button color="default" variant="link" className='cutomFooterLinks' href='https://github.com/emrekocadere'>
+                <Button color="default" variant="link" className='cutom-footer-links' href='https://github.com/emrekocadere'>
                     <GithubOutlined />Github
                 </Button>
-                <Button color="default" variant="link" className='cutomFooterLinks'><MailOutlined />Email</Button>
+                <Button color="default" variant="link" className='cutom-footer-links'><MailOutlined />Email</Button>
      
             </div>
 
-            < Divider className="customFooterDivider" type={isMobile ? "horizontal" : "vertical"} />
+            < Divider className="custom-footer-divider" type={isMobile ? "horizontal" : "vertical"} />
 
             <div style={{ display: "flex", alignItems: "center", color: "white", fontSize: "80%" }}>
                 <p >Developed By Salih Emre Kocadere</p>

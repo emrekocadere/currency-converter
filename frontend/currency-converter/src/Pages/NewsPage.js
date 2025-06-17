@@ -36,17 +36,17 @@ function NewsPage() {
                 },
             }}
         >
-            <div className='cardDiv'>
+            <div className='card-div'>
                 {news.map((item, index) => (
                     <Card
                         key={index}
                         hoverable
-                        className='newsCard'
+                        className='news-card'
                         style={{ padding: "0px" }}
                         cover={
-                            <div className='newsCardImgDiv' style={{ display: "flex" }}>
+                            <div className='news-card-img-div' style={{ display: "flex" }}>
                                 <img
-                                    className='newsCardImg'
+                                    className='news-card-img'
                                     alt={item.title || "News image"}
 
                                     src={item.image}
@@ -58,8 +58,8 @@ function NewsPage() {
                     >
                         <Meta
 
-                            title={<p className='newsCardTitle'> {item.title}</p>}
-                            description={<div className='newsCardDescription'>{item.description.slice(0, isMobile ? 40 : 140)}</div>} />
+                            title={<p className='news-card-title'> {item.title}</p>}
+                            description={<div className='news-cardDescription'>{item.description.slice(0, isMobile ? 40 : 140)}</div>} />
                     </Card>
                 ))}
 

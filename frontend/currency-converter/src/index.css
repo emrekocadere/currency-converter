@@ -28,20 +28,20 @@ code {
   background-color: rgba(253, 243, 234, 1);
 }
 
-.countryFlag {
+.country-flag {
   border-radius: 15%;
 }
 
 
-.cutomFooterLinks {
+.cutom-footer-links {
   font-size: 80%;
 }
 
-.customFooterLinksDiv {
+.custom-footer-links-div {
   display: flex;
 }
 
-.customFooterDiv {
+.custom-footer-div {
   background: rgb(255, 128, 0);
   display: flex;
 }
@@ -52,14 +52,14 @@ code {
 
 }
 
-.convertCurrencyDiv {
+.convert-currency-div {
   background: rgb(246, 246, 246);
   border-radius: 25px;
   box-shadow: 0px 0px 15px 7px rgb(222, 222, 222);
   padding: 3vh 1vw;
 }
 
-.currencyConverterOutput {
+.currency-converter-output {
   background: white;
   border-color: rgb(239, 135, 51);
   border-radius: 10px;
@@ -70,17 +70,17 @@ code {
   align-items: center;
 }
 
-.homePageDiv {
+.home-page-div {
   padding-inline: 8vw;
   padding-top: 2vh;
 }
 
-.headerImg {
+.header-img {
   padding-left: 5vw;
   padding-top: 1vh;
 }
 
-.newsCardImg {
+.news-card-img {
   margin-left: 10px;
   border-radius: 10%;
   object-fit: cover;
@@ -96,7 +96,7 @@ code {
     align-items: center;
   }
 
-  .secondRowForm {
+  .second-row-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -104,41 +104,41 @@ code {
 
   }
 
-  .countryFlag {
+  .country-flag {
     width: 5vw;
   }
 
   .button,
-  .inputNumber,
-  .currencyConverterOutput,
-  .datePicker {
+  .input-number,
+  .currency-converter-output,
+  .date-picker {
     width: 50vw;
     height: 5vh;
   }
 
-  /* .currencyConverterOutput{
+  /* .currency-converter-output{
     width: 30vw;
   } */
 
-  .selectWidth {
+  .select-width {
     width: 50vw;
   }
 
-  .selectHeight {
+  .select-height {
     height: 5vh;
   }
 
-  .headerImg {
+  .header-img {
     height: 7vh;
     width: 14vh;
   }
 
-  .cardDiv {
+  .card-div {
     display: flex;
     flex-direction: column;
   }
 
-  .newsCard {
+  .news-card {
     width: 100%;
     height: 12vh;
     display: flex;
@@ -148,12 +148,12 @@ code {
 
   }
 
-  .newsCardImgDiv {
+  .news-card-img-div {
     height: 12vh;
     align-items: center;
   }
 
-  .newsCardImg {
+  .news-card-img {
     height: 10vh;
     width: 10vh;
   }
@@ -168,34 +168,34 @@ code {
     margin-block: 1vh;
   }
 
-  .newsCardTitle {
+  .news-card-title {
     white-space: normal;
     font-size: 1.3vh;
     margin: 0px
   }
 
-  .newsCardDescription {
+  .news-cardDescription {
     font-size: 1.25vh;
   }
 
-  .customFooterLinksDiv {
+  .custom-footer-links-div {
     flex-direction: row;
 
   }
 
-  .customFooterDiv {
+  .custom-footer-div {
     flex-direction: column;
     align-items: center;
   }
 
-  .customFooterDivider {
+  .custom-footer-divider {
     margin: 0px;
 
   }
 
 }
 
-.customHeader {
+.custom-header {
   display: flex;
   flex-direction: column;
   box-shadow: 5px 5px 5px 5px rgb(222, 222, 222);
@@ -215,44 +215,44 @@ code {
      justify-content: center;
       align-items:flex-start;
   }
-  .countryFlag {
+  .country-flag {
     width: 1.5vw;
   }
 
-  .secondRowForm {
+  .second-row-form {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
 
-  .inputNumber,
+  .input-number,
   .select,
   .button,
-  .datePicker {
+  .date-picker {
     width: 10vw;
     height: 5vh;
   }
 
-  .selectWidth {
+  .select-width {
     width: 10vw;
   }
 
-  .selectHeight {
+  .select-height {
     height: 5vh;
   }
 
-  .currencyConverterOutput {
+  .currency-converter-output {
     width: 15vw;
     height: 5vh;
   }
 
-  .headerImg {
+  .header-img {
     height: 10vh;
     width: 20vh;
 
   }
 
-  .newsCard {
+  .news-card {
     width: 100%;
     height: 18vh;
     display: flex;
@@ -261,7 +261,7 @@ code {
     margin-bottom: 1vh
   }
 
-  .newsCardImg {
+  .news-card-img {
     height: 15vh;
     width: 15vh;
   }
@@ -269,12 +269,12 @@ code {
     width: 30vw;
   }
 
-  .cardDiv {
+  .card-div {
     display: flex;
     flex-direction: column;
   }
 
-  .newsCardImgDiv {
+  .news-card-img-div {
     height: 18vh;
     align-items: center;
 
@@ -289,144 +289,29 @@ code {
 
   }
 
-  .newsCardTitle {
+  .news-card-title {
     white-space: normal;
     font-size: 1.75vh;
     margin: 0px
   }
 
-  .newsCardDescription {
+  .news-cardDescription {
     font-size: 1.5vh;
   }
 
-  .customFooterLinksDiv {
+  .custom-footer-links-div {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .customFooterDiv {
+  .custom-footer-div {
     flex-direction: row;
     justify-content: center;
   }
 
-  .customFooterDivider {
+  .custom-footer-divider {
     height: 10vh;
 
   }
 }
 
-/* Tablet */ 
-@media  (min-width: 769px) and (max-width: 1024px)  {
-  .firstRowOfForm {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-
-  }
-
-  .common-currencies-rates-col{
-    display: flex;
-     justify-content: flex-end;
-      align-items:flex-start;
-  }
-
-  .countryFlag {
-    width: 3vw;
-  }
-
-  .secondRowForm {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .inputNumber,
-  .select,
-  .button,
-  .datePicker {
-    width: 20vw;
-    height: 5vh;
-  }
-
-  .selectWidth {
-    width: 20vw;
-  }
-
-  .selectHeight {
-    height: 5vh;
-  }
-
-  .currencyConverterOutput {
-    width: 30vw;
-    height: 5vh;
-  }
-
-  .chart {
-    width: 100%;
-  }
-  .headerImg {
-    height: 8vh;
-    width: 17vw;
-
-  }
-
-  .cardDiv {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .newsCard {
-    width: 100%;
-    height: 12vh;
-    display: flex;
-    flex-direction: row;
-    background: rgb(246, 246, 246);
-    margin-bottom: 1vh;
-
-  }
-
-  .newsCardImgDiv {
-    height: 12vh;
-    align-items: center;
-  }
-
-  .newsCardImg {
-    height: 10vh;
-    width: 20vw;
-  }
-
-
- .googleChart {
-    width: 100vw;
-  } 
-
-  .divider {
-    margin: 0px;
-    margin-block: 1vh;
-  }
-
-  .newsCardTitle {
-    white-space: normal;
-    font-size: 1.3vh;
-    margin: 0px
-  }
-
-  .newsCardDescription {
-    font-size: 1.25vh;
-  }
-
-  .customFooterLinksDiv {
-    flex-direction: row;
-
-
-  }
-  .customFooterDiv {
-    flex-direction: column;
-    align-items: center;
-  }
-  .customFooterDivider{
-    margin: 0px;
-
-  }
-}

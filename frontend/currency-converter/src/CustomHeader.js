@@ -15,9 +15,9 @@ function CustomHeader() {
                 }
             }}
         >
-            <div className='customHeader' >
+            <div className='custom-header' >
                 <div>
-                    <img className="headerImg" src={imagee} ></img>
+                    <img className="header-img" src={imagee} ></img>
 
                 </div>
 

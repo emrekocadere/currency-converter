@@ -4,11 +4,11 @@ import React from 'react';
 import { Card } from 'antd';
 const { Meta } = Card;
 
-function NewsCard() {
+function news-card() {
     return (
         <div >
             <Card
-                className='newsCard'
+                className='news-card'
                 hoverable
                 cover={<img style={{ width: "12.5vw", height: "20vh", objectFit: "cover" }} alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
             >
@@ -18,4 +18,4 @@ function NewsCard() {
     );
 }
 
-export default NewsCard;
+export default news-card;
