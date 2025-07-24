@@ -114,6 +114,7 @@ code {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-evenly;
   }
 
   .second-row-form {
@@ -127,8 +128,7 @@ code {
   .country-flag {
     width: 5vw;
   }
-
-  .button,
+.button,
   .input-number,
   .currency-converter-output,
   .date-picker {
@@ -136,7 +136,11 @@ code {
     height: 6vh;
   }
 
-
+  .button ,
+   .currency-converter-output{
+    width: 85vw;
+    
+  }
 
   .select-width {
     width: 40vw;
