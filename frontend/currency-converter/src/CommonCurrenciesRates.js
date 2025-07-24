@@ -22,7 +22,7 @@ const currencyImages = {
   GBP: Gbp
 
 };
-
+let int = -1;
 function CommonCurrenciesRates(props) {
 
   const [currencyGraph, setCurrencyGraph] = useState("HomePage");
@@ -44,23 +44,37 @@ function CommonCurrenciesRates(props) {
 
   return (
     <div className='common-currencies-rates'>
-      {  
+
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: "rgba(239, 135, 51,1)" , borderRadius: "15px", paddingInline: "10px" }}>
+
+        <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }} >
+
+          <img className='country-flag' src={currencyImages[props.currentBaseCurrency]}/>
+          
+          <p style={{ marginInline: ".5vw", fontSize: "1.2em" }} >{props.currentBaseCurrency} </p>
+
+        </div>
+
+          <p style={{marginInline:".5vw" , fontSize:"1.2em"}} > 1</p>
+
+      </div>
+      {
         currenyRates.map((item, index) => {
-          let baseCurrency = item.currencies.slice(0, 3);
+          int++
           let targetCurrency = item.currencies.slice(3, 6);
           return (
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: int % 2 === 0 ?"rgba(255, 255, 255, 0.5)"  : "rgba(239, 135, 51,.8)", borderRadius: "15px", paddingInline: "10px" }} key={index}>
 
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }} >
-               
-                  <img className='country-flag' src={currencyImages[baseCurrency]} />
-                  <p style={{marginInline:".5vw" , fontWeight:"500"}}> {baseCurrency} / {targetCurrency} </p>
-                  <img className='country-flag' src={currencyImages[targetCurrency]} />
-    
+
+                <img className='country-flag' src={currencyImages[targetCurrency]} />
+                <p style={{ marginInline: ".5vw", fontSize: "1.2em",fontWeight:"300" }} > {targetCurrency} </p>
+        
+
               </div>
 
               <div>
-                <p>{item.rate}</p>
+                <p style={{ fontSize: "1.2em",fontWeight:"500" }}>{item.rate}</p>
               </div>
 
             </div>

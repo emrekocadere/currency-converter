@@ -6,7 +6,7 @@ import { ArrowRightOutlined } from '@ant-design/icons';
 import useResponsive from "./useResponsive"
 
 import "./index.css"
-
+const { Option } = Select;
 function CurrencyConverter(props) {
 
   const [output, setOutput] = useState(0);
@@ -16,6 +16,14 @@ function CurrencyConverter(props) {
   const [currencyOptions, setCurrencyOptions] = useState([]);
 
   const { isMobile } = useResponsive();
+  const selectAfter = (
+  <Select defaultValue="USD" style={{ width: 60 }}>
+    <Option value="USD">$</Option>
+    <Option value="EUR">€</Option>
+    <Option value="GBP">£</Option>
+    <Option value="CNY">¥</Option>
+  </Select>
+);
 
 
   async function ConvertCurrency(values) {
@@ -90,18 +98,93 @@ function CurrencyConverter(props) {
     >
       <div className="convert-currency-div"  >
 
-        <Form onFinish={onFinish} >
+        <Form 
+          onFinish={onFinish} 
+          labelAlign='left' 
+          layout='vertical'
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+        >
 
 
-          <div className="firstRowOfForm">
+         
+            
       
+     
+      
+            {isMobile ?
+              <>
+        <div className='firstRowOfForm'>
             <Form.Item
+              label="Amount"
+            
               name="inputAmount"
               rules={[{ required: true, message: 'Please enter an amount' }]} >
-              <InputNumber className="input-number" min={0} defaultValue={0} size={'large'} />
+              <InputNumber className="input-number" min={0} defaultValue={0}  />
             </Form.Item>
 
             <Form.Item
+             label="From"
+              className='select-width'
+              name="baseCurrency"
+              rules={[{ required: true, message: 'Select a currency' }]}>
+              <Select
+                className='select-height'
+                showSearch
+                placeholder="Select Base Currency"
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={
+                  currencyOptions.map((currency) => ({
+                    value: currency.code,
+                    label: currency.code
+                  }))
+                }
+              />
+            </Form.Item>
+
+           </div>
+           <div style={{display:"flex", alignItems:"center", justifyContent:"space-evenly",flexDirection:"row"}}>
+
+         <Form.Item name="date-picker" label="date" >
+              <DatePicker className='date-picker' />
+            </Form.Item>
+            <Form.Item
+             label="To"
+              className='select-width'
+              name="targetCurrency"
+              rules={[{ required: true, message: 'Select a currency' }]}>
+              <Select
+                className='select-height'
+                showSearch
+
+                placeholder="Select Base Currency"
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={
+                  currencyOptions.map((currency) => ({
+                    value: currency.code,
+                    label: currency.code
+                  }))
+                }
+              />
+            </Form.Item>
+              </div>
+              </>
+              :
+              <>
+             <div className="firstRowOfForm">
+             <Form.Item
+              label="Amount"
+              name="inputAmount"
+              rules={[{ required: true, message: 'Please enter an amount' }]} >
+              <InputNumber className="input-number" min={0} defaultValue={0}  />
+            </Form.Item>
+
+            <Form.Item
+            label="From"
               className='select-width'
               name="baseCurrency"
               rules={[{ required: true, message: 'Select a currency' }]}>
@@ -127,6 +210,7 @@ function CurrencyConverter(props) {
               </div>
 
             <Form.Item
+              label="To"
               className='select-width'
               name="targetCurrency"
               rules={[{ required: true, message: 'Select a currency' }]}>
@@ -146,13 +230,14 @@ function CurrencyConverter(props) {
                 }
               />
             </Form.Item>
+      </div>
+              </>
+            }
 
-          </div>
+    
 
           <div className='second-row-form'>
-            <Form.Item name="date-picker" >
-              <DatePicker className='date-picker' />
-            </Form.Item>
+      
 
             {isMobile ?
               <>
@@ -190,6 +275,8 @@ function CurrencyConverter(props) {
         </Form>
 
       </div>
+
+
     </ConfigProvider>
   );
 }

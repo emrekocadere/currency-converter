@@ -16,6 +16,10 @@ code {
   justify-content: center;
   align-items: center;
 }
+.input-number {
+  display: flex;
+  align-items: center;
+}
 .common-currencies-rates {
   border-radius: 10px;
   border-width: .11vw;
@@ -108,8 +112,7 @@ code {
 @media (max-width: 768px) {
   .firstRowOfForm {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    flex-direction: row;
     align-items: center;
   }
 
@@ -129,25 +132,23 @@ code {
   .input-number,
   .currency-converter-output,
   .date-picker {
-    width: 50vw;
-    height: 5vh;
+    width: 40vw;
+    height: 6vh;
   }
 
-  /* .currency-converter-output{
-    width: 30vw;
-  } */
+
 
   .select-width {
-    width: 50vw;
+    width: 40vw;
   }
 
   .select-height {
-    height: 5vh;
+    height: 6vh;
   }
 
   .header-img {
-    height: 7vh;
-    width: 14vh;
+  
+    width: 15vh;
   }
 
   .card-div {
