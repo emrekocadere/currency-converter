@@ -6,7 +6,7 @@ public class NotFoundOnDb:CustomResponse
 {
     public NotFoundOnDb()
     {
-        StatusCode = (int)CustomResponseStatuses.NotFoundOnDb;
+
         StatusDesc = "Not found on database.";
     }
 }
