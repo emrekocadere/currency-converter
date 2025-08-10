@@ -16,6 +16,15 @@ code {
   justify-content: center;
   align-items: center;
 }
+
+
+  .custom-footer-links-div {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+  }
+
 .input-number {
   display: flex;
   align-items: center;
@@ -112,7 +121,7 @@ code {
 @media (max-width: 768px) {
   .firstRowOfForm {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
   }
@@ -123,27 +132,28 @@ code {
     justify-content: center;
     align-items: center;
 
-  }
+  } 
 
   .country-flag {
     width: 5vw;
   }
+  
 .button,
   .input-number,
   .currency-converter-output,
   .date-picker {
-    width: 40vw;
+    width: 75vw;
     height: 6vh;
   }
 
   .button ,
    .currency-converter-output{
-    width: 85vw;
+    width: 50vw;
     
   }
 
   .select-width {
-    width: 40vw;
+    width: 75vw;
   }
 
   .select-height {
@@ -154,6 +164,7 @@ code {
   
     width: 15vh;
   }
+
 
   .card-div {
     display: flex;
@@ -170,6 +181,9 @@ code {
   .news-card-img {
     height: 12vh;
     width: 15vh;
+  }
+  .common-currencies-rates {
+  margin-top:5vh;
   }
 
   .home-page-div {
@@ -261,7 +275,6 @@ code {
   .header-img {
     height: 10vh;
     width: 20vh;
-
   }
 
 
@@ -313,10 +326,7 @@ code {
     font-size: 1.5vh;
   }
 
-  .custom-footer-links-div {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  
 
   .custom-footer-div {
     flex-direction: row;
@@ -327,5 +337,112 @@ code {
     height: 10vh;
 
   }
-}
 
+
+
+}
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1279px) {
+  .firstRowOfForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .second-row-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2vh;
+  }
+
+  .input-number,
+  .select,
+  .button,
+  .date-picker {
+    width: 25vw;
+    height: 5.5vh;
+  }
+
+  .select-width {
+    width: 25vw;
+  }
+
+  .select-height {
+    height: 5.5vh;
+  }
+
+  .currency-converter-output {
+    width: 30vw;
+    height: 5.5vh;
+  }
+
+  .country-flag {
+    width: 3vw;
+  }
+
+  .header-img {
+    height: 8vh;
+    width: 16vh;
+    padding-left: 3vw;
+  }
+
+  .news-card {
+    width: 100%;
+    height: 17vh;
+    display: flex;
+    flex-direction: row;
+    background: rgb(246, 246, 246);
+    margin-bottom: 1vh;
+    align-items: center;
+  }
+
+  .news-card-img {
+    height: 13vh;
+    width: 13vh;
+    margin-left: 10px;
+    border-radius: 10%;
+    object-fit: cover;
+  }
+
+  .news-card-img-div {
+    height: 17vh;
+    align-items: center;
+  }
+
+
+
+  .chart {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .news-card-title {
+    font-size: 1.3em;
+    margin: 0px;
+    white-space: normal;
+  }
+
+  .news-cardDescription {
+    font-size: 0.9em;
+  }
+
+
+  .custom-footer-div {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .custom-footer-divider {
+    height: 5vh;
+    margin-inline: 1vh;
+  }
+
+  .home-page-div {
+    padding-inline: 5vw;
+  }
+}
