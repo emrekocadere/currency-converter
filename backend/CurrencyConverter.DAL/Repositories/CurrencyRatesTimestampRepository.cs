@@ -11,6 +11,13 @@ public class CurrencyRatesTimestampRepository : Repository<CurrencyRatesTimestam
 
     public CurrencyRatesTimestampRepository(CurrencyConverterDbContext dbContext) : base(dbContext)
     {
+        
+    }
+
+    public CurrencyRatesTimestamp ConvertCurrencyForSpecificDate(string date, string currencies)
+    {
+             return _context.CurrencyRatesTimestamps
+            .FirstOrDefault(x => x.Currencies == currencies && x.Timestamp == date);
     }
 
     public List<CurrencyRatesTimestamp> GetCurrencyRatesForThreeMonths(string currencies)
