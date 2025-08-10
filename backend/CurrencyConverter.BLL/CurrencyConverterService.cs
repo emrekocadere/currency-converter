@@ -2,21 +2,32 @@ using System.Text.Json;
 using CurrencyConverter.API.CutomResponses;
 using CurrencyConverter.API.DTOs;
 using CurrencyConverter.API.Entities;
+using CurrencyConverter.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CurrencyConverter.API;
+namespace CurrencyConverter.BLL;
 
 public class CurrencyConverterService
 {
 
-     private CurrencyConverterDbContext _dbContext;
+    private readonly ICurrencyRepository _currencyRepository;
+    private readonly ICurrencyRatioRepository _currencyRatioRepository;
+    private readonly INewsRepository _newsRepository;
+    private readonly ICurrencyRatesTimestampRepository _currencyRatesTimestampRepository;
     private List<CurrencyRatio> _currencyRates;
     private readonly HttpClient _httpClient;
-        private int _pageSize;
-    public CurrencyConverterService(CurrencyConverterDbContext dbContext)
+    private int _pageSize;
+    public CurrencyConverterService(ICurrencyRepository currencyRepository,
+     ICurrencyRatioRepository currencyRatioRepository,
+      INewsRepository newsRepository,
+      ICurrencyRatesTimestampRepository currencyRatesTimestampRepository)
     {
-        _dbContext = dbContext;
-        _currencyRates = _dbContext.CurrencyRatios.ToList();
+        _currencyRepository = currencyRepository;
+        _currencyRatioRepository = currencyRatioRepository;
+        _newsRepository = newsRepository;
+        _currencyRatesTimestampRepository = currencyRatesTimestampRepository;
+
+        _currencyRates = _currencyRatioRepository.GetAll();
         _pageSize = 6;
         _httpClient = new HttpClient();
     }
@@ -40,17 +51,17 @@ public class CurrencyConverterService
         return _currencyRates.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
     }
 
-    public List<Currency> GetCurrencies()
+    public List<Currency> GetCurrencies() 
     {
-        return _dbContext.Currencies.ToList();
+        return _currencyRepository.GetAll();
     }
 
-    public CustomResponse SaveTheNewsToDb(List<News> news)
+    public CustomResponse SaveTheNewsToDb(List<News> news) // repo
     {
         try
         {
-            _dbContext.News.AddRange(news);
-            _dbContext.SaveChanges();
+            _newsRepository.Addrange(news);//
+       
         }
         catch (Exception ex)
         {
@@ -62,30 +73,33 @@ public class CurrencyConverterService
 
     public List<News> GetNewsFromDb()
     {
-        return _dbContext.News.ToList();
+        return  _newsRepository.GetAll();
     }
     public void GetCurrencyRatesFromDb()
     {
-        _currencyRates = _dbContext.CurrencyRatios.ToList();
+        _currencyRates = _currencyRatioRepository.GetAll();
     }
 
-    public CustomResponse SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
+    public CustomResponse SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList) // repo
     {
         foreach (var currencyRate in currencyRatioList)
         {
-            if (_dbContext.CurrencyRatios.Any(cr => cr.Currencies == currencyRate.Currencies))
+            var currencyRatio = _currencyRatioRepository.FindByName(currencyRate.Currencies);
+
+            if (currencyRatio != null)
             {
-                var currency = _dbContext.CurrencyRatios.FirstOrDefault(x => x.Currencies == currencyRate.Currencies);
-                currency!.Rate = currencyRate.Rate;
+                currencyRatio.Rate = currencyRate.Rate;
 
             }
             else
             {
+                _currencyRatioRepository.Add(currencyRate);
 
-                _dbContext.CurrencyRatios.Add(currencyRate);
+
             }
+           
         }
-        var affectedRow = _dbContext.SaveChanges();
+        var affectedRow = _currencyRatioRepository.SaveChanges();
         if (affectedRow == currencyRatioList.Count)
         {
             return new SuccessResponse();
@@ -98,20 +112,12 @@ public class CurrencyConverterService
 
     public dynamic GetCurrencyRatesForThreeMonths(string currencies)
     {
-        var date = DateTime.Now.AddMonths(-15).ToString("yyyy-MM-dd");
-        var startDate = DateTime.Parse(date);
-
-        var endDate = DateTime.Parse(DateTime.Now.AddMonths(-14).ToString("yyyy-MM-dd"));
+        
         List<CurrencyRatesTimestamp> currencyRatesTimestamps;
 
         try
         {
-            currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
-            .AsNoTracking()
-            .Where(x => x.Currencies == currencies)
-            .ToList()
-            .Where(x => DateTime.Parse(x.Timestamp) <= endDate && DateTime.Parse(x.Timestamp) >= startDate)
-            .ToList();
+            currencyRatesTimestamps = _currencyRatesTimestampRepository.GetCurrencyRatesForThreeMonths(currencies);
         }
         catch (Exception ex)
         {
@@ -130,7 +136,7 @@ public class CurrencyConverterService
             Data = currencyRatesTimestamps
         };
     }
-    
+
     public async Task<dynamic> GetCurrencyRatesss()
     {
 
@@ -143,9 +149,9 @@ public class CurrencyConverterService
 
             using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date=2025-01-01&end_date=2025-01-22&base={currency.Code}&symbols=EUR,JPY,GBP,AUD,CAD,CHF,USD");
             var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
-            var abc = JsonSerializer.Deserialize<RateTimeSeriesResponse>(jsonResponse);
+            var rateTimeSeries = JsonSerializer.Deserialize<RateTimeSeriesResponse>(jsonResponse);
 
-            foreach (var rate in abc.rates)
+            foreach (var rate in rateTimeSeries.rates)
             {
 
                 foreach (var rateValue in rate.Value)
@@ -153,9 +159,11 @@ public class CurrencyConverterService
                     var CurrenyRatesTimestamp = new CurrencyRatesTimestamp();
                     CurrenyRatesTimestamp.Timestamp = rate.Key;
                     CurrenyRatesTimestamp.Rate = rateValue.Value;
-                    CurrenyRatesTimestamp.Currencies = abc.Base + rateValue.Key;
-                    _dbContext.CurrencyRatesTimestamps.Add(CurrenyRatesTimestamp);
-                    _dbContext.SaveChanges();
+                    CurrenyRatesTimestamp.Currencies = rateTimeSeries.Base + rateValue.Key;
+                    _currencyRatesTimestampRepository.Add(CurrenyRatesTimestamp);
+                    _currencyRatesTimestampRepository.SaveChanges();
+                
+                
                 }
             }
 
@@ -171,47 +179,43 @@ public class CurrencyConverterService
     public dynamic ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
     {
 
-        var currencyRatesTimestamps = _dbContext.CurrencyRatesTimestamps
-            .FirstOrDefault(x => x.Currencies == currencies && x.Timestamp == date);
+        var currencyRatesTimestamps = _currencyRatesTimestampRepository.ConvertCurrencyForSpecificDate(date, currencies);
 
         decimal result = amount * currencyRatesTimestamps.Rate;
 
         return result;
     }
 
-    public List<News> Paginate(int pageNumber)
+    public List<News> Paginate(int pageNumber) // repo
     {
-        // sayfaSayısı=toplamEleman/sayfadaGösterilcekeElemanSayısı
-        // şuankiSayfaSayısı-1 * sayfadaGösterilcekeElemanSayısı skip
-        // take(sayfadaGösterilcekeElemanSayısı)
 
-        var news = _dbContext.News.Skip((pageNumber - 1) * _pageSize).Take(_pageSize).ToList();
+        var news = _newsRepository.GetNewsByPage(pageNumber, _pageSize);
         return news;
 
     }
-    public CustomResponse SaveUserLocation(UserLocationDTO dto)
-    {
-        _dbContext.VisitingUserss.Add(new VisitingUser()
-        {
-            IpAddress = dto.IpAddress,
-            City = dto.City,
-            Country = dto.Country
-        });
+    // public CustomResponse SaveUserLocation(UserLocationDTO dto)
+    // {
+    //     _dbContext.VisitingUserss.Add(new VisitingUser()
+    //     {
+    //         IpAddress = dto.IpAddress,
+    //         City = dto.City,
+    //         Country = dto.Country
+    //     });
 
-        var affectedRows = _dbContext.SaveChanges();
+    //     var affectedRows = _dbContext.SaveChanges();
 
-        if (affectedRows == 1)
-        {
+    //     if (affectedRows == 1)
+    //     {
 
-            return new SuccessResponse();
-        }
-        else
-        {
-            return new NotSavedToDb();
-        }
+    //         return new SuccessResponse();
+    //     }
+    //     else
+    //     {
+    //         return new NotSavedToDb();
+    //     }
 
-    }
-    
-    
+    // }
+
+
 
 }
