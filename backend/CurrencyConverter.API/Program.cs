@@ -1,5 +1,6 @@
 using CurrencyConverter.API;
-using CurrencyConverter.API.Jobs;
+using CurrencyConverter.BLL;
+using CurrencyConverter.DAL;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
@@ -12,12 +13,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddBll(); // ,
+builder.Services.AddCurrencyConverterDAL(builder.Configuration);
 
-
-builder.Services.AddQuartzHostedService(options =>
-{
-    options.WaitForJobsToComplete = true;
-});
+// builder.Services.AddQuartzHostedService(options =>
+// {
+//     options.WaitForJobsToComplete = true;
+// });
 
 
 
@@ -25,9 +27,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost3000", policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // İzin verilen URL
-              .AllowAnyHeader() // Herhangi bir header'a izin ver
-              .AllowAnyMethod(); // Herhangi bir HTTP metoduna izin ver
+        policy.WithOrigins("http://localhost:3000") 
+              .AllowAnyHeader() 
+              .AllowAnyMethod(); 
     });
 });
 
@@ -64,9 +66,9 @@ builder.Services.AddHttpClient<CurrencyConverterService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddScoped<CurrencyConverterService>();
 
-var connString = builder.Configuration.GetConnectionString("ConnectionString");
+// var connString = builder.Configuration.GetConnectionString("ConnectionString");
 
-builder.Services.AddDbContext<CurrencyConverterDbContext>(builder => builder.UseSqlServer(connString));
+// builder.Services.AddDbContext<CurrencyConverterDbContext>(builder => builder.UseSqlServer(connString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
