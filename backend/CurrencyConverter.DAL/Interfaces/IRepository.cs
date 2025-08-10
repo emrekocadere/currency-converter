@@ -8,5 +8,6 @@ public interface IRepository<T>
     void Update(T entity);
     void Delete(T entity);
     T GetById(Guid id);
-    IEnumerable<T> GetAll();
+    List<T> GetAll();
+    int SaveChanges();
 }

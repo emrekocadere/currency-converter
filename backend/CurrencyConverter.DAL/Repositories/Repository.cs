@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyConverter.DAL;
 
-public class Repository<T>: IRepository<T> where T : class
+public class Repository<T> : IRepository<T> where T : class
 {
     protected readonly CurrencyConverterDbContext _context;
     private readonly DbSet<T> _dbSet;
@@ -35,8 +35,13 @@ public class Repository<T>: IRepository<T> where T : class
         return default!;
     }
 
-    public IEnumerable<T> GetAll()
+    public List<T> GetAll()
     {
-        return _dbSet;
+        return _dbSet.ToList();
+    }
+    public int SaveChanges()
+    {
+      var affectedRows = _context.SaveChanges();
+      return affectedRows;
     }
 }
