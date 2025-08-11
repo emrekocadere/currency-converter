@@ -27,6 +27,22 @@ code {
 
 }
 
+ .firstRowOfForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: baseline;
+
+  }
+
+  .second-row-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+  }
+
 .cutom-footer-links {
   font-size: 80%;
 }
@@ -168,12 +184,10 @@ code {
     width: 15vh;
   }
 
-
   .card-div {
     display: flex;
     flex-direction: column;
   }
-
 
 
   .news-card-img-div {
@@ -230,16 +244,9 @@ code {
 
 }
 
-
 /* Pc */
 @media (min-width: 1280px) and (max-width: 1920px) and (min-height: 720px) and (max-height: 1080px) {
-  .firstRowOfForm {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
 
-  }
 
   .common-currencies-rates-col {
     display: flex;
@@ -249,12 +256,6 @@ code {
 
   .country-flag {
     width: 1.5vw;
-  }
-
-  .second-row-form {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
   }
 
   .input-number,
@@ -282,7 +283,6 @@ code {
     height: 10vh;
     width: 20vh;
   }
-
 
 
   .news-card {
@@ -334,7 +334,6 @@ code {
   }
 
 
-
   .custom-footer-div {
     flex-direction: row;
     justify-content: center;
@@ -346,25 +345,11 @@ code {
   } 
 
 
-
 }
 
 /* Tablet */
 @media (min-width: 769px) and (max-width: 1279px) {
-  .firstRowOfForm {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: baseline;
-  }
-
-  .second-row-form {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 2vh;
-  }
+ 
 
   .input-number,
   .select,
@@ -419,7 +404,6 @@ code {
     height: 17vh;
     align-items: center;
   }
-
 
 
   .chart {

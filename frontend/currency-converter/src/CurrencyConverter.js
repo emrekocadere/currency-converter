@@ -98,13 +98,11 @@ function CurrencyConverter(props) {
     >
       <div className="convert-currency-div"  >
 
-        <Form onFinish={onFinish} labelAlign='left' layout='horizontal' >
+        <Form onFinish={onFinish}  >
 
 
           <div className="firstRowOfForm">
             
-      
-     
       
             {isMobile ?
               <>
@@ -256,10 +254,12 @@ function CurrencyConverter(props) {
                   <Button className='button' htmlType='submit' >Convert</Button>
                 </Form.Item>
 
+
               </>
             }
 
           </div>
+      
 
         </Form>
 
