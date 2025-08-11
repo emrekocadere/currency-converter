@@ -22,9 +22,9 @@ export default function HomePage() {
     return (
         <div className='home-page-div'>
             <Row>
-                <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
+                <h2  style={{ paddingBottom: "1vh" }}>
                     Converter
-                </Typography.Title>
+                </h2>
             </Row>
 
             {/* Eğer isDesktopOrLaptop ise düzenleme yapılır */}
@@ -46,7 +46,7 @@ export default function HomePage() {
 
                 <Row gutter={[16, 16]} style={{ flexDirection: isDesktop ? 'row' : 'column' }}>
                     <Col span={isDesktop ? 12 : 24}>
-                        <CommonCurrenciesRates currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency} />
+                        <CommonCurrenciesRates style={{ marginTop: "50vh" }} currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency} />
                     </Col>
 
                     <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>

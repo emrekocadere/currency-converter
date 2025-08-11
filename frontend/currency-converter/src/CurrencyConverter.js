@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'antd';
-import { getCurrencies, convertCurrency, GetConvertCurrencyRatesAsync, convertCurrencyOnDate } from './apiService';
+import { getCurrencies, convertCurrency, GetConvertCurrencyRatesAsync,  convertCurrencyOnDate } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import useResponsive from "./useResponsive"
 
@@ -17,18 +17,18 @@ function CurrencyConverter(props) {
 
   const { isMobile } = useResponsive();
   const selectAfter = (
-    <Select defaultValue="USD" style={{ width: 60 }}>
-      <Option value="USD">$</Option>
-      <Option value="EUR">€</Option>
-      <Option value="GBP">£</Option>
-      <Option value="CNY">¥</Option>
-    </Select>
-  );
+  <Select defaultValue="USD" style={{ width: 60 }}>
+    <Option value="USD">$</Option>
+    <Option value="EUR">€</Option>
+    <Option value="GBP">£</Option>
+    <Option value="CNY">¥</Option>
+  </Select>
+);
 
 
   async function ConvertCurrency(values) {
 
-    let response = await convertCurrency(values.inputAmount, values.baseCurrency + values.targetCurrency);
+    let response = await convertCurrency(values.inputAmount,values.baseCurrency + values.targetCurrency);
     setOutput(response.data.data)
   }
 
@@ -36,16 +36,16 @@ function CurrencyConverter(props) {
 
   async function ConvertCurrencyForSpecificDate(values) {
     const date = values.datePicker.$d
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear(); 
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0'); 
 
     const formatedDate = `${year}-${month}-${day}`;
 
-    let responseBody = {
-      date: formatedDate,
-      currencies: values.baseCurrency + values.targetCurrency,
-      amount: values.inputAmount
+    let responseBody={
+      date:formatedDate,
+      currencies:values.baseCurrency+values.targetCurrency,
+      amount:values.inputAmount
     }
     let response = await convertCurrencyOnDate(responseBody)
     setOutput(response.data)
@@ -98,152 +98,148 @@ function CurrencyConverter(props) {
     >
       <div className="convert-currency-div"  >
 
-        <Form
-          onFinish={onFinish}
-          labelAlign='left'
-          layout='vertical'
-   
-        >
+        <Form onFinish={onFinish} labelAlign='left' layout='horizontal' >
 
 
+          <div className="firstRowOfForm">
+            
+      
+     
+      
+            {isMobile ?
+              <>
 
+            <Form.Item
+              name="inputAmount"
+              rules={[{ required: true, message: 'Please enter an amount' }]} >
+              <InputNumber className="input-number" min={0} defaultValue={0}  />
+            </Form.Item>
 
-          {isMobile ?
-            <>
-              <div className='firstRowOfForm'>
-                <Form.Item
-                  label="Amount"
+            <Form.Item
+              className='select-width'
+              name="baseCurrency"
+              rules={[{ required: true, message: 'Select a currency' }]}>
+              <Select
+                className='select-height'
+                showSearch
+                placeholder="Select Base Currency"
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={
+                  currencyOptions.map((currency) => ({
+                    value: currency.code,
+                    label: currency.code
+                  }))
+                }
+              />
+            </Form.Item>
 
-                  name="inputAmount"
-                  rules={[{ required: true, message: 'Please enter an amount' }]} >
-                  <InputNumber className="input-number" min={0} defaultValue={0} />
-                </Form.Item>
+           
 
-                <Form.Item
-                  label="From"
-                  className='select-width'
-                  name="baseCurrency"
-                  rules={[{ required: true, message: 'Select a currency' }]}>
-                  <Select
-                    className='select-height'
-                    showSearch
-                    placeholder="Select Base Currency"
-                    filterOption={(input, option) =>
-                      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                    }
-                    options={
-                      currencyOptions.map((currency) => ({
-                        value: currency.code,
-                        label: currency.code
-                      }))
-                    }
-                  />
-                </Form.Item>
+            <Form.Item
+    
+              className='select-width'
+              name="targetCurrency"
+              rules={[{ required: true, message: 'Select a currency' }]}>
+              <Select
+                className='select-height'
+                showSearch
 
+                placeholder="Select Base Currency"
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={
+                  currencyOptions.map((currency) => ({
+                    value: currency.code,
+                    label: currency.code
+                  }))
+                }
+              />
+            </Form.Item>
+              </>
+              :
+              <>
+
+             <Form.Item
+              name="inputAmount"
+              rules={[{ required: true, message: 'Please enter an amount' }]} >
+              <InputNumber className="input-number" min={0} defaultValue={0}  />
+            </Form.Item>
+
+            <Form.Item
+              className='select-width'
+              name="baseCurrency"
+              rules={[{ required: true, message: 'Select a currency' }]}>
+              <Select
+                className='select-height'
+                showSearch
+                placeholder="Select Base Currency"
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={
+                  currencyOptions.map((currency) => ({
+                    value: currency.code,
+                    label: currency.code
+                  }))
+                }
+              />
+            </Form.Item>
+
+            
+              <div style={{ color: "rgb(239,135,51)" }}>
+                <ArrowRightOutlined  />
               </div>
-              <div className='firstRowOfForm'>
 
-                <Form.Item name="date-picker" label="date" >
-                  <DatePicker className='date-picker' />
-                </Form.Item>
+            <Form.Item
+              className='select-width'
+              name="targetCurrency"
+              rules={[{ required: true, message: 'Select a currency' }]}>
+              <Select
+                className='select-height'
+                showSearch
 
-                <Form.Item
-                  label="To"
-                  className='select-width'
-                  name="targetCurrency"
-                  rules={[{ required: true, message: 'Select a currency' }]}>
-                  <Select
-                    className='select-height'
-                    showSearch
+                placeholder="Select Base Currency"
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={
+                  currencyOptions.map((currency) => ({
+                    value: currency.code,
+                    label: currency.code
+                  }))
+                }
+              />
+            </Form.Item>
 
-                    placeholder="Select Base Currency"
-                    filterOption={(input, option) =>
-                      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                    }
-                    options={
-                      currencyOptions.map((currency) => ({
-                        value: currency.code,
-                        label: currency.code
-                      }))
-                    }
-                  />
-                </Form.Item>
-              </div>
-            </>
-            :
-            <>
-              <div className="firstRowOfForm">
-                <Form.Item
-                  label="Amount"
-                  name="inputAmount"
-                  rules={[{ required: true, message: 'Please enter an amount' }]} >
-                  <InputNumber className="input-number" min={0} defaultValue={0} />
-                </Form.Item>
+              </>
+            }
 
-                <Form.Item
-                  label="From"
-                  className='select-width'
-                  name="baseCurrency"
-                  rules={[{ required: true, message: 'Select a currency' }]}>
-                  <Select
-                    className='select-height'
-                    showSearch
-                    placeholder="Select Base Currency"
-                    filterOption={(input, option) =>
-                      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                    }
-                    options={
-                      currencyOptions.map((currency) => ({
-                        value: currency.code,
-                        label: currency.code
-                      }))
-                    }
-                  />
-                </Form.Item>
-
-
-                <Form.Item
-                  label="To"
-                  className='select-width'
-                  name="targetCurrency"
-                  rules={[{ required: true, message: 'Select a currency' }]}>
-                  <Select
-                    className='select-height'
-                    showSearch
-
-                    placeholder="Select Base Currency"
-                    filterOption={(input, option) =>
-                      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                    }
-                    options={
-                      currencyOptions.map((currency) => ({
-                        value: currency.code,
-                        label: currency.code
-                      }))
-                    }
-                  />
-                </Form.Item>
-              </div>
-            </>
-          }
-
-
+          </div>
 
           <div className='second-row-form'>
-
+            <Form.Item name="date-picker">
+              <DatePicker className='date-picker' />
+            </Form.Item>
 
             {isMobile ?
               <>
+
+                       <Form.Item>
+                  <div className='currency-converter-output'>
+                    {input} {baseCurrency} = {output} {targetCurrency}
+                  </div>
+                </Form.Item> 
+
+                
                 <Form.Item >
                   <Button className='button' htmlType='submit' >Convert</Button>
                 </Form.Item>
 
 
-                <Form.Item>
-                  <div className='currency-converter-output'>
-                    {input} {baseCurrency} = {output} {targetCurrency}
-                  </div>
-                </Form.Item>
+       
               </>
               :
               <>
