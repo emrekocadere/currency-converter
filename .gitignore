@@ -485,3 +485,5 @@ $RECYCLE.BIN/
 *.swp
 
 backend/CurrencyConverter.API/appsettings.json
+backend/CurrencyConverter.API/apssettings.Development.json
+backend/CurrencyConverter.API/appsettings.Development.json
