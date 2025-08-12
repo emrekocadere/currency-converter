@@ -1,31 +1,29 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
-import { Flex, Layout } from 'antd';
+import React, { useEffect } from 'react';
 import { getUserIp, saveUserLocation } from './apiService';
 import CustomFooter from './CustomFooter';
 import CustomHeader from './CustomHeader';
 import HomePage from './HomePage';
 function App() {
 
-  async function GetUserIp() {
-    let response = await getUserIp()
+  async function getUserIp() {
+    let response = await getUserIp();
     let userLocationInfo = {
       IpAddress: response.data.ip,
       Country: response.data.country_name,
       City: response.data.city,
-    }
-    SaveUserLocation(userLocationInfo)
+    };
+    saveUserLocationAsync(userLocationInfo);
   }
 
-  async function SaveUserLocation(value) {
-    let response = await saveUserLocation(value)
+  async function saveUserLocationAsync(value) {
+    let response = await saveUserLocation(value);
   }
 
-  //hooklar fonksiyon içinde kullanılır
-  useState(() => {
-   // GetUserIp();
- //   SaveUserLocationAsync();
-
+  // useEffect hook'u doğru kullanımı
+  useEffect(() => {
+    // GetUserIp();
+    // SaveUserLocationAsync();
   }, []);
 
   return (

@@ -42,40 +42,44 @@ export default function HomePage() {
             </Row>
 
       
-            {isMobile ?
-
-                <Row gutter={[16, 16]} style={{ flexDirection: isDesktop ? 'row' : 'column' }}>
-                    <Col span={isDesktop ? 12 : 24}>
-                        <CommonCurrenciesRates style={{ marginTop: "50vh" }} currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency} />
+            {isMobile ? (
+                <Row gutter={[16, 16]} style={{ flexDirection: 'column' }}>
+                    <Col span={24}>
+                        <CommonCurrenciesRates 
+                            style={{ marginTop: "50vh" }} 
+                            currentBaseCurrency={currentBaseCurrency} 
+                            currentTargetCurrency={currentTargetCurrency} 
+                        />
                     </Col>
 
                     <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
                         News
                     </Typography.Title>
-                    <Col span={isDesktop ? 12 : 24}>
+                    <Col span={24}>
                         <NewsPage />
                     </Col>
-
                 </Row>
-
-                :
-
-                <> <Row>
-                    <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
-                        News
-                    </Typography.Title>
-                </Row>
+            ) : (
+                <>
+                    <Row>
+                        <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
+                            News
+                        </Typography.Title>
+                    </Row>
 
                     <Row gutter={[16, 16]} style={{ flexDirection: 'row' }}>
                         <Col span={12}>
                             <NewsPage />
                         </Col>
-                        <Col span={12} className="common-currencies-rates-col" >
-                            <CommonCurrenciesRates currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency} />
+                        <Col span={12} className="common-currencies-rates-col">
+                            <CommonCurrenciesRates 
+                                currentBaseCurrency={currentBaseCurrency} 
+                                currentTargetCurrency={currentTargetCurrency} 
+                            />
                         </Col>
-                    </Row></>
-
-            }
+                    </Row>
+                </>
+            )}
 
 
         </div>

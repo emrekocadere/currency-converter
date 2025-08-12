@@ -1,37 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Chart } from "react-google-charts";
-
 import { LineChart } from '@mui/x-charts/LineChart';
 
 import "./index.css"
 import { getRatesLastThreeMonths } from './apiService';
-import useResponsive from "./useResponsive"
-
-const datas = [
-  []
-];
-
-const options = {
-  // hAxis: { title: "Date" },
-  // vAxis: { title: "Worth" },
-  legend: "none",
-  colors: ["rgb(239,135,51)"]
-};
 
 function GoogleLineChart(props) {
-  const { isMobile } = useResponsive();
   const [data, setData] = useState([]);
   const [times, setTimes] = useState([]);
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(0);
   const [yPadding, setYPadding] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
 
   function ConvertData(currencyRatesForThreeMonths) {
-    // let newData = currencyRatesForThreeMonths.map(rate => rate.rate);
-    // let timestamps = currencyRatesForThreeMonths.map(rate => rate.timestamp);
+    if (!currencyRatesForThreeMonths || currencyRatesForThreeMonths.length === 0) {
+      setData([]);
+      setTimes([]);
+      setMinValue(0);
+      setMaxValue(0);
+      setYPadding(0);
+      return;
+    }
 
-    console.log("currencyRatesForThreeMonths", currencyRatesForThreeMonths)
+    console.log("currencyRatesForThreeMonths", currencyRatesForThreeMonths);
+    
     let newData = currencyRatesForThreeMonths.map(rate => Number(rate.rate) || 0);
     let timestamps = currencyRatesForThreeMonths.map(rate => new Date(rate.timestamp).getTime());
  
@@ -40,21 +34,37 @@ function GoogleLineChart(props) {
 
     let min = Math.min(...newData);
     let max = Math.max(...newData);
-    let padding = (max - min) * 0.1; // %10 ekleme
+    let padding = (max - min) * 0.1;
 
     setMinValue(min);
     setMaxValue(max);
     setYPadding(padding);
-
-
   }
 
 
   async function GetCurrencyRatesLastThreeMonths() {
-    const request = props.currentBaseCurrency + props.currentTargetCurrency
-    let response = await getRatesLastThreeMonths(request)
+    if (!props.currentBaseCurrency || !props.currentTargetCurrency) {
+      return;
+    }
 
-    ConvertData(response.data.data)
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const request = props.currentBaseCurrency + props.currentTargetCurrency;
+      let response = await getRatesLastThreeMonths(request);
+      
+      if (response && response.data && response.data.data) {
+        ConvertData(response.data.data);
+      } else {
+        setError('Veri alınamadı');
+      }
+    } catch (err) {
+      console.error('Error fetching currency rates:', err);
+      setError('Veri yüklenirken hata oluştu');
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -62,26 +72,28 @@ function GoogleLineChart(props) {
   }, [props.currentTargetCurrency, props.currentBaseCurrency]);
 
   return (
-    <div className='chart' style={{  }}>
-
-
-      <LineChart
-        // xAxis={[{ data: times,label:"date" }]}
-        xAxis={[{ data: times.map(time => new Date(time)), scaleType: "time", label: "Date" }]}
-        yAxis={[{ min: minValue - yPadding, max: maxValue + yPadding }]}
-        series={[
-          {
-            data: data,
-            label: props.currentTargetCurrency,
-            showMark: false,
-          },
-        ]}
-   
-        height={300}
-        colors={['rgb(239,135,51)']}
-      />
+    <div className='chart'>
+      {loading && <div>Yükleniyor...</div>}
+      {error && <div style={{ color: 'red' }}>Hata: {error}</div>}
+      {!loading && !error && data.length > 0 && (
+        <LineChart
+          xAxis={[{ data: times.map(time => new Date(time)), scaleType: "time", label: "Date" }]}
+          yAxis={[{ min: minValue - yPadding, max: maxValue + yPadding }]}
+          series={[
+            {
+              data: data,
+              label: props.currentTargetCurrency,
+              showMark: false,
+            },
+          ]}
+          height={300}
+          colors={['rgb(239,135,51)']}
+        />
+      )}
+      {!loading && !error && data.length === 0 && (
+        <div>Gösterilecek veri bulunamadı</div>
+      )}
     </div>
-
   );
 }
 
