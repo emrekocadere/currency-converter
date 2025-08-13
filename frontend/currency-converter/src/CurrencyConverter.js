@@ -4,6 +4,7 @@ import { InputNumber, Select, DatePicker, Button, Form, ConfigProvider } from 'a
 import { getCurrencies, convertCurrency, convertCurrencyOnDate } from './apiService';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import useResponsive from "./useResponsive";
+import { currencyImages } from './CommonCurrenciesRates';
 
 import "./index.css";
 function CurrencyConverter(props) {
@@ -49,6 +50,7 @@ function CurrencyConverter(props) {
       const day = String(date.getDate()).padStart(2, '0'); 
 
       const formattedDate = `${year}-${month}-${day}`;
+    
 
       let responseBody = {
         date: formattedDate,
@@ -128,13 +130,40 @@ function CurrencyConverter(props) {
           showSearch
           placeholder="Select Base Currency"
           filterOption={(input, option) =>
-            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
           }
-          options={currencyOptions.map((currency) => ({
-            value: currency.code,
-            label: currency.code
-          }))}
-        />
+          optionLabelProp="label"
+        >
+          {currencyOptions.map((currency) => (
+            <Select.Option 
+              key={currency.code} 
+              value={currency.code}
+              label={
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  {currencyImages[currency.code] && (
+                    <img 
+                      src={currencyImages[currency.code]} 
+                      alt={currency.code}
+                      style={{ width: '16px', height: '12px', borderRadius: '2px' }}
+                    />
+                  )}  
+                  {currency.code}
+                </div>
+              }
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {currencyImages[currency.code] && (
+                  <img 
+                    src={currencyImages[currency.code]} 
+                    alt={currency.code}
+                    style={{ width: '18px', height: '13px', borderRadius: '2px' }}
+                  />
+                )}
+                {currency.code}
+              </div>
+            </Select.Option>
+          ))}
+        </Select>
       </Form.Item>
 
       {!isMobile && (
@@ -153,13 +182,40 @@ function CurrencyConverter(props) {
           showSearch
           placeholder="Select Target Currency"
           filterOption={(input, option) =>
-            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
           }
-          options={currencyOptions.map((currency) => ({
-            value: currency.code,
-            label: currency.code
-          }))}
-        />
+          optionLabelProp="label"
+        >
+          {currencyOptions.map((currency) => (
+            <Select.Option 
+              key={currency.code} 
+              value={currency.code}
+              label={
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  {currencyImages[currency.code] && (
+                    <img 
+                      src={currencyImages[currency.code]} 
+                      alt={currency.code}
+                      style={{ width: '16px', height: '12px', borderRadius: '2px' }}
+                    />
+                  )}
+                  {currency.code}
+                </div>
+              }
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {currencyImages[currency.code] && (
+                  <img 
+                    src={currencyImages[currency.code]} 
+                    alt={currency.code}
+                    style={{ width: '18px', height: '13px', borderRadius: '2px' }}
+                  />
+                )}
+                {currency.code}
+              </div>
+            </Select.Option>
+          ))}
+        </Select>
       </Form.Item>
     </>
   );
@@ -168,7 +224,29 @@ function CurrencyConverter(props) {
     <>
       <Form.Item>
         <div className='currency-converter-output'>
-          {input} {baseCurrency} = {output} {targetCurrency}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              {currencyImages[baseCurrency] && (
+                <img 
+                  src={currencyImages[baseCurrency]} 
+                  alt={baseCurrency}
+                  style={{ width: '20px', height: '15px', borderRadius: '3px' }}
+                />
+              )}
+              {input} {baseCurrency}
+            </div>
+            <span>=</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              {currencyImages[targetCurrency] && (
+                <img 
+                  src={currencyImages[targetCurrency]} 
+                  alt={targetCurrency}
+                  style={{ width: '20px', height: '15px', borderRadius: '3px' }}
+                />
+              )}
+              {output} {targetCurrency}
+            </div>
+          </div>
         </div>
       </Form.Item>
 
