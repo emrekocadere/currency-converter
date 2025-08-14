@@ -164,12 +164,12 @@ export default function HomePage() {
 
             {/* Eğer isDesktopOrLaptop ise düzenleme yapılır */}
             <Row style={{ flexDirection: isMobile ? 'column' : 'row' }}>
-                <Col span={isDesktop ? 12 : 24}>
+                <Col span={isMobile ? 24 : 12}>
                     <CurrencyConverter onCurrencyChange={setCurrentCurrenciesCallback} />
                 </Col>
                 <Col
-                    span={isDesktop ? 12 : 24}
-                    style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: isDesktop ? "-7vh" : "0" }}
+                    span={isMobile ? 24 : 12}
+                    style={{ display: "flex", justifyContent: "center", alignItems: "center"}}
                 >
                     <GoogleChart currencyRates={currencyGraph} currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency}></GoogleChart>
                 </Col>
@@ -187,7 +187,7 @@ export default function HomePage() {
                         />
                     </Col>
 
-                    <Typography.Title level={2} style={{ paddingBottom: "1vh"}}>
+                    <Typography.Title level={2} style={{ paddingBottom: "1vh",display:"flex", justifyContent:"center", alignItems:"center"}}>
                         News
                     </Typography.Title>
                     <Col span={24}>
