@@ -1,9 +1,11 @@
 using System.Text.Json;
+using CurrencyConverter.API;
 using CurrencyConverter.API.CutomResponses;
 using CurrencyConverter.API.DTOs;
 using CurrencyConverter.API.Entities;
 using CurrencyConverter.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace CurrencyConverter.BLL;
 
@@ -16,7 +18,9 @@ public class CurrencyConverterService
     private readonly ICurrencyRatesTimestampRepository _currencyRatesTimestampRepository;
     private List<CurrencyRatio> _currencyRates;
     private readonly HttpClient _httpClient;
+    private readonly IConfiguration _configuration;
     private int _pageSize;
+    
     public CurrencyConverterService(ICurrencyRepository currencyRepository,
      ICurrencyRatioRepository currencyRatioRepository,
       INewsRepository newsRepository,
@@ -51,7 +55,7 @@ public class CurrencyConverterService
         return _currencyRates.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
     }
 
-    public List<Currency> GetCurrencies() 
+    public List<Currency> GetCurrencies()
     {
         return _currencyRepository.GetAll();
     }
@@ -61,7 +65,9 @@ public class CurrencyConverterService
         try
         {
             _newsRepository.Addrange(news);//
-       
+            _newsRepository.SaveChanges();
+
+
         }
         catch (Exception ex)
         {
@@ -73,7 +79,7 @@ public class CurrencyConverterService
 
     public List<News> GetNewsFromDb()
     {
-        return  _newsRepository.GetAll();
+        return _newsRepository.GetAll();
     }
     public void GetCurrencyRatesFromDb()
     {
@@ -95,9 +101,8 @@ public class CurrencyConverterService
             {
                 _currencyRatioRepository.Add(currencyRate);
 
-
             }
-           
+
         }
         var affectedRow = _currencyRatioRepository.SaveChanges();
         if (affectedRow == currencyRatioList.Count)
@@ -112,7 +117,7 @@ public class CurrencyConverterService
 
     public dynamic GetCurrencyRatesForThreeMonths(string currencies)
     {
-        
+
         List<CurrencyRatesTimestamp> currencyRatesTimestamps;
 
         try
@@ -140,6 +145,7 @@ public class CurrencyConverterService
     public async Task<dynamic> GetCurrencyRatesss()
     {
 
+        _httpClient.Timeout = TimeSpan.FromMinutes(20);
 
         _httpClient.DefaultRequestHeaders.Add("apikey", "IzQFmwF5B7PrJNgg4ibxwCZqIO5DfQuA");
         var currencyList = GetCurrencies();
@@ -147,7 +153,7 @@ public class CurrencyConverterService
         foreach (var currency in currencyList)
         {
 
-            using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date=2025-01-01&end_date=2025-01-22&base={currency.Code}&symbols=EUR,JPY,GBP,AUD,CAD,CHF,USD");
+            using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date=2025-01-01&end_date=2025-03-31&base={currency.Code}&symbols=EUR,JPY,GBP,AUD,CAD,CHF,USD");
             var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
             var rateTimeSeries = JsonSerializer.Deserialize<RateTimeSeriesResponse>(jsonResponse);
 
@@ -162,13 +168,11 @@ public class CurrencyConverterService
                     CurrenyRatesTimestamp.Currencies = rateTimeSeries.Base + rateValue.Key;
                     _currencyRatesTimestampRepository.Add(CurrenyRatesTimestamp);
                     _currencyRatesTimestampRepository.SaveChanges();
-                
-                
+
                 }
             }
 
         }
-
 
         List<CurrencyRatesTimestamp> currencyRatesTimestamps = new List<CurrencyRatesTimestamp>();
 
@@ -178,7 +182,6 @@ public class CurrencyConverterService
 
     public dynamic ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
     {
-
         var currencyRatesTimestamps = _currencyRatesTimestampRepository.ConvertCurrencyForSpecificDate(date, currencies);
 
         decimal result = amount * currencyRatesTimestamps.Rate;
@@ -216,6 +219,53 @@ public class CurrencyConverterService
 
     // }
 
+    // public async Task Save()
+    // {
+    //     var currencyList = GetCurrencies();
+    //     _httpClient.DefaultRequestHeaders.Add("apikey", "IzQFmwF5B7PrJNgg4ibxwCZqIO5DfQuA");
+    //     foreach (var currency in currencyList)
+    //     {
+
+    //         using HttpResponseMessage response = await _httpClient.GetAsync(
+    //         $"https://api.apilayer.com/currency_data/live?source={currency.Code}&currencies=EUR%2CJPY%2CGBP%2CAUD%2CCAD%2CCHF%2CUSD");
+    //         var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
+    //         var apiLayerCurrencyData = JsonSerializer.Deserialize<GetCurrencyRatesResponse>(jsonResponse);
+    //         List<CurrencyRatio> currencyRatioList = new List<CurrencyRatio>();
+    //         foreach (var item in apiLayerCurrencyData.quotes!)
+    //         {
+    //             currencyRatioList.Add(new CurrencyRatio
+    //             {
+    //                 Currencies = item.Key,
+    //                 Rate = item.Value
+    //             });
+    //         }
+    //         SaveTheCurencyRatesToDb(currencyRatioList);
+    //     }
+    // }
+
+    public async Task Save()
+    {
+        using HttpResponseMessage response = await _httpClient.GetAsync($"http://api.mediastack.com/v1/news?access_key=ca29cb201d8041ae28ee4f43cfa7a958&limit=100&languages=en&categories=business");
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var mediastackResponse = JsonSerializer.Deserialize<MediastackResponse>(jsonResponse);
+        var newsList = new List<News>();
+        foreach (var data in mediastackResponse.data!)
+        {
+            if (data.image != null)
+            {
+                newsList.Add(data);
+            }
+        }
+
+
+        SaveTheNewsToDb(newsList);
+
+    }
+
+
+
 
 
 }
+
+

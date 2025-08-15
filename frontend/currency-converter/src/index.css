@@ -63,6 +63,7 @@ code {
 .input-number {
   display: flex;
   align-items: center;
+  font-size: 1.3em;
 }
 
 .common-currencies-rates {
@@ -268,7 +269,7 @@ code {
   .button,
   .date-picker {
     width: 10vw;
-    height: 5vh;
+    height: 6vh;
   }
 
   .select-width {
@@ -276,12 +277,12 @@ code {
   }
 
   .select-height {
-    height: 5vh;
+    height: 6vh;
   }
 
   .currency-converter-output {
     width: 15vw;
-    height: 5vh;
+    height: 6vh;
   }
 
   .header-img {

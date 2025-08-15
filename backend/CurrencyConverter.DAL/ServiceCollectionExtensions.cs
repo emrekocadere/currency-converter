@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
     {
 
         services.AddDbContext<CurrencyConverterDbContext>(options =>
-        options.UseSqlServer(configuration.GetConnectionString("ConnectionString")));
+        options.UseNpgsql(configuration.GetConnectionString("ConnectionString")));
 
         
         services.AddScoped<INewsRepository, NewsRepository>();

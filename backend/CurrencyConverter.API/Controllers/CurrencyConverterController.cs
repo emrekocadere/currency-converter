@@ -1,4 +1,5 @@
 using CurrencyConverter.API.DTOs;
+using CurrencyConverter.BLL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -16,7 +17,7 @@ namespace CurrencyConverter.API.Controllers
         }
         [HttpGet("exchange")]
         public ActionResult ConvertCurrency(int amount, string currencies)
-       
+
         {
             return Ok(_service.ConvertCurrency(amount, currencies));
         }
@@ -27,16 +28,16 @@ namespace CurrencyConverter.API.Controllers
             return Ok(_service.GetCurrencies());
         }
 
-        [HttpGet("news")]
-        public ActionResult GetNewsFromDb()
-        {
-            return Ok(_service.GetNewsFromDb());
-        }
+        // [HttpGet("news")]
+        // public ActionResult GetNewsFromDb()
+        // {
+        //     return Ok(_service.GetNewsFromDb());
+        // }
 
         [HttpGet("currency-rates")]
-        public ActionResult GetCurrencyRates(string currentCurrency)
+        public ActionResult GetCurrencyRates(string currency)
         {
-            var response = _service.GetCurrencyRates(currentCurrency);
+            var response = _service.GetCurrencyRates(currency);
             return Ok(response);
         }
 
@@ -48,25 +49,32 @@ namespace CurrencyConverter.API.Controllers
         }
 
         [HttpGet("exchange/by-date")]
-        public ActionResult ConvertCurrencyForSpecificDate(string date, string currencies, int amount) 
+        public ActionResult ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
         {
             var response = _service.ConvertCurrencyForSpecificDate(date, currencies, amount);
             return Ok(response);
         }
 
 
-        // [HttpGet("news")]
-        // public ActionResult Paginate(int pageNumber, int pageSize)
+        [HttpGet("news")]
+        public ActionResult Paginate(int pageNumber)
+        {
+            return Ok(_service.Paginate(pageNumber));
+        }
+
+
+        // [HttpPost("user-locations")]
+        // public ActionResult SaveUserLocation(UserLocationDTO dto)
         // {
-        //     return Ok(_service.Paginate(pageNumber));
+        //     var response = _service.SaveUserLocation(dto);
+        //     return Ok(response);
         // }
 
-
-        [HttpPost("user-locations")]
-        public ActionResult SaveUserLocation(UserLocationDTO dto)
+        [HttpPost("save")]
+        public async Task save()
         {
-            var response = _service.SaveUserLocation(dto);
-            return Ok(response);
+
+          await _service.GetCurrencyRatesss();
         }
 
     }

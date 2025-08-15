@@ -1,4 +1,5 @@
 using System;
+using CurrencyConverter.BLL;
 using Quartz;
 
 namespace CurrencyConverter.API.Jobs;

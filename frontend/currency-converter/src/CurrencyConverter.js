@@ -133,30 +133,31 @@ function CurrencyConverter(props) {
             (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
           }
           optionLabelProp="label"
+          dropdownStyle={{ fontSize: '1.1em', minHeight: 36 }}
         >
           {currencyOptions.map((currency) => (
             <Select.Option 
               key={currency.code} 
               value={currency.code}
               label={
-                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '1.1em', minHeight: 36 }}>
                   {currencyImages[currency.code] && (
                     <img 
                       src={currencyImages[currency.code]} 
                       alt={currency.code}
-                      style={{ width: '16px', height: '12px', borderRadius: '2px' }}
+                      style={{ width: '20px', height: '15px', borderRadius: '2px' }}
                     />
                   )}  
                   {currency.code}
                 </div>
               }
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.1em', minHeight: 36 }}>
                 {currencyImages[currency.code] && (
                   <img 
                     src={currencyImages[currency.code]} 
                     alt={currency.code}
-                    style={{ width: '18px', height: '13px', borderRadius: '2px' }}
+                    style={{ width: '22px', height: '16px', borderRadius: '2px' }}
                   />
                 )}
                 {currency.code}
@@ -185,30 +186,31 @@ function CurrencyConverter(props) {
             (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
           }
           optionLabelProp="label"
+          dropdownStyle={{ fontSize: '1.1em', minHeight: 36 }}
         >
           {currencyOptions.map((currency) => (
             <Select.Option 
               key={currency.code} 
               value={currency.code}
               label={
-                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '1.1em', minHeight: 36 }}>
                   {currencyImages[currency.code] && (
                     <img 
                       src={currencyImages[currency.code]} 
                       alt={currency.code}
-                      style={{ width: '16px', height: '12px', borderRadius: '2px' }}
+                      style={{ width: '20px', height: '15px', borderRadius: '2px' }}
                     />
                   )}
                   {currency.code}
                 </div>
               }
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.1em', minHeight: 36 }}>
                 {currencyImages[currency.code] && (
                   <img 
                     src={currencyImages[currency.code]} 
                     alt={currency.code}
-                    style={{ width: '18px', height: '13px', borderRadius: '2px' }}
+                    style={{ width: '22px', height: '16px', borderRadius: '2px' }}
                   />
                 )}
                 {currency.code}

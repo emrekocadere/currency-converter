@@ -1,6 +1,8 @@
 using System;
 using System.Text.Json;
 using CurrencyConverter.API.Entities;
+using CurrencyConverter.BLL;
+using Microsoft.Extensions.Configuration;
 using Quartz;
 
 namespace CurrencyConverter.API;
@@ -22,7 +24,7 @@ public class MediaStackNewsFetcherJob : IJob
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var mediastackResponse = JsonSerializer.Deserialize<MediastackResponse>(jsonResponse);
         var newsList=new List<News>();
-        foreach(var data in mediastackResponse.data)
+        foreach(var data in mediastackResponse.data!)
         {
             if(data.image!=null)
             {

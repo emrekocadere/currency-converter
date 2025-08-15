@@ -1,6 +1,8 @@
 using System;
 using System.Text.Json;
 using CurrencyConverter.API.Entities;
+using CurrencyConverter.BLL;
+using Microsoft.Extensions.Configuration;
 using Quartz;
 
 namespace CurrencyConverter.API.Jobs;
@@ -30,7 +32,7 @@ public class CurrencyRatesFetcherJob: IJob
             var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
             var apiLayerCurrencyData = JsonSerializer.Deserialize<GetCurrencyRatesResponse>(jsonResponse);
             List<CurrencyRatio> currencyRatioList = new List<CurrencyRatio>();
-            foreach (var item in apiLayerCurrencyData.quotes)
+            foreach (var item in apiLayerCurrencyData.quotes!)
             {
                 currencyRatioList.Add(new CurrencyRatio
                 {
