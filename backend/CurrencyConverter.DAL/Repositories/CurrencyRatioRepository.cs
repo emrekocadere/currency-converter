@@ -16,7 +16,7 @@ public class CurrencyRatioRepository : Repository<CurrencyRatio>, ICurrencyRatio
         var currencyRatio = _context.CurrencyRatios.FirstOrDefault(x => x.Currencies == name);
         if(currencyRatio == null)
         {
-            throw new Exception($"Currency ratio with name {name} not found."); 
+            return null!;
         }
         return currencyRatio;
     }

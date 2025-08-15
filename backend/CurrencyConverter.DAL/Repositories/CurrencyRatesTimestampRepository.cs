@@ -22,10 +22,10 @@ public class CurrencyRatesTimestampRepository : Repository<CurrencyRatesTimestam
 
     public List<CurrencyRatesTimestamp> GetCurrencyRatesForThreeMonths(string currencies)
     {
-        var date = DateTime.Now.AddMonths(-15).ToString("yyyy-MM-dd");
+        var date = DateTime.Now.AddMonths(-8).ToString("yyyy-MM-dd");
         var startDate = DateTime.Parse(date);
 
-        var endDate = DateTime.Parse(DateTime.Now.AddMonths(-14).ToString("yyyy-MM-dd"));
+        var endDate = DateTime.Parse(DateTime.Now.AddMonths(-7).ToString("yyyy-MM-dd"));
 
        return _context.CurrencyRatesTimestamps
         .AsNoTracking()

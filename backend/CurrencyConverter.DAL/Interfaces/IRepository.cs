@@ -10,4 +10,5 @@ public interface IRepository<T>
     T GetById(Guid id);
     List<T> GetAll();
     int SaveChanges();
+
 }
