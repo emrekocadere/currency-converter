@@ -62,7 +62,7 @@ builder.Services.AddQuartz(configure =>
 
 });
 
-builder.Services.AddHttpClient<CurrencyConverterService>();
+builder.Services.AddHttpClient<CurrencyConverterService>();//sdf
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddScoped<CurrencyConverterService>();
 
