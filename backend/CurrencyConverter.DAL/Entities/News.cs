@@ -14,5 +14,5 @@ public class News
     public string? category { get; set; }
     public string? language { get; set; }
     public string? country { get; set; }
-    public DateTime published_at { get; set; }
+    public string published_at { get; set; }
 }

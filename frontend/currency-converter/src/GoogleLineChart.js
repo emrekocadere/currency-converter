@@ -73,7 +73,7 @@ function GoogleLineChart(props) {
 
   return (
     <div className='chart'>
-      {loading && <div>Yükleniyor...</div>}
+      {loading && <div>Loading...</div>}
       {error && <div style={{ color: 'red' }}>Hata: {error}</div>}
       {!loading && !error && data.length > 0 && (
         <LineChart
