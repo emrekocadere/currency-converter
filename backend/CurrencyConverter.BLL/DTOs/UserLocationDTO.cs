@@ -1,6 +1,6 @@
 using System;
 
-namespace CurrencyConverter.API.DTOs;
+namespace CurrencyConverter.API.Dtos;
 
 public class UserLocationDTO
 {

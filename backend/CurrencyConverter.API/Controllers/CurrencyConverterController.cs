@@ -17,9 +17,8 @@ namespace CurrencyConverter.API.Controllers
         }
         [HttpGet("exchange")]
         public ActionResult ConvertCurrency(int amount, string currencies)
-
         {
-            return Ok(_service.ConvertCurrency(amount, currencies));
+            return Ok();
         }
 
         [HttpGet("currencies")]
@@ -28,11 +27,6 @@ namespace CurrencyConverter.API.Controllers
             return Ok(_service.GetCurrencies());
         }
 
-        // [HttpGet("news")]
-        // public ActionResult GetNewsFromDb()
-        // {
-        //     return Ok(_service.GetNewsFromDb());
-        // }
 
         [HttpGet("currency-rates")]
         public ActionResult GetCurrencyRates(string currency)
@@ -70,12 +64,7 @@ namespace CurrencyConverter.API.Controllers
         //     return Ok(response);
         // }
 
-        [HttpPost("save")]
-        public async Task save()
-        {
-
-          await _service.GetCurrencyRatesss();
-        }
+ 
 
     }
 }

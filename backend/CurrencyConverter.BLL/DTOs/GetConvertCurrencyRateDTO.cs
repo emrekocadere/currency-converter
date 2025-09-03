@@ -1,8 +1,8 @@
 using System;
 
-namespace CurrencyConverter.API.DTOs;
+namespace CurrencyConverter.API.Dtos;
 
-public class GetConvertCurrencyRateDTO
+public class GetConvertCurrencyRateDto
 {
     public required string StartDate{ get; set; }
     public required string EndDate{ get; set; }

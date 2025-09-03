@@ -1,7 +1,7 @@
 using System.Text.Json;
 using CurrencyConverter.API;
 using CurrencyConverter.API.CutomResponses;
-using CurrencyConverter.API.DTOs;
+using CurrencyConverter.API.Dtos;
 using CurrencyConverter.API.Entities;
 using CurrencyConverter.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -142,43 +142,7 @@ public class CurrencyConverterService
         };
     }
 
-    public async Task<dynamic> GetCurrencyRatesss()
-    {
 
-        _httpClient.Timeout = TimeSpan.FromMinutes(20);
-
-        _httpClient.DefaultRequestHeaders.Add("apikey", "IzQFmwF5B7PrJNgg4ibxwCZqIO5DfQuA");
-        var currencyList = GetCurrencies();
-
-        foreach (var currency in currencyList)
-        {
-
-            using HttpResponseMessage response = await _httpClient.GetAsync($"https://api.apilayer.com/exchangerates_data/timeseries?start_date=2025-01-01&end_date=2025-03-31&base={currency.Code}&symbols=EUR,JPY,GBP,AUD,CAD,CHF,USD");
-            var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
-            var rateTimeSeries = JsonSerializer.Deserialize<RateTimeSeriesResponse>(jsonResponse);
-
-            foreach (var rate in rateTimeSeries.rates)
-            {
-
-                foreach (var rateValue in rate.Value)
-                {
-                    var CurrenyRatesTimestamp = new CurrencyRatesTimestamp();
-                    CurrenyRatesTimestamp.Timestamp = rate.Key;
-                    CurrenyRatesTimestamp.Rate = rateValue.Value;
-                    CurrenyRatesTimestamp.Currencies = rateTimeSeries.Base + rateValue.Key;
-                    _currencyRatesTimestampRepository.Add(CurrenyRatesTimestamp);
-                    _currencyRatesTimestampRepository.SaveChanges();
-
-                }
-            }
-
-        }
-
-        List<CurrencyRatesTimestamp> currencyRatesTimestamps = new List<CurrencyRatesTimestamp>();
-
-
-        return currencyRatesTimestamps;
-    }
 
     public dynamic ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
     {
@@ -219,29 +183,6 @@ public class CurrencyConverterService
 
     // }
 
-    // public async Task Save()
-    // {
-    //     var currencyList = GetCurrencies();
-    //     _httpClient.DefaultRequestHeaders.Add("apikey", "IzQFmwF5B7PrJNgg4ibxwCZqIO5DfQuA");
-    //     foreach (var currency in currencyList)
-    //     {
-
-    //         using HttpResponseMessage response = await _httpClient.GetAsync(
-    //         $"https://api.apilayer.com/currency_data/live?source={currency.Code}&currencies=EUR%2CJPY%2CGBP%2CAUD%2CCAD%2CCHF%2CUSD");
-    //         var jsonResponse = await response.Content.ReadAsStringAsync();// bak buraya
-    //         var apiLayerCurrencyData = JsonSerializer.Deserialize<GetCurrencyRatesResponse>(jsonResponse);
-    //         List<CurrencyRatio> currencyRatioList = new List<CurrencyRatio>();
-    //         foreach (var item in apiLayerCurrencyData.quotes!)
-    //         {
-    //             currencyRatioList.Add(new CurrencyRatio
-    //             {
-    //                 Currencies = item.Key,
-    //                 Rate = item.Value
-    //             });
-    //         }
-    //         SaveTheCurencyRatesToDb(currencyRatioList);
-    //     }
-    // }
 
     public async Task Save()
     {

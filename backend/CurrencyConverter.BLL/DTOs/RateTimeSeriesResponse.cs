@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace CurrencyConverter.API.DTOs;
+namespace CurrencyConverter.API.Dtos;
 
 public class RateTimeSeriesResponse
 {
