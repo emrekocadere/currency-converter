@@ -251,7 +251,7 @@ public class CurrencyConverterService
         var newsList = new List<News>();
         foreach (var data in mediastackResponse.data!)
         {
-            if (data.image != null)
+            if (data.Image != null)
             {
                 newsList.Add(data);
             }

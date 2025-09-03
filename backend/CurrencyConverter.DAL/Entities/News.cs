@@ -1,18 +1,39 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace CurrencyConverter.API.Entities;
 
 public class News
 {
-    public int Id { get; set; }
-    public string? author { get; set; }
-    public string? title { get; set; }
-    public string? description { get; set; }
-    public string? url { get; set; }
-    public string? source { get; set; }
-    public string? image { get; set; }
-    public string? category { get; set; }
-    public string? language { get; set; }
-    public string? country { get; set; }
-    public DateTime published_at { get; set; }
+public int Id { get; set; }
+
+    [JsonPropertyName("author")]
+    public string? Author { get; set; }
+
+    [JsonPropertyName("title")]
+    public string? Title { get; set; }
+
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [JsonPropertyName("url")]
+    public string? Url { get; set; }
+
+    [JsonPropertyName("source")]
+    public string? Source { get; set; }
+
+    [JsonPropertyName("image")]
+    public string? Image { get; set; }
+
+    [JsonPropertyName("category")]
+    public string? Category { get; set; }
+
+    [JsonPropertyName("language")]
+    public string? Language { get; set; }
+
+    [JsonPropertyName("country")]
+    public string? Country { get; set; }
+
+    [JsonPropertyName("published_at")]
+    public string? PublishedAt { get; set; }
 }
