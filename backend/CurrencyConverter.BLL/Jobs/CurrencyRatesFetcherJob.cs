@@ -24,7 +24,7 @@ public class CurrencyRatesFetcherJob: IJob
         
         var currencyList = _currencyConverterService.GetCurrencies();
         _httpClient.DefaultRequestHeaders.Add("apikey", _configuration["ApiKey"]);
-        foreach (var currency in currencyList)
+        foreach (var currency in currencyList.Value)
         {
 
             using HttpResponseMessage response = await _httpClient.GetAsync(

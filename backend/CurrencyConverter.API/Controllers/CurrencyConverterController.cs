@@ -22,9 +22,10 @@ namespace CurrencyConverter.API.Controllers
         }
 
         [HttpGet("currencies")]
-        public ActionResult GetCurrencies()
+        public IActionResult GetCurrencies()
         {
-            return Ok(_service.GetCurrencies());
+            var result = _service.GetCurrencies();
+            return Ok(result);
         }
 
 

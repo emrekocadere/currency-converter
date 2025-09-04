@@ -1,6 +1,6 @@
 using System;
 
-namespace CurrencyConverter.DAL;
+namespace CurrencyConverter.DAL.Interfaces;
 
 public interface IRepository<T>
 {

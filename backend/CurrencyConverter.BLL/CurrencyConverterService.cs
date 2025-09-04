@@ -3,6 +3,7 @@ using CurrencyConverter.API;
 using CurrencyConverter.API.CutomResponses;
 using CurrencyConverter.API.Dtos;
 using CurrencyConverter.API.Entities;
+using CurrencyConverter.BLL.Results;
 using CurrencyConverter.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,38 +25,38 @@ public class CurrencyConverterService
     public CurrencyConverterService(ICurrencyRepository currencyRepository,
      ICurrencyRatioRepository currencyRatioRepository,
       INewsRepository newsRepository,
-      ICurrencyRatesTimestampRepository currencyRatesTimestampRepository)
+      ICurrencyRatesTimestampRepository currencyRatesTimestampRepository,
+      IConfiguration configuration
+      )
     {
         _currencyRepository = currencyRepository;
         _currencyRatioRepository = currencyRatioRepository;
         _newsRepository = newsRepository;
         _currencyRatesTimestampRepository = currencyRatesTimestampRepository;
-
+_configuration = configuration;
         _currencyRates = _currencyRatioRepository.GetAll();
         _pageSize = 6;
         _httpClient = new HttpClient();
     }
 
-    public CustomResponse ConvertCurrency(int amount, string currencies)
+    public Result<decimal> ConvertCurrency(int amount, string currencies)
     {
         var currencyRate = _currencyRates.FirstOrDefault(x => x.Currencies == currencies);
         if (currencyRate == null)
         {
-            return new NotFoundOnDb();
+            return Error.None;
         }
         decimal result = amount * currencyRate.Rate;
-        return new SuccessResponse()
-        {
-            Data = result
-        };
+
+        return result;  
     }
-    public List<CurrencyRatio> GetCurrencyRates(string currentCurrency)
+    public Result<List<CurrencyRatio>> GetCurrencyRates(string currentCurrency)
     {
 
         return _currencyRates.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
     }
 
-    public List<Currency> GetCurrencies()
+    public Result<List<Currency>> GetCurrencies()
     {
         return _currencyRepository.GetAll();
     }
@@ -77,7 +78,7 @@ public class CurrencyConverterService
 
     }
 
-    public List<News> GetNewsFromDb()
+    public Result<List<News>> GetNewsFromDb()
     {
         return _newsRepository.GetAll();
     }
@@ -86,7 +87,7 @@ public class CurrencyConverterService
         _currencyRates = _currencyRatioRepository.GetAll();
     }
 
-    public CustomResponse SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList) // repo
+    public CustomResponse SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
     {
         foreach (var currencyRate in currencyRatioList)
         {
@@ -144,7 +145,7 @@ public class CurrencyConverterService
 
 
 
-    public dynamic ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
+    public Result<decimal> ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
     {
         var currencyRatesTimestamps = _currencyRatesTimestampRepository.ConvertCurrencyForSpecificDate(date, currencies);
 
@@ -153,7 +154,7 @@ public class CurrencyConverterService
         return result;
     }
 
-    public List<News> Paginate(int pageNumber) // repo
+    public Result<List<News>> Paginate(int pageNumber) // repo
     {
 
         var news = _newsRepository.GetNewsByPage(pageNumber, _pageSize);

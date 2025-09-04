@@ -1,4 +1,5 @@
 using System;
+using CurrencyConverter.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyConverter.DAL;
