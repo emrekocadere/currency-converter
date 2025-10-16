@@ -17,7 +17,7 @@ function NewsPage() {
     async function Paginate() {
         pageNumber++;
         let response = await getPaginatedResults(pageNumber);
-        setNews((prevNews) => [...prevNews, ...response.data]);
+        setNews((prevNews) => [...prevNews, ...response.data.value]);
     }
 
     useEffect(() => {
@@ -26,44 +26,62 @@ function NewsPage() {
 
 
     return (
-
         <ConfigProvider
             theme={{
                 token: {
-                    colorPrimary: 'rgb(239,135,51)',
+                    colorPrimary: '#ff8000',
                     paddingLG: isMobile ? "2vw" : "24px"
-                    // telephone    
                 },
             }}
         >
-            <div className='card-div'>
+            <div className='card-div news-cards-container'>
                 {news.map((item, index) => (
                     <Card
                         key={index}
                         hoverable
-                        className='news-card'
-                        style={{ padding: "0px" }}
-                        cover={
-                            <div className='news-card-img-div' style={{ display: "flex" }}>
-                                <img
-                                    className='news-card-img'
-                                    alt={item.title || "News image"}
-
-                                    src={item.image}
-                                />
-                            </div>
-                        }
+                        className='news-card news-card-container news-card-horizontal'
                         onClick={() => window.open(item.url, '_blank')}
                         ref={index === news.length - 1 ? lastCardRef : null}
                     >
-                        <h4>{item.title}</h4>
+                        <div className="news-card-horizontal-layout">
+                            <div className={`news-card-img-div news-card-cover-container ${isMobile ? 'news-card-cover-mobile' : 'news-card-cover-desktop'}`}>
+                                <img
+                                    className='news-card-img news-card-image'
+                                    alt={item.title || "News image"}
+                                    src={item.image}
+                                    onError={(e) => {
+                                        e.target.src = 'https://via.placeholder.com/800x400/1a1f3a/ff8000?text=Financial+News';
+                                    }}
+                                />
+                            </div>
+                            <div className="news-card-content">
+                                <Typography.Title 
+                                    level={5} 
+                                    className={`news-card-title ${isMobile ? 'news-card-title-mobile' : 'news-card-title-desktop'}`}
+                                >
+                                    {item.title}
+                                </Typography.Title>
+                                <div className="news-card-action-container">
+                                    <span className="news-card-read-more">
+                                        📰 Read more →
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </Card>
                 ))}
-
             </div>
-            <Button type="link" style={{ width: "10%" }} onClick={Paginate}>
-                more
-            </Button>
+            
+            <div className="news-load-more-container">
+                <Button 
+                    type="primary"
+                    size="large"
+                    onClick={Paginate}
+                    className="news-load-more-button"
+                >
+                    📄 Load More News
+                </Button>
+            </div>
         </ConfigProvider>
     );
 }
