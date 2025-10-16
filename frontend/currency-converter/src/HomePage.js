@@ -38,7 +38,7 @@ export default function HomePage() {
         <div className='home-page-div'>
             <Modal
                 title={
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div className="modal-title-container">
                         <span>💱 Currency Converter</span>
                     </div>
                 }
@@ -46,130 +46,231 @@ export default function HomePage() {
                 onOk={handleModalOk}
                 onCancel={handleModalCancel}
                 centered
-                width={650}
+                width={isMobile ? '95%' : 700}
                 okText="Get Started 🚀"
                 cancelText="Close"
+                styles={{
+                    content: {
+                        background: 'rgba(16, 20, 36, 0.95)',
+                        backdropFilter: 'blur(20px)',
+                        border: '1px solid rgba(255, 128, 0, 0.2)',
+                        borderRadius: '20px',
+                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+                    },
+                    header: {
+                        background: 'transparent',
+                        borderBottom: '1px solid rgba(255, 128, 0, 0.2)',
+                        paddingBottom: '16px',
+                    },
+                    body: {
+                        padding: '24px',
+                        maxHeight: '70vh',
+                        overflowY: 'auto',
+                    },
+                    footer: {
+                        background: 'transparent',
+                        borderTop: '1px solid rgba(255, 128, 0, 0.2)',
+                        paddingTop: '16px',
+                    }
+                }}
                 footer={[
-                    <Button key="github" icon={<GithubOutlined />} onClick={() => window.open('https://github.com/emrekocadere/currency-converter', '_blank')}>
+                    <Button 
+                        key="github" 
+                        icon={<GithubOutlined />} 
+                        onClick={() => window.open('https://github.com/emrekocadere/currency-converter', '_blank')}
+                        className="modal-footer-button-secondary"
+                    >
                         View on GitHub
                     </Button>,
-                    <Button key="close" onClick={handleModalCancel}>
+                    <Button 
+                        key="close" 
+                        onClick={handleModalCancel}
+                        className="modal-footer-button-secondary"
+                    >
                         Close
                     </Button>,
-                    <Button key="start" type="primary" onClick={handleModalOk}>
+                    <Button 
+                        key="start" 
+                        type="primary" 
+                        onClick={handleModalOk}
+                        className="modal-footer-button-primary"
+                    >
                         Get Started 🚀
                     </Button>
                 ]}
             >
-                <div style={{ padding: '10px 0' }}>
-                    <p style={{ fontSize: '16px', marginBottom: '20px', color: '#666' }}>
+                <div className="modal-content-wrapper">
+                    <p className="modal-intro-text">
                         A modern, full-stack currency converter application built with enterprise-grade architecture and cutting-edge technologies.
                     </p>
                     
-                    <Divider orientation="left">🏗️ Architecture</Divider>
+                    <Divider 
+                        orientation="left" 
+                        style={{ 
+                            borderColor: 'rgba(255, 128, 0, 0.2)',
+                            color: '#e8eaed',
+                            fontSize: '1rem',
+                            fontWeight: '600'
+                        }}
+                    >
+                        🏗️ Architecture
+                    </Divider>
                     
-                    <div style={{ marginBottom: '20px' }}>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '15px' }}>
-                            <span style={{ background: '#2E8B57', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
+                    <div className="modal-section-wrapper-arch">
+                        <div className="modal-badge-container">
+                            <span className="modal-badge modal-badge-arch-1">
                                 🏛️ N-Tier Architecture
                             </span>
-                            <span style={{ background: '#FF6347', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
+                            <span className="modal-badge modal-badge-arch-2">
                                 📦 Repository Pattern
                             </span>
-                            <span style={{ background: '#4682B4', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
+                            <span className="modal-badge modal-badge-arch-3">
                                 💉 Dependency Injection
                             </span>
-                            <span style={{ background: '#9932CC', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
+                            <span className="modal-badge modal-badge-arch-4">
                                 ⚙️ Service Layer Pattern
                             </span>
                         </div>
-                        <p style={{ fontSize: '13px', color: '#666', margin: '5px 0' }}>
-                            Enterprise-grade N-Tier architecture with clean separation of concerns, dependency injection, and proven design patterns.
+                        <p className="modal-section-description">
+                            Enterprise-grade N-Tier architecture with clean separation of concerns, dependency injection, and proven design patterns for scalability.
                         </p>
                     </div>
 
-                    <Divider orientation="left">🎨 Frontend Stack</Divider>
+                    <Divider 
+                        orientation="left"
+                        style={{ 
+                            borderColor: 'rgba(255, 128, 0, 0.2)',
+                            color: '#e8eaed',
+                            fontSize: '1rem',
+                            fontWeight: '600'
+                        }}
+                    >
+                        🎨 Frontend Stack
+                    </Divider>
                     
-                    <div style={{ marginBottom: '20px' }}>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '10px' }}>
-                            <span style={{ background: '#61DAFB', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
-                                ⚛️ React 18
+                    <div className="modal-section-wrapper-frontend">
+                        <div className="modal-badge-container">
+                            <span className="modal-badge modal-badge-frontend-1">
+                                ⚛️ React 18.3
                             </span>
-                            <span style={{ background: '#1890ff', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
-                                🐜 Ant Design
+                            <span className="modal-badge modal-badge-frontend-2">
+                                🐜 Ant Design 5.26
                             </span>
-                            <span style={{ background: '#007FFF', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
+                            <span className="modal-badge modal-badge-frontend-3">
                                 📊 MUI X-Charts
                             </span>
-                            <span style={{ background: '#5A67D8', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
-                                📱 React Responsive
+                            <span className="modal-badge modal-badge-frontend-4">
+                                🎨 Framer Motion
                             </span>
-                            <span style={{ background: '#671DDF', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
+                            <span className="modal-badge modal-badge-frontend-5">
                                 🌐 Axios
                             </span>
+                            <span className="modal-badge modal-badge-frontend-6">
+                                📱 React Responsive
+                            </span>
                         </div>
-                        <p style={{ fontSize: '13px', color: '#666', margin: '5px 0' }}>
-                            Modern React ecosystem with component-based architecture, responsive design, and efficient data visualization.
+                        <p className="modal-section-description">
+                            Modern React ecosystem with component-based architecture, responsive design, smooth animations, and efficient data visualization.
                         </p>
                     </div>
 
-                    <Divider orientation="left">🚀 Backend Stack</Divider>
+                    <Divider 
+                        orientation="left"
+                        style={{ 
+                            borderColor: 'rgba(255, 128, 0, 0.2)',
+                            color: '#e8eaed',
+                            fontSize: '1rem',
+                            fontWeight: '600'
+                        }}
+                    >
+                        🚀 Backend Stack
+                    </Divider>
                     
-                    <div style={{ marginBottom: '20px' }}>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '10px' }}>
-                            <span style={{ background: '#512BD4', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
-                                🔷 .NET 8
+                    <div className="modal-section-wrapper-backend">
+                        <div className="modal-badge-container">
+                            <span className="modal-badge modal-badge-backend-1">
+                                🔷 .NET 8.0 Web API
                             </span>
-                            <span style={{ background: '#68217A', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
-                                🗄️ Entity Framework
+                            <span className="modal-badge modal-badge-backend-2">
+                                🗄️ Entity Framework Core 8
                             </span>
-                            <span style={{ background: '#CC2927', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
+                            <span className="modal-badge modal-badge-backend-3">
                                 🗃️ SQL Server
                             </span>
-                            <span style={{ background: '#FF6B35', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
+                            <span className="modal-badge modal-badge-backend-4">
                                 ⏰ Quartz.NET
                             </span>
-                            <span style={{ background: '#1E3A8A', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
-                                📝 Serilog
+                            <span className="modal-badge modal-badge-backend-5">
+                                📝 Serilog + Seq
                             </span>
-                            <span style={{ background: '#10B981', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>
-                                📋 Swagger
+                            <span className="modal-badge modal-badge-backend-6">
+                                📋 Swagger/OpenAPI
                             </span>
                         </div>
-                        <p style={{ fontSize: '13px', color: '#666', margin: '5px 0' }}>
-                            High-performance .NET backend with ORM, scheduled jobs, structured logging, and comprehensive API documentation.
+                        <p className="modal-section-description">
+                            High-performance .NET backend with EF Core ORM, scheduled background jobs, distributed tracing, structured logging, and comprehensive API documentation.
                         </p>
                     </div>
 
-                    <Divider orientation="left">✨ Key Features</Divider>
+                    <Divider 
+                        orientation="left"
+                        style={{ 
+                            borderColor: 'rgba(255, 128, 0, 0.2)',
+                            color: '#e8eaed',
+                            fontSize: '1rem',
+                            fontWeight: '600'
+                        }}
+                    >
+                        ✨ Key Features
+                    </Divider>
                     
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '13px' }}>
-                        <div>• Real-time currency conversion</div>
-                        <div>• Historical rate charts</div>
-                        <div>• Multi-currency support</div>
-                        <div>• Financial news integration</div>
-                        <div>• Responsive design</div>
-                        <div>• Background data processing</div>
-                        <div>• RESTful API architecture</div>
-                        <div>• Enterprise scalability</div>
+                    <div className={`modal-features-grid ${isMobile ? 'modal-features-grid-mobile' : 'modal-features-grid-desktop'}`}>
+                        <div className="modal-feature-card">
+                            <span className="modal-feature-icon">⚡</span> Real-time Conversion
+                        </div>
+                        <div className="modal-feature-card">
+                            <span className="modal-feature-icon">📊</span> Historical Rate Charts
+                        </div>
+                        <div className="modal-feature-card">
+                            <span className="modal-feature-icon">💱</span> 150+ Currency Support
+                        </div>
+                        <div className="modal-feature-card">
+                            <span className="modal-feature-icon">📰</span> Financial News Feed
+                        </div>
+                        <div className="modal-feature-card">
+                            <span className="modal-feature-icon">📱</span> Responsive Design
+                        </div>
+                        <div className="modal-feature-card">
+                            <span className="modal-feature-icon">🎨</span> Modern UI/UX
+                        </div>
+                        <div className="modal-feature-card">
+                            <span className="modal-feature-icon">🔌</span> RESTful API
+                        </div>
+                        <div className="modal-feature-card">
+                            <span className="modal-feature-icon">📈</span> Enterprise Scalability
+                        </div>
                     </div>
                 </div>
             </Modal>
 
-            <Row>
-                <h2  style={{ paddingBottom: "1vh" }}>
-                    Converter
-                </h2>
+            <Row className="page-title-container">
+                <Typography.Title 
+                    level={1} 
+                    className={`page-title ${isMobile ? 'page-title-mobile' : 'page-title-desktop'}`}
+                >
+                    💱 Currency Converter
+                </Typography.Title>
+       
             </Row>
 
             {/* Eğer isDesktopOrLaptop ise düzenleme yapılır */}
-            <Row style={{ flexDirection: isMobile ? 'column' : 'row' }}>
+            <Row className={isMobile ? 'homepage-row-mobile' : 'homepage-row-desktop'}>
                 <Col span={isMobile ? 24 : 12}>
                     <CurrencyConverter onCurrencyChange={setCurrentCurrenciesCallback} />
                 </Col>
                 <Col
                     span={isMobile ? 24 : 12}
-                    style={{ display: "flex", justifyContent: "center", alignItems: "center"}}
+                    className="homepage-col-center"
                 >
                     <GoogleChart currencyRates={currencyGraph} currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency}></GoogleChart>
                 </Col>
@@ -178,7 +279,7 @@ export default function HomePage() {
 
       
             {isMobile ? (
-                <Row gutter={[16, 16]} style={{ flexDirection: 'column' }}>
+                <Row gutter={[16, 16]} className="news-section-container-mobile">
                     <Col span={24}>
                         <CommonCurrenciesRates 
                             style={{ marginTop: "50vh" }} 
@@ -187,8 +288,11 @@ export default function HomePage() {
                         />
                     </Col>
 
-                    <Typography.Title level={2} style={{ paddingBottom: "1vh",display:"flex", justifyContent:"center", alignItems:"center"}}>
-                        News
+                    <Typography.Title 
+                        level={2} 
+                        className="news-section-title news-section-title-mobile"
+                    >
+                        📰 Latest News
                     </Typography.Title>
                     <Col span={24}>
                         <NewsPage />
@@ -196,13 +300,16 @@ export default function HomePage() {
                 </Row>
             ) : (
                 <>
-                    <Row>
-                        <Typography.Title level={2} style={{ paddingBottom: "1vh" }}>
-                            News
+                    <Row className="news-section-title-row">
+                        <Typography.Title 
+                            level={2} 
+                            className="news-section-title news-section-title-desktop"
+                        >
+                            📰 Latest News
                         </Typography.Title>
                     </Row>
 
-                    <Row gutter={[16, 16]} style={{ flexDirection: 'row' }}>
+                    <Row gutter={[16, 16]} className="news-section-container-desktop">
                         <Col span={12}>
                             <NewsPage />
                         </Col>
