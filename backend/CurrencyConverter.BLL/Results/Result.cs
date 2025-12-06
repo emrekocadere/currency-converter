@@ -2,29 +2,47 @@ using System;
 
 namespace CurrencyConverter.BLL.Results;
 
-public class Result<T>
+public record Result<T>:Result
 {
-    public bool IsSuccess { get; }
-    public Error? Error { get; }
+    private Result(T value) : base(true, null)
+    {
+        Value = value;
+    }
+
+    private Result(Error error) : base(false, error)
+    {
+    }
+
     public T? Value { get; }
 
-    public Result(T value)
+    public static implicit operator Result<T>(T value)
     {
-        IsSuccess = true;
-        Value = value;
-        Error = Error.None;
-    }
-    public Result(Error error)
-    {
-        IsSuccess = false;
-        Error = error;
-
+        return new Result<T>(value);
     }
 
-    public static implicit operator Result<T>(T value) => new(value);
-
-    public static implicit operator Result<T>(Error error) => new(error);
+    public static implicit operator Result<T>(Error error)
+    {
+        return new Result<T>(error);
+    }
+    
 }
 
+public record Result(bool IsSuccess, Error? Error)
+{
+    public static Result Success()
+    {
+        return new Result(true, null);
+    }
+
+    public static Result Failure(Error error)
+    {
+        return new Result(false, error ?? throw new ArgumentNullException(nameof(error)));
+    }
+
+    public static implicit operator Result(Error error)
+    {
+        return Failure(error);
+    }
+}
 
 

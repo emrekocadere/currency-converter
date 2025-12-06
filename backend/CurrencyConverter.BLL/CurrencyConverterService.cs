@@ -1,18 +1,14 @@
 using System.Text.Json;
 using CurrencyConverter.API;
-using CurrencyConverter.API.CutomResponses;
-using CurrencyConverter.API.Dtos;
 using CurrencyConverter.API.Entities;
 using CurrencyConverter.BLL.Results;
 using CurrencyConverter.DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace CurrencyConverter.BLL;
 
 public class CurrencyConverterService
 {
-
     private readonly ICurrencyRepository _currencyRepository;
     private readonly ICurrencyRatioRepository _currencyRatioRepository;
     private readonly INewsRepository _newsRepository;
@@ -21,19 +17,19 @@ public class CurrencyConverterService
     private readonly HttpClient _httpClient;
     private readonly IConfiguration _configuration;
     private int _pageSize;
-    
+
     public CurrencyConverterService(ICurrencyRepository currencyRepository,
-     ICurrencyRatioRepository currencyRatioRepository,
-      INewsRepository newsRepository,
-      ICurrencyRatesTimestampRepository currencyRatesTimestampRepository,
-      IConfiguration configuration
-      )
+        ICurrencyRatioRepository currencyRatioRepository,
+        INewsRepository newsRepository,
+        ICurrencyRatesTimestampRepository currencyRatesTimestampRepository,
+        IConfiguration configuration
+    )
     {
         _currencyRepository = currencyRepository;
         _currencyRatioRepository = currencyRatioRepository;
         _newsRepository = newsRepository;
         _currencyRatesTimestampRepository = currencyRatesTimestampRepository;
-_configuration = configuration;
+        _configuration = configuration;
         _currencyRates = _currencyRatioRepository.GetAll();
         _pageSize = 6;
         _httpClient = new HttpClient();
@@ -46,13 +42,14 @@ _configuration = configuration;
         {
             return Error.None;
         }
+
         decimal result = amount * currencyRate.Rate;
 
-        return result;  
+        return result;
     }
+
     public Result<List<CurrencyRatio>> GetCurrencyRates(string currentCurrency)
     {
-
         return _currencyRates.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
     }
 
@@ -61,33 +58,33 @@ _configuration = configuration;
         return _currencyRepository.GetAll();
     }
 
-    public CustomResponse SaveTheNewsToDb(List<News> news) // repo
+    public Result SaveTheNewsToDb(List<News> news) // repo
     {
         try
         {
-            _newsRepository.Addrange(news);//
+            _newsRepository.Addrange(news); //
             _newsRepository.SaveChanges();
-
-
         }
         catch (Exception ex)
         {
-            return new ExceptionResponse(ex.Message);
+            return Errors.NotSavedToDb;
         }
-        return new SuccessResponse();
 
+        return Result.Success();
     }
 
-    public Result<List<News>> GetNewsFromDb()
-    {
-        return _newsRepository.GetAll();
-    }
+    // public Result<List<News>> GetNewsFromDb()
+    // {
+    //     return _newsRepository.GetAll();
+    // }
+
     public void GetCurrencyRatesFromDb()
     {
         _currencyRates = _currencyRatioRepository.GetAll();
     }
 
-    public CustomResponse SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
+
+    public Result SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList)
     {
         foreach (var currencyRate in currencyRatioList)
         {
@@ -96,58 +93,44 @@ _configuration = configuration;
             if (currencyRatio != null)
             {
                 currencyRatio.Rate = currencyRate.Rate;
-
             }
             else
             {
                 _currencyRatioRepository.Add(currencyRate);
-
             }
-
         }
+
         var affectedRow = _currencyRatioRepository.SaveChanges();
         if (affectedRow == currencyRatioList.Count)
         {
-            return new SuccessResponse();
+            return Result.Success();
         }
         else
         {
-            return new NotSavedToDb();
+            return Errors.NotSavedToDb;
         }
     }
 
     public dynamic GetCurrencyRatesForThreeMonths(string currencies)
     {
-
         List<CurrencyRatesTimestamp> currencyRatesTimestamps;
 
         try
         {
             currencyRatesTimestamps = _currencyRatesTimestampRepository.GetCurrencyRatesForThreeMonths(currencies);
+            return Result.Success();
         }
         catch (Exception ex)
         {
-            return new NotFoundOnDb()
-            {
-                StatusDesc = "Currency rates not found for the specified date range.",
-                Data = ex.Message
-            };
+            return Errors.NotSavedToDb;
         }
-
-
-        return new SuccessResponse()
-        {
-
-            StatusDesc = "Currency rates retrieved successfully.",
-            Data = currencyRatesTimestamps
-        };
     }
-
 
 
     public Result<decimal> ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
     {
-        var currencyRatesTimestamps = _currencyRatesTimestampRepository.ConvertCurrencyForSpecificDate(date, currencies);
+        var currencyRatesTimestamps =
+            _currencyRatesTimestampRepository.ConvertCurrencyForSpecificDate(date, currencies);
 
         decimal result = amount * currencyRatesTimestamps.Rate;
 
@@ -156,10 +139,8 @@ _configuration = configuration;
 
     public Result<List<News>> Paginate(int pageNumber) // repo
     {
-
         var news = _newsRepository.GetNewsByPage(pageNumber, _pageSize);
         return news;
-
     }
     // public CustomResponse SaveUserLocation(UserLocationDTO dto)
     // {
@@ -187,7 +168,8 @@ _configuration = configuration;
 
     public async Task Save()
     {
-        using HttpResponseMessage response = await _httpClient.GetAsync($"http://api.mediastack.com/v1/news?access_key=ca29cb201d8041ae28ee4f43cfa7a958&limit=100&languages=en&categories=business");
+        using HttpResponseMessage response = await _httpClient.GetAsync(
+            $"http://api.mediastack.com/v1/news?access_key=ca29cb201d8041ae28ee4f43cfa7a958&limit=100&languages=en&categories=business");
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var mediastackResponse = JsonSerializer.Deserialize<MediastackResponse>(jsonResponse);
         var newsList = new List<News>();
@@ -201,13 +183,5 @@ _configuration = configuration;
 
 
         SaveTheNewsToDb(newsList);
-
     }
-
-
-
-
-
 }
-
-

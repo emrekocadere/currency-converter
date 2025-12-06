@@ -23,15 +23,15 @@ builder.Services.AddCurrencyConverterDAL(builder.Configuration);
 //     options.WaitForJobsToComplete = true;
 // });
 
-Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
-            .WriteTo.Seq(builder.Configuration["Seq:Url"]!,apiKey:builder.Configuration["Seq:ApiKey"])
-            .CreateLogger();
+// Log.Logger = new LoggerConfiguration()
+//             .WriteTo.Console()
+//             .WriteTo.Seq(builder.Configuration["Seq:Url"]!,apiKey:builder.Configuration["Seq:ApiKey"])
+//             .CreateLogger();
 
 
-        using var _ = new ActivityListenerConfiguration()
-            .Instrument.AspNetCoreRequests()
-            .TraceToSharedLogger();
+//         using var _ = new ActivityListenerConfiguration()
+//             .Instrument.AspNetCoreRequests()
+//             .TraceToSharedLogger();
 
 builder.Services.AddCors(options =>
 {
@@ -44,23 +44,23 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddQuartz(configure =>
-{
-    var jobKey = new JobKey("GetNewsFromMediastack");
-    configure
-        .AddJob<MediaStackNewsFetcherJob>(jobKey)
-        .AddTrigger(
-            trigger => trigger.ForJob(jobKey).WithSimpleSchedule(
-                schedule => schedule.WithIntervalInHours(12).RepeatForever()));
+// builder.Services.AddQuartz(configure =>
+// {
+//     var jobKey = new JobKey("GetNewsFromMediastack");
+//     configure
+//         .AddJob<MediaStackNewsFetcherJob>(jobKey)
+//         .AddTrigger(
+//             trigger => trigger.ForJob(jobKey).WithSimpleSchedule(
+//                 schedule => schedule.WithIntervalInHours(12).RepeatForever()));
 
-    var jobKey2 = new JobKey("GetCurrencyRates");
-    configure
-        .AddJob<CurrencyRatesFetcherJob>(jobKey2)
-        .AddTrigger(
-            trigger => trigger.ForJob(jobKey2).WithSimpleSchedule(
-                schedule => schedule.WithIntervalInHours(12).RepeatForever()));
+//     var jobKey2 = new JobKey("GetCurrencyRates");
+//     configure
+//         .AddJob<CurrencyRatesFetcherJob>(jobKey2)
+//         .AddTrigger(
+//             trigger => trigger.ForJob(jobKey2).WithSimpleSchedule(
+//                 schedule => schedule.WithIntervalInHours(12).RepeatForever()));
 
-});
+// });
 
 builder.Services.AddHttpClient<CurrencyConverterService>();//sdf
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
