@@ -1,9 +1,8 @@
 import './App.css';
 import React, { useEffect } from 'react';
-import { getUserIp, saveUserLocation } from './apiService';
-import CustomFooter from './CustomFooter';
-import CustomHeader from './CustomHeader';
-import HomePage from './HomePage';
+import { getUserIp, saveUserLocation } from './services/api';
+import MainLayout from './shared/layout/MainLayout';
+import Home from './pages/Home';
 function App() {
 
   async function getUserIp() {
@@ -27,17 +26,9 @@ function App() {
   }, []);
 
   return (
-    <div>
-
-      <CustomHeader />
-
-      <HomePage />
-
-      <CustomFooter />
-
-
-    </div>
-
+    <MainLayout>
+      <Home />
+    </MainLayout>
   );
 }
 

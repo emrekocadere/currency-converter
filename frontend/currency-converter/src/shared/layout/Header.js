@@ -1,10 +1,9 @@
-import './index.css';
 import React from 'react';
 import { Button, ConfigProvider } from 'antd';
 import { GithubOutlined, LinkedinOutlined, CoffeeOutlined } from '@ant-design/icons';
-import imagee from "./Images/Logo.png"
+import imagee from "../../Images/Logo.png";
 
-function CustomHeader() {
+function Header() {
     return (
         <ConfigProvider
             theme={{
@@ -53,5 +52,4 @@ function CustomHeader() {
     );
 }
 
-export default CustomHeader;
-
+export default Header;

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
+import { getRatesLastThreeMonths } from '../../services/api';
+import '../../index.css';
 
-import "./index.css"
-import { getRatesLastThreeMonths } from './apiService';
-
-function GoogleLineChart(props) {
+function CurrencyChart(props) {
   const [data, setData] = useState([]);
   const [times, setTimes] = useState([]);
   const [minValue, setMinValue] = useState(0);
@@ -53,7 +52,7 @@ function GoogleLineChart(props) {
     try {
       const request = props.currentBaseCurrency + props.currentTargetCurrency;
       let response = await getRatesLastThreeMonths(request);
-      
+      console.log("response", response);
       if (response && response.data && response.data.data) {
         ConvertData(response.data.data);
       } else {
@@ -170,11 +169,11 @@ function GoogleLineChart(props) {
           fontSize: '1rem',
           textAlign: 'center'
         }}>
-          📊 Gösterilecek veri bulunamadı
+          Gösterilecek veri bulunamadı
         </div>
       )}
     </div>
   );
 }
 
-export default GoogleLineChart;
+export default CurrencyChart;

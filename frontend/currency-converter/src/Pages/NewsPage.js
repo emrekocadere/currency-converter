@@ -1,7 +1,7 @@
 import { Card, Divider, Typography, Button, Flex, ConfigProvider } from 'antd';
 import React, { useState, useEffect, useRef } from 'react';
-import { GetNewsFromDb, getPaginatedResults } from '../apiService';
-import useResponsive from '../useResponsive';
+import { getNews, getPaginatedResults } from '../services/api';
+import { useResponsive } from '../shared/hooks/useResponsive';
 import "../index.css"
 
 const { Meta } = Card;
@@ -55,15 +55,15 @@ function NewsPage() {
                                 />
                             </div>
                             <div className="news-card-content">
-                                <Typography.Title 
-                                    level={5} 
+                                <h5
+                                    
                                     className={`news-card-title ${isMobile ? 'news-card-title-mobile' : 'news-card-title-desktop'}`}
                                 >
                                     {item.title}
-                                </Typography.Title>
+                                </h5>
                                 <div className="news-card-action-container">
                                     <span className="news-card-read-more">
-                                        📰 Read more →
+                                        Read more →
                                     </span>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@ function NewsPage() {
                     onClick={Paginate}
                     className="news-load-more-button"
                 >
-                    📄 Load More News
+                    Load More News
                 </Button>
             </div>
         </ConfigProvider>

@@ -1,10 +1,9 @@
-import './index.css';
 import React from 'react';
 import { Button, Divider } from 'antd';
 import { GithubOutlined, LinkedinOutlined, MailOutlined, HeartFilled } from '@ant-design/icons';
-import useResponsive from './useResponsive';
+import { useResponsive } from './useResponsive';
 
-function CustomFooter() {
+function Footer() {
     const { isMobile } = useResponsive();
     return (
         <footer className='custom-footer-div'>
@@ -51,5 +50,4 @@ function CustomFooter() {
     );
 }
 
-export default CustomFooter;
-
+export default Footer;
