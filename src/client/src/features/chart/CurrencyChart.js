@@ -25,24 +25,68 @@ function CurrencyChart(props) {
 
     console.log("currencyRatesForThreeMonths", currencyRatesForThreeMonths);
     
-    let newData = currencyRatesForThreeMonths.map(rate => Number(rate.rate) || 0);
-    let timestamps = currencyRatesForThreeMonths.map(rate => new Date(rate.timestamp).getTime());
- 
-    setData(newData);
-    setTimes(timestamps);
+    try {
+      // Validate and parse data
+      let newData = currencyRatesForThreeMonths
+        .map(rate => {
+          const value = Number(rate.rate);
+          return isNaN(value) || value < 0 ? null : value;
+        })
+        .filter(val => val !== null);
+      
+      let timestamps = currencyRatesForThreeMonths
+        .map(rate => {
+          const time = new Date(rate.timestamp).getTime();
+          return isNaN(time) ? null : time;
+        })
+        .filter(val => val !== null);
 
-    let min = Math.min(...newData);
-    let max = Math.max(...newData);
-    let padding = (max - min) * 0.1;
+      // Ensure we have matching data and timestamps
+      if (newData.length === 0 || timestamps.length === 0 || newData.length !== timestamps.length) {
+        console.warn('Invalid data structure in chart data');
+        setData([]);
+        setTimes([]);
+        setMinValue(0);
+        setMaxValue(0);
+        setYPadding(0);
+        return;
+      }
+   
+      setData(newData);
+      setTimes(timestamps);
 
-    setMinValue(min);
-    setMaxValue(max);
-    setYPadding(padding);
+      let min = Math.min(...newData);
+      let max = Math.max(...newData);
+      let padding = (max - min) * 0.1 || 0.1; // Fallback if difference is 0
+
+      setMinValue(min);
+      setMaxValue(max);
+      setYPadding(padding);
+    } catch (error) {
+      console.error('Error converting chart data:', error);
+      setData([]);
+      setTimes([]);
+      setMinValue(0);
+      setMaxValue(0);
+      setYPadding(0);
+    }
   }
 
 
   async function GetCurrencyRatesLastThreeMonths() {
+    // Validation: Check if currencies are selected
     if (!props.currentBaseCurrency || !props.currentTargetCurrency) {
+      setData([]);
+      setTimes([]);
+      setError(null);
+      return;
+    }
+
+    // Don't fetch if same currency
+    if (props.currentBaseCurrency === props.currentTargetCurrency) {
+      setData([]);
+      setTimes([]);
+      setError('Please select different currencies');
       return;
     }
 
@@ -51,22 +95,43 @@ function CurrencyChart(props) {
     
     try {
       const request = props.currentBaseCurrency + props.currentTargetCurrency;
+      console.log('Fetching currency history for:', request);
+      
       let response = await getRatesLastThreeMonths(request);
-      console.log("response", response);
-      if (response && response.data) {
-        // Backend doğrudan array döndürüyor
-        const dataArray = Array.isArray(response.data) ? response.data : response.data.data;
-        if (dataArray && dataArray.length > 0) {
-          ConvertData(dataArray);
-        } else {
-          setError('Veri alınamadı');
-        }
-      } else {
-        setError('Veri alınamadı');
+      console.log("Chart response:", response);
+      
+      if (!response || !response.data) {
+        setError('No response from server. Please try again.');
+        setData([]);
+        setTimes([]);
+        return;
       }
+
+      // Backend can return array directly or wrapped in data property
+      const dataArray = Array.isArray(response.data) ? response.data : response.data.data;
+      
+      if (!dataArray || !Array.isArray(dataArray)) {
+        setError('Invalid data format received from server');
+        setData([]);
+        setTimes([]);
+        return;
+      }
+
+      if (dataArray.length === 0) {
+        setError(`No historical data available for ${props.currentBaseCurrency}/${props.currentTargetCurrency}`);
+        setData([]);
+        setTimes([]);
+        return;
+      }
+
+      ConvertData(dataArray);
+      setError(null);
     } catch (err) {
       console.error('Error fetching currency rates:', err);
-      setError('Veri yüklenirken hata oluştu');
+      const errorMessage = err.message || 'Failed to load chart data. Please try again.';
+      setError(errorMessage);
+      setData([]);
+      setTimes([]);
     } finally {
       setLoading(false);
     }
@@ -91,9 +156,19 @@ function CurrencyChart(props) {
           fontSize: '1.1rem',
           display: 'flex',
           alignItems: 'center',
-          gap: '10px'
+          justifyContent: 'center',
+          gap: '10px',
+          minHeight: '300px'
         }}>
-           Loading...
+          <div className="spinner" style={{
+            width: '20px',
+            height: '20px',
+            border: '3px solid rgba(255, 128, 0, 0.3)',
+            borderTop: '3px solid #ff8000',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite'
+          }}></div>
+          Loading chart data...
         </div>
       )}
       {error && (
@@ -102,9 +177,14 @@ function CurrencyChart(props) {
           background: 'rgba(255, 107, 107, 0.1)',
           border: '1px solid rgba(255, 107, 107, 0.3)',
           borderRadius: '12px',
-          padding: '16px'
+          padding: '16px',
+          minHeight: '100px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '1rem'
         }}>
-          {error}
+          ⚠️ {error}
         </div>
       )}
       {!loading && !error && data.length > 0 && (

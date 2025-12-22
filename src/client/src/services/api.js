@@ -80,10 +80,21 @@ export async function getRatesForCurrency(currency) {
 }
 
 export async function getRatesLastThreeMonths(currencies) {
-    const response = await axios.get(`${API_BASE_URL}/currency-rates/history`, {
-        params: { currencies }
-    });
-    return response;
+    try {
+        const response = await axios.get(`${API_BASE_URL}/currency-rates/history`, {
+            params: { currencies }
+        });
+        return response;
+    } catch (error) {
+        console.error('API Error:', error);
+        if (error.response) {
+            throw new Error(error.response.data?.message || `API Error: ${error.response.status}`);
+        } else if (error.request) {
+            throw new Error('Network error. Please check your connection.');
+        } else {
+            throw new Error('Failed to fetch currency history. Please try again.');
+        }
+    }
 }
 
 export async function saveUserLocation(request) {
