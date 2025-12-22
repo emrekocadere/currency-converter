@@ -3,21 +3,46 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:5203/api/CurrencyConverter';
 
 export async function convertCurrency(amount, currencies) {
-    const response = await axios.get(`${API_BASE_URL}/exchange`, {
-        params: { amount, currencies }
-    });
-    return response;
+
+
+
+    try {
+       const response = await axios.get(`${API_BASE_URL}/exchange`, {
+            params: { amount, currencies }
+        });
+        return response;
+    } catch (error) {
+        console.error('API Error:', error);
+        if (error.response) {
+            throw new Error(error.response.data?.message || `API Error: ${error.response.status}`);
+        } else if (error.request) {
+            throw new Error('Network error. Please check your connection.');
+        } else {
+            throw new Error('Failed to convert currency. Please try again.');
+        }
+    }
 }
 
 export async function convertCurrencyOnDate(request) {
-    const response = await axios.get(`${API_BASE_URL}/exchange/by-date`, {
-        params: {
-            date: request.date,
-            currencies: request.currencies,
-            amount: request.amount
+    try {
+        const response = await axios.get(`${API_BASE_URL}/exchange/by-date`, {
+            params: {
+                date: request.date,
+                currencies: request.currencies,
+                amount: request.amount
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error('API Error:', error);
+        if (error.response) {
+            throw new Error(error.response.data?.message || `API Error: ${error.response.status}`);
+        } else if (error.request) {
+            throw new Error('Network error. Please check your connection.');
+        } else {
+            throw new Error('Failed to convert currency. Please try again.');
         }
-    });
-    return response;
+    }
 }
 
 

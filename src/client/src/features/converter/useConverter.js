@@ -42,14 +42,23 @@ export function useConverter() {
         response = await convertCurrency(amount, currencies);
       }
 
-      const convertedAmount = response.data?.outputAmount || 0;
+      const convertedAmount = response.data?.value ?? response.data ?? 0;
+      
+      if (convertedAmount === 0 || convertedAmount === null || convertedAmount === undefined) {
+        setError(`Unable to convert ${baseCurrency} to ${targetCurrency}. Rate not available.`);
+        setResult(0);
+        return 0;
+      }
+      
       setResult(convertedAmount);
       setResultUpdated(true);
       
       return convertedAmount;
     } catch (err) {
       console.error('Conversion error:', err);
-      setError('Conversion failed. Please try again.');
+      const errorMessage = err.message || 'Conversion failed. Please try again.';
+      setError(errorMessage);
+      setResult(0);
       throw err;
     } finally {
       setLoading(false);
