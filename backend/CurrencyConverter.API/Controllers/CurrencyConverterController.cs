@@ -18,7 +18,8 @@ namespace CurrencyConverter.API.Controllers
         [HttpGet("exchange")]
         public ActionResult ConvertCurrency(int amount, string currencies)
         {
-            return Ok();
+            var result = _service.ConvertCurrency(amount, currencies);
+            return Ok(result);
         }
 
         [HttpGet("currencies")]
@@ -49,8 +50,7 @@ namespace CurrencyConverter.API.Controllers
             var response = _service.ConvertCurrencyForSpecificDate(date, currencies, amount);
             return Ok(response);
         }
-
-
+        
         [HttpGet("news")]
         public ActionResult Paginate(int pageNumber)
         {

@@ -1,8 +1,3 @@
-/**
- * Utility functions for formatting data
- */
-
-// Format number with thousand separators
 export function formatNumber(number) {
   if (typeof number !== 'number') {
     return number;
@@ -13,7 +8,6 @@ export function formatNumber(number) {
   }).format(number);
 }
 
-// Format date to string
 export function formatDateToString(date) {
   if (!date) return '';
   return new Date(date).toLocaleDateString('en-US', {
@@ -23,7 +17,6 @@ export function formatDateToString(date) {
   });
 }
 
-// Check if date is today
 export function isToday(date) {
   if (!date) return false;
   const today = new Date();

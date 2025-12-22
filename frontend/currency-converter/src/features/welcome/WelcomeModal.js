@@ -189,45 +189,6 @@ function WelcomeModal({ isVisible, onClose }) {
             High-performance .NET backend with EF Core ORM, scheduled background jobs, distributed tracing, structured logging, and comprehensive API documentation.
           </p>
         </div>
-
-        <Divider 
-          orientation="left"
-          style={{ 
-            borderColor: 'rgba(255, 128, 0, 0.2)',
-            color: '#e8eaed',
-            fontSize: '1rem',
-            fontWeight: '600'
-          }}
-        >
-          Key Features
-        </Divider>
-        
-        <div className={`modal-features-grid ${isMobile ? 'modal-features-grid-mobile' : 'modal-features-grid-desktop'}`}>
-          <div className="modal-feature-card">
-            Real-time Conversion
-          </div>
-          <div className="modal-feature-card">
-            Historical Rate Charts
-          </div>
-          <div className="modal-feature-card">
-            150+ Currency Support
-          </div>
-          <div className="modal-feature-card">
-            Financial News Feed
-          </div>
-          <div className="modal-feature-card">
-            Responsive Design
-          </div>
-          <div className="modal-feature-card">
-            Modern UI/UX
-          </div>
-          <div className="modal-feature-card">
-            RESTful API
-          </div>
-          <div className="modal-feature-card">
-            Enterprise Scalability
-          </div>
-        </div>
       </div>
     </Modal>
   );

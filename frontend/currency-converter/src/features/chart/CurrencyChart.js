@@ -53,8 +53,14 @@ function CurrencyChart(props) {
       const request = props.currentBaseCurrency + props.currentTargetCurrency;
       let response = await getRatesLastThreeMonths(request);
       console.log("response", response);
-      if (response && response.data && response.data.data) {
-        ConvertData(response.data.data);
+      if (response && response.data) {
+        // Backend doğrudan array döndürüyor
+        const dataArray = Array.isArray(response.data) ? response.data : response.data.data;
+        if (dataArray && dataArray.length > 0) {
+          ConvertData(dataArray);
+        } else {
+          setError('Veri alınamadı');
+        }
       } else {
         setError('Veri alınamadı');
       }
@@ -87,7 +93,7 @@ function CurrencyChart(props) {
           alignItems: 'center',
           gap: '10px'
         }}>
-          <span>📊</span> Yükleniyor...
+           Loading...
         </div>
       )}
       {error && (
@@ -98,7 +104,7 @@ function CurrencyChart(props) {
           borderRadius: '12px',
           padding: '16px'
         }}>
-          ⚠️ {error}
+          {error}
         </div>
       )}
       {!loading && !error && data.length > 0 && (
@@ -120,7 +126,7 @@ function CurrencyChart(props) {
             {
               data: data,
               label: props.currentTargetCurrency,
-              showMark: true,
+              showMark: false,
               color: '#ff8000',
               curve: 'natural',
             },
@@ -169,7 +175,7 @@ function CurrencyChart(props) {
           fontSize: '1rem',
           textAlign: 'center'
         }}>
-          Gösterilecek veri bulunamadı
+          No data available to display the chart.
         </div>
       )}
     </div>

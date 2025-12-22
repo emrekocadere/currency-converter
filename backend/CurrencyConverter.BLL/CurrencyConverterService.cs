@@ -15,21 +15,18 @@ public class CurrencyConverterService
     private readonly ICurrencyRatesTimestampRepository _currencyRatesTimestampRepository;
     private List<CurrencyRatio> _currencyRates;
     private readonly HttpClient _httpClient;
-    private readonly IConfiguration _configuration;
     private int _pageSize;
 
     public CurrencyConverterService(ICurrencyRepository currencyRepository,
         ICurrencyRatioRepository currencyRatioRepository,
         INewsRepository newsRepository,
-        ICurrencyRatesTimestampRepository currencyRatesTimestampRepository,
-        IConfiguration configuration
+        ICurrencyRatesTimestampRepository currencyRatesTimestampRepository
     )
     {
         _currencyRepository = currencyRepository;
         _currencyRatioRepository = currencyRatioRepository;
         _newsRepository = newsRepository;
         _currencyRatesTimestampRepository = currencyRatesTimestampRepository;
-        _configuration = configuration;
         _currencyRates = _currencyRatioRepository.GetAll();
         _pageSize = 6;
         _httpClient = new HttpClient();
@@ -113,20 +110,16 @@ public class CurrencyConverterService
 
     public dynamic GetCurrencyRatesForThreeMonths(string currencies)
     {
-        List<CurrencyRatesTimestamp> currencyRatesTimestamps;
-
         try
         {
-            currencyRatesTimestamps = _currencyRatesTimestampRepository.GetCurrencyRatesForThreeMonths(currencies);
-            return Result.Success();
+            var currencyRatesTimestamps = _currencyRatesTimestampRepository.GetCurrencyRatesForThreeMonths(currencies);
+            return currencyRatesTimestamps;
         }
         catch (Exception ex)
         {
             return Errors.NotSavedToDb;
         }
     }
-
-
     public Result<decimal> ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
     {
         var currencyRatesTimestamps =

@@ -1,9 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { getCurrencies, convertCurrency, convertCurrencyOnDate } from '../../services/api';
 
-/**
- * Custom hook for currency conversion logic
- */
 export function useConverter() {
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -11,12 +8,10 @@ export function useConverter() {
   const [result, setResult] = useState(null);
   const [resultUpdated, setResultUpdated] = useState(false);
 
-  // Fetch available currencies
   useEffect(() => {
     const fetchCurrencies = async () => {
       try {
         const response = await getCurrencies();
-        // API returns { isSuccess: true, value: Array }
         const currencies = response?.value || [];
         setCurrencyOptions(currencies.map(currency => ({ code: currency.code })));
       } catch (err) {
@@ -28,7 +23,6 @@ export function useConverter() {
     fetchCurrencies();
   }, []);
 
-  // Convert currency
   const convert = useCallback(async (amount, baseCurrency, targetCurrency, date = null) => {
     setLoading(true);
     setError(null);

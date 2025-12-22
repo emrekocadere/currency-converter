@@ -2,12 +2,17 @@ import React from 'react';
 import { Button, Divider } from 'antd';
 import { GithubOutlined, LinkedinOutlined, MailOutlined, HeartFilled } from '@ant-design/icons';
 import { useResponsive } from './useResponsive';
+import logo from "../../Images/Logo.png";
 
 function Footer() {
     const { isMobile } = useResponsive();
     return (
         <footer className='custom-footer-div'>
             <div className={`custom-footer-content ${isMobile ? 'custom-footer-content-mobile' : 'custom-footer-content-desktop'}`}>
+                <img className="footer-logo" src={logo} alt="Currency Converter" />
+                
+                {!isMobile && <Divider type="vertical" className="custom-footer-divider" />}
+                
                 <div className='custom-footer-links-div'>
                     <Button 
                         type="link" 

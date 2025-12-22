@@ -19,10 +19,7 @@ function App() {
     let response = await saveUserLocation(value);
   }
 
-  // useEffect hook'u doğru kullanımı
   useEffect(() => {
-    // GetUserIp();
-    // SaveUserLocationAsync();
   }, []);
 
   return (
