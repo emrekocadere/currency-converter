@@ -12,12 +12,57 @@ function NewsPage() {
     const lastCardRef = useRef(null);
     const { isMobile } = useResponsive();
     const [news, setNews] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [hasMore, setHasMore] = useState(true);
+    const [initialLoad, setInitialLoad] = useState(true);
 
 
     async function Paginate() {
-        pageNumber++;
-        let response = await getPaginatedResults(pageNumber);
-        setNews((prevNews) => [...prevNews, ...response.data.value]);
+        if (loading || !hasMore) {
+            return;
+        }
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            pageNumber++;
+            console.log('Fetching news page:', pageNumber);
+            
+            let response = await getPaginatedResults(pageNumber);
+            
+            if (!response || !response.data) {
+                setError('No response from server. Please try again.');
+                pageNumber--;
+                return;
+            }
+
+            const newsData = response.data?.value || response.data;
+            
+            if (newsData.length === 0) {
+                setHasMore(false);
+                if (news.length === 0) {
+                    setError('No news available at the moment');
+                }
+                return;
+            }
+
+            setNews((prevNews) => [...prevNews, ...newsData]);
+            
+            // If returned less than expected (e.g., < 6), might be last page
+            if (newsData.length < 6) {
+                setHasMore(false);
+            }
+        } catch (err) {
+            console.error('Error fetching news:', err);
+            const errorMessage = err.message || 'Failed to load news. Please try again.';
+            setError(errorMessage);
+            pageNumber--; // Revert page number on error
+        } finally {
+            setLoading(false);
+            setInitialLoad(false);
+        }
     }
 
     useEffect(() => {
@@ -34,6 +79,33 @@ function NewsPage() {
                 },
             }}
         >
+            {initialLoad && loading ? (
+                <div className="news-loading-container">
+                    <div className="news-spinner"></div>
+                    Loading news...
+                </div>
+            ) : error && news.length === 0 ? (
+                <div className="news-error-container">
+                    <div className="news-error-card">
+                        <div className="news-error-icon">⚠️</div>
+                        <div className="news-error-message">{error}</div>
+                        <Button 
+                            type="primary" 
+                            onClick={() => {
+                                setError(null);
+                                pageNumber = 0;
+                                setNews([]);
+                                setHasMore(true);
+                                Paginate();
+                            }}
+                            className="news-error-retry-button"
+                        >
+                            Try Again
+                        </Button>
+                    </div>
+                </div>
+            ) : (
+                <>
             <div className='card-div news-cards-container'>
                 {news.map((item, index) => (
                     <Card
@@ -69,19 +141,31 @@ function NewsPage() {
                             </div>
                         </div>
                     </Card>
-                ))}
+                ))}  
             </div>
             
+            {error && news.length > 0 && (
+                <div className="news-error-banner">
+                    <div className="news-error-banner-content">
+                        ⚠️ {error}
+                    </div>
+                </div>
+            )}
+
             <div className="news-load-more-container">
                 <Button 
                     type="primary"
                     size="large"
                     onClick={Paginate}
                     className="news-load-more-button"
+                    loading={loading}
+                    disabled={loading || !hasMore}
                 >
-                    Load More News
+                    {loading ? 'Loading...' : hasMore ? 'Load More News' : 'No More News'}
                 </Button>
             </div>
+            </>
+            )}
         </ConfigProvider>
     );
 }

@@ -1334,3 +1334,71 @@ code {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* News page states */
+.news-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  gap: 12px;
+  font-size: 1.1rem;
+  color: #a0aec0;
+}
+
+.news-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 128, 0, 0.3);
+  border-top: 3px solid #ff8000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.news-error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 24px;
+}
+
+.news-error-card {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  max-width: 500px;
+}
+
+.news-error-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.news-error-message {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.news-error-retry-button {
+  margin-top: 16px;
+}
+
+.news-error-banner {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+  padding: 16px;
+}
+
+.news-error-banner-content {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}

@@ -47,10 +47,21 @@ export async function convertCurrencyOnDate(request) {
 
 
 export async function getPaginatedResults(pageNumber) {
-    const response = await axios.get(`${API_BASE_URL}/news`, {
-        params: { pageNumber }
-    });
-    return response;
+    try {
+        const response = await axios.get(`${API_BASE_URL}/news`, {
+            params: { pageNumber }
+        });
+        return response;
+    } catch (error) {
+        console.error('API Error:', error);
+        if (error.response) {
+            throw new Error(error.response.data?.message || `API Error: ${error.response.status}`);
+        } else if (error.request) {
+            throw new Error('Network error. Please check your connection.');
+        } else {
+            throw new Error('Failed to fetch news. Please try again.');
+        }
+    }
 }
 
 
