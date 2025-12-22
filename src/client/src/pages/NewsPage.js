@@ -1,21 +1,40 @@
 import { Card, Divider, Typography, Button, Flex, ConfigProvider } from 'antd';
-import React, { useState, useEffect, useRef } from 'react';
-import { getNews, getPaginatedResults } from '../services/api';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPaginatedResults } from '../services/api';
 import { useResponsive } from '../shared/hooks/useResponsive';
+import {
+  selectNews,
+  selectNewsLoading,
+  selectNewsError,
+  selectNewsPageNumber,
+  selectNewsHasMore,
+  selectNewsInitialLoad,
+  setLoading,
+  setError,
+  setNews,
+  clearNews,
+  incrementPage,
+  decrementPage,
+  setHasMore,
+  setInitialLoad,
+} from '../store/slices/newsSlice';
 import "../index.css"
 
 const { Meta } = Card;
 
-let pageNumber=0;
 function NewsPage() {
-
+    const dispatch = useDispatch();
     const lastCardRef = useRef(null);
     const { isMobile } = useResponsive();
-    const [news, setNews] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [hasMore, setHasMore] = useState(true);
-    const [initialLoad, setInitialLoad] = useState(true);
+    
+    // Redux selectors
+    const news = useSelector(selectNews);
+    const loading = useSelector(selectNewsLoading);
+    const error = useSelector(selectNewsError);
+    const pageNumber = useSelector(selectNewsPageNumber);
+    const hasMore = useSelector(selectNewsHasMore);
+    const initialLoad = useSelector(selectNewsInitialLoad);
 
 
     async function Paginate() {
@@ -23,45 +42,46 @@ function NewsPage() {
             return;
         }
 
-        setLoading(true);
-        setError(null);
+        dispatch(setLoading(true));
+        dispatch(setError(null));
 
         try {
-            pageNumber++;
-            console.log('Fetching news page:', pageNumber);
+            dispatch(incrementPage());
+            const currentPage = pageNumber + 1; // Use next page number
+            console.log('Fetching news page:', currentPage);
             
-            let response = await getPaginatedResults(pageNumber);
+            let response = await getPaginatedResults(currentPage);
             
             if (!response || !response.data) {
-                setError('No response from server. Please try again.');
-                pageNumber--;
+                dispatch(setError('No response from server. Please try again.'));
+                dispatch(decrementPage());
                 return;
             }
 
             const newsData = response.data?.value || response.data;
             
             if (newsData.length === 0) {
-                setHasMore(false);
+                dispatch(setHasMore(false));
                 if (news.length === 0) {
-                    setError('No news available at the moment');
+                    dispatch(setError('No news available at the moment'));
                 }
                 return;
             }
 
-            setNews((prevNews) => [...prevNews, ...newsData]);
+            dispatch(setNews(newsData));
             
             // If returned less than expected (e.g., < 6), might be last page
             if (newsData.length < 6) {
-                setHasMore(false);
+                dispatch(setHasMore(false));
             }
         } catch (err) {
             console.error('Error fetching news:', err);
             const errorMessage = err.message || 'Failed to load news. Please try again.';
-            setError(errorMessage);
-            pageNumber--; // Revert page number on error
+            dispatch(setError(errorMessage));
+            dispatch(decrementPage()); // Revert page number on error
         } finally {
-            setLoading(false);
-            setInitialLoad(false);
+            dispatch(setLoading(false));
+            dispatch(setInitialLoad(false));
         }
     }
 
@@ -92,10 +112,8 @@ function NewsPage() {
                         <Button 
                             type="primary" 
                             onClick={() => {
-                                setError(null);
-                                pageNumber = 0;
-                                setNews([]);
-                                setHasMore(true);
+                                dispatch(clearNews());
+                                dispatch(setHasMore(true));
                                 Paginate();
                             }}
                             className="news-error-retry-button"

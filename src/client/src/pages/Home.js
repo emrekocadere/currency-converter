@@ -10,9 +10,7 @@ import { useResponsive } from '../shared/hooks/useResponsive';
 
 export default function HomePage() {
     const { isDesktop, isMobile, isTablet } = useResponsive();
-
-    const [currentBaseCurrency, setCurrentBaseCurrency] = useState("AUD");
-    const [currentTargetCurrency, setCurrentTargetCurrency] = useState("CAD");
+    
     const [currencyGraph, setCurrencyGraph] = useState("HomePage");
     const [isModalVisible, setIsModalVisible] = useState(true);
 
@@ -23,11 +21,6 @@ export default function HomePage() {
     const handleModalClose = () => {
         setIsModalVisible(false);
     };
-
-    function setCurrentCurrenciesCallback(currencies) {
-        setCurrentBaseCurrency(currencies.baseCurrency);
-        setCurrentTargetCurrency(currencies.targetCurrency);
-    }
 
     return (
         <div className='home-page-div'>
@@ -46,13 +39,13 @@ export default function HomePage() {
             {/* Eğer isDesktopOrLaptop ise düzenleme yapılır */}
             <Row className={isMobile ? 'homepage-row-mobile' : 'homepage-row-desktop'}>
                 <Col span={isMobile ? 24 : 12}>
-                    <CurrencyConverter onCurrencyChange={setCurrentCurrenciesCallback} />
+                    <CurrencyConverter />
                 </Col>
                 <Col
                     span={isMobile ? 24 : 12}
                     className="homepage-col-center"
                 >
-                    <CurrencyChart currencyRates={currencyGraph} currentBaseCurrency={currentBaseCurrency} currentTargetCurrency={currentTargetCurrency}></CurrencyChart>
+                    <CurrencyChart currencyRates={currencyGraph} />
                 </Col>
                 
             </Row>
@@ -61,11 +54,7 @@ export default function HomePage() {
             {isMobile ? (
                 <Row gutter={[16, 16]} className="news-section-container-mobile">
                     <Col span={24}>
-                        <CommonCurrenciesRates 
-                            style={{ marginTop: "50vh" }} 
-                            currentBaseCurrency={currentBaseCurrency} 
-                            currentTargetCurrency={currentTargetCurrency} 
-                        />
+                        <CommonCurrenciesRates style={{ marginTop: "50vh" }} />
                     </Col>
 
                     <Typography.Title 
@@ -96,10 +85,7 @@ export default function HomePage() {
                             <NewsPage />
                         </Col>
                         <Col span={12} className="common-currencies-rates-col">
-                            <CommonCurrenciesRates 
-                                currentBaseCurrency={currentBaseCurrency} 
-                                currentTargetCurrency={currentTargetCurrency} 
-                            />
+                            <CommonCurrenciesRates />
                         </Col>
                     </Row>
                 </>

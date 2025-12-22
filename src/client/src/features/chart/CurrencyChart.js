@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { getRatesLastThreeMonths } from '../../services/api';
+import { selectBaseCurrency, selectTargetCurrency } from '../../store/slices/currencySlice';
 import '../../index.css';
 
 function CurrencyChart(props) {
+  const currentBaseCurrency = useSelector(selectBaseCurrency);
+  const currentTargetCurrency = useSelector(selectTargetCurrency);
+  
   const [data, setData] = useState([]);
   const [times, setTimes] = useState([]);
   const [minValue, setMinValue] = useState(0);
@@ -75,7 +80,7 @@ function CurrencyChart(props) {
 
   async function GetCurrencyRatesLastThreeMonths() {
     // Validation: Check if currencies are selected
-    if (!props.currentBaseCurrency || !props.currentTargetCurrency) {
+    if (!currentBaseCurrency || !currentTargetCurrency) {
       setData([]);
       setTimes([]);
       setError(null);
@@ -83,7 +88,7 @@ function CurrencyChart(props) {
     }
 
     // Don't fetch if same currency
-    if (props.currentBaseCurrency === props.currentTargetCurrency) {
+    if (currentBaseCurrency === currentTargetCurrency) {
       setData([]);
       setTimes([]);
       setError('Please select different currencies');
@@ -94,7 +99,7 @@ function CurrencyChart(props) {
     setError(null);
     
     try {
-      const request = props.currentBaseCurrency + props.currentTargetCurrency;
+      const request = currentBaseCurrency + currentTargetCurrency;
       console.log('Fetching currency history for:', request);
       
       let response = await getRatesLastThreeMonths(request);
@@ -118,7 +123,7 @@ function CurrencyChart(props) {
       }
 
       if (dataArray.length === 0) {
-        setError(`No historical data available for ${props.currentBaseCurrency}/${props.currentTargetCurrency}`);
+        setError(`No historical data available for ${currentBaseCurrency}/${currentTargetCurrency}`);
         setData([]);
         setTimes([]);
         return;
@@ -139,7 +144,7 @@ function CurrencyChart(props) {
 
   useEffect(() => {
     GetCurrencyRatesLastThreeMonths();
-  }, [props.currentTargetCurrency, props.currentBaseCurrency]);
+  }, [currentTargetCurrency, currentBaseCurrency]);
 
   return (
     <div className='chart' style={{ 
@@ -205,7 +210,7 @@ function CurrencyChart(props) {
           series={[
             {
               data: data,
-              label: props.currentTargetCurrency,
+              label: currentTargetCurrency,
               showMark: false,
               color: '#ff8000',
               curve: 'natural',

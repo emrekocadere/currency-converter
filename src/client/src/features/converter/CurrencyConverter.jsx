@@ -1,14 +1,16 @@
 import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { Form, InputNumber, Select, DatePicker, Button, Tooltip, ConfigProvider } from 'antd';
 import { SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import ConversionResult from '../../shared/ui/ConversionResult';
 import CurrencyFlag from '../../shared/ui/CurrencyFlag';
 import { useConverter } from './useConverter';
 import { useResponsive } from '../../shared/hooks/useResponsive';
+import { setCurrencies, swapCurrencies } from '../../store/slices/currencySlice';
 
 
-const CurrencyConverter = ({ onCurrencyChange }) => {
+const CurrencyConverter = () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { isMobile } = useResponsive();
   const { currencyOptions, loading, error, result, resultUpdated, convert } = useConverter();
@@ -35,14 +37,10 @@ const CurrencyConverter = ({ onCurrencyChange }) => {
       setInputAmount(outputAmount);
       setOutputAmount(inputAmount);
 
-      if (onCurrencyChange) {
-        onCurrencyChange({
-          baseCurrency: currentTarget,
-          targetCurrency: currentBase
-        });
-      }
+      // Dispatch Redux action
+      dispatch(swapCurrencies());
     }
-  }, [form, inputAmount, outputAmount, onCurrencyChange]);
+  }, [form, inputAmount, outputAmount, dispatch]);
 
   // Handle form submission
   const onFinish = useCallback(async (values) => {
@@ -52,9 +50,8 @@ const CurrencyConverter = ({ onCurrencyChange }) => {
     setBaseCurrency(base);
     setTargetCurrency(target);
 
-    if (onCurrencyChange) {
-      onCurrencyChange({ baseCurrency: base, targetCurrency: target });
-    }
+    // Dispatch Redux action
+    dispatch(setCurrencies({ baseCurrency: base, targetCurrency: target }));
 
     // Same currency check
     if (base === target) {
@@ -69,7 +66,7 @@ const CurrencyConverter = ({ onCurrencyChange }) => {
     } catch (err) {
       console.error('Conversion failed:', err);
     }
-  }, [convert, onCurrencyChange]);
+  }, [convert, dispatch]);
 
   // Render currency option
   const renderCurrencyOption = (currency, isDropdown = false) => (
@@ -232,10 +229,6 @@ const CurrencyConverter = ({ onCurrencyChange }) => {
       </div>
     </ConfigProvider>
   );
-};
-
-CurrencyConverter.propTypes = {
-  onCurrencyChange: PropTypes.func
 };
 
 export default CurrencyConverter;

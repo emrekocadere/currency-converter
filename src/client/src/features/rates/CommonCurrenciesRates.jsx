@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import RatesHeader from '../../shared/ui/RatesHeader';
 import BaseCurrencyCard from '../../shared/ui/BaseCurrencyCard';
 import RateItem from '../../shared/ui/RateItem';
 import { useRates } from './useRates';
+import { selectBaseCurrency } from '../../store/slices/currencySlice';
 
 
-const CommonCurrenciesRates = ({ currentBaseCurrency, onRateClick }) => {
+const CommonCurrenciesRates = ({ onRateClick }) => {
+  const currentBaseCurrency = useSelector(selectBaseCurrency);
   const { rates, loading, error } = useRates(currentBaseCurrency);
 
 
@@ -68,7 +71,6 @@ const CommonCurrenciesRates = ({ currentBaseCurrency, onRateClick }) => {
 };
 
 CommonCurrenciesRates.propTypes = {
-  currentBaseCurrency: PropTypes.string.isRequired,
   onRateClick: PropTypes.func
 };
 

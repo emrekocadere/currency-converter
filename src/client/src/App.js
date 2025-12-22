@@ -1,8 +1,11 @@
 import './App.css';
 import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { store } from './store';
 import { getUserIp, saveUserLocation } from './services/api';
 import MainLayout from './shared/layout/MainLayout';
 import Home from './pages/Home';
+
 function App() {
 
   async function getUserIp() {
@@ -23,9 +26,11 @@ function App() {
   }, []);
 
   return (
-    <MainLayout>
-      <Home />
-    </MainLayout>
+    <Provider store={store}>
+      <MainLayout>
+        <Home />
+      </MainLayout>
+    </Provider>
   );
 }
 
