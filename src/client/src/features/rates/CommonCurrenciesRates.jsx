@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import RatesHeader from '../../shared/ui/RatesHeader';
-import BaseCurrencyCard from '../../shared/ui/BaseCurrencyCard';
+
 import RateItem from '../../shared/ui/RateItem';
 import { useRates } from './useRates';
 import { selectBaseCurrency } from '../../store/slices/currencySlice';
@@ -39,18 +38,19 @@ const CommonCurrenciesRates = ({ onRateClick }) => {
 
   return (
     <div className="common-currencies-rates">
-      {/* Header */}
-      <RatesHeader />
+      <div className="rates-header">
+        <h3 className="rates-title">Exchange Rates</h3>
+      </div>
 
-      {/* Base Currency Display */}
       {currentBaseCurrency && (
-        <BaseCurrencyCard currencyCode={currentBaseCurrency} />
+        <div className="base-currency-card">
+          <span className="base-currency-label">Base:</span>
+          <span className="base-currency-code">{currentBaseCurrency}</span>
+        </div>
       )}
 
-      {/* Divider */}
       <div className="rates-divider" />
 
-      {/* Currency Rates List */}
       <div className="rates-list">
         {loading && rates.length === 0 ? (
           <div className="rates-loading">Loading rates...</div>
@@ -65,7 +65,6 @@ const CommonCurrenciesRates = ({ onRateClick }) => {
           ))
         )}
       </div>
-
     </div>
   );
 };
