@@ -20,5 +20,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICurrencyRepository, CurrencyRepository>();
         services.AddScoped<ICurrencyRatioRepository, CurrencyRatioRepository>();
         services.AddScoped<ICurrencyRatesTimestampRepository, CurrencyRatesTimestampRepository>();
+        services.AddScoped<IRateFetchHistoryRepository,RateFetchHistoryRepository>();
     }
 }

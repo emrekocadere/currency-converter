@@ -11,9 +11,6 @@ public interface ICurrencyConverterService
     Result<List<Currency>> GetCurrencies();
     Result<List<CurrencyRatio>> GetCurrencyRates(string currentCurrency);
     dynamic GetCurrencyRatesForThreeMonths(string currencies);
-    void GetCurrencyRatesFromDb();
     Result<List<News>> Paginate(int pageNumber);
     // Task Save();
-    Result SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList);
-    Result SaveTheNewsToDb(List<News> news);
 }

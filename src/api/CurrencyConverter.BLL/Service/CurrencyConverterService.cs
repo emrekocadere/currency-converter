@@ -1,48 +1,61 @@
-using System;
 using CurrencyConverter.API.Entities;
+using CurrencyConverter.BLL.Common.Caching;
 using CurrencyConverter.BLL.Results;
 using CurrencyConverter.DAL.Interfaces;
-
 namespace CurrencyConverter.BLL.Service;
 
-public class CurrencyConverterService(
-    ICurrencyRepository _currencyRepository,
-    ICurrencyRatioRepository _currencyRatioRepository,
-    INewsRepository _newsRepository,
-    ICurrencyRatesTimestampRepository _currencyRatesTimestampRepository,
-    List<CurrencyRatio> _currencyRates)
-    : ICurrencyConverterService
+public class CurrencyConverterService : ICurrencyConverterService
 {
-    
+    private readonly ICurrencyRepository _currencyRepository;
+    private readonly ICurrencyRatioRepository _currencyRatioRepository;
+    private readonly INewsRepository _newsRepository;
+    private readonly ICurrencyRatesTimestampRepository _currencyRatesTimestampRepository;
+    private List<CurrencyRatio> _currencyRates;
+    private readonly ICacheService _cache;
+
+    public CurrencyConverterService(ICurrencyRepository currencyRepository,
+        ICurrencyRatioRepository currencyRatioRepository,
+        INewsRepository newsRepository,
+        ICurrencyRatesTimestampRepository currencyRatesTimestampRepository,
+        List<CurrencyRatio> currencyRates,
+        ICacheService cache)
+    {
+        _currencyRepository = currencyRepository;
+        _currencyRatioRepository = currencyRatioRepository;
+        _newsRepository = newsRepository;
+        _currencyRatesTimestampRepository = currencyRatesTimestampRepository;
+        _currencyRates = currencyRates;
+        _cache = cache;
+    }
 
     public Result<decimal> ConvertCurrency(int amount, string currencies)
     {
-        var currencyRate = _currencyRates.FirstOrDefault(x => x.Currencies == currencies);
-        if (currencyRate == null)
-        {
-            return Error.None;
-        }
-
-        decimal result = amount * currencyRate.Rate;
+        var anan = GetCurrencyRatios();
+        var currencyRatio = anan.FirstOrDefault(x => x.Currencies == currencies);
+        decimal result = amount * currencyRatio.Rate;
 
         return result;
     }
 
     public Result<List<CurrencyRatio>> GetCurrencyRates(string currentCurrency)
     {
-        return _currencyRates.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
+        var anan = GetCurrencyRatios();
+        return anan.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
     }
 
     public Result<List<Currency>> GetCurrencies()
-    {
-        return _currencyRepository.GetAll();
+    {  
+        var currencies = _cache.GetOrCreate("Currencies", () =>
+                _currencyRepository.GetAll()
+            , TimeSpan.FromHours(1));
+        return currencies;
     }
 
-    public Result SaveTheNewsToDb(List<News> news) 
+    public Result SaveTheNewsToDb(List<News> news)
     {
         try
         {
-            _newsRepository.Addrange(news); 
+            _newsRepository.Addrange(news);
             _newsRepository.SaveChanges();
         }
         catch (Exception ex)
@@ -54,10 +67,12 @@ public class CurrencyConverterService(
     }
 
 
-
-    public void GetCurrencyRatesFromDb()
+    private List<CurrencyRatio> GetCurrencyRatios()
     {
-        _currencyRates = _currencyRatioRepository.GetAll();
+        var anan = _cache.GetOrCreate("CurrencyRatios", () =>
+                _currencyRatioRepository.GetAll()
+            , TimeSpan.FromHours(1));
+        return anan;
     }
 
 
@@ -100,6 +115,7 @@ public class CurrencyConverterService(
             return Errors.NotSavedToDb;
         }
     }
+
     public Result<decimal> ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
     {
         var currencyRatesTimestamps =
@@ -110,10 +126,9 @@ public class CurrencyConverterService(
         return result;
     }
 
-    public Result<List<News>> Paginate(int pageNumber) 
+    public Result<List<News>> Paginate(int pageNumber)
     {
         var news = _newsRepository.GetNewsByPage(pageNumber, 6);
         return news;
     }
-   
 }
