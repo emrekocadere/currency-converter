@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Divider } from 'antd';
 import { GithubOutlined, LinkedinOutlined, MailOutlined, HeartFilled } from '@ant-design/icons';
 import { useResponsive } from './useResponsive';
-import logo from "../../Images/Logo.png";
+import logo from "../../Images/Logo.svg";
 
 function Footer() {
     const { isMobile } = useResponsive();

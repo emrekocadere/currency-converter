@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ConfigProvider } from 'antd';
 import { GithubOutlined, LinkedinOutlined, CoffeeOutlined } from '@ant-design/icons';
-import imagee from "../../Images/Logo.png";
+import imagee from "../../Images/Logo.svg";
 
 function Header() {
     return (
