@@ -1,12 +1,12 @@
-import React, { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, InputNumber, Select, DatePicker, Button, Tooltip, ConfigProvider } from 'antd';
 import { SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import ConversionResult from '../../shared/ui/ConversionResult';
 import CurrencyFlag from '../../shared/ui/CurrencyFlag';
 import { useConverter } from './useConverter';
 import { useResponsive } from '../../shared/hooks/useResponsive';
-import { setCurrencies, swapCurrencies } from '../../store/slices/currencySlice';
+import { setCurrencies, swapCurrencies, selectBaseCurrency, selectTargetCurrency } from '../../store/slices/currencySlice';
 
 
 const CurrencyConverter = () => {
@@ -14,11 +14,25 @@ const CurrencyConverter = () => {
   const [form] = Form.useForm();
   const { isMobile } = useResponsive();
   const { currencyOptions, loading, error, result, resultUpdated, convert } = useConverter();
+  const reduxBaseCurrency = useSelector(selectBaseCurrency);
+  const reduxTargetCurrency = useSelector(selectTargetCurrency);
 
   const [inputAmount, setInputAmount] = useState(0);
   const [outputAmount, setOutputAmount] = useState(0);
   const [baseCurrency, setBaseCurrency] = useState('');
   const [targetCurrency, setTargetCurrency] = useState('');
+
+  // Set initial form values from Redux store
+  useEffect(() => {
+    if (currencyOptions.length > 0 && reduxBaseCurrency && reduxTargetCurrency) {
+      form.setFieldsValue({
+        baseCurrency: reduxBaseCurrency,
+        targetCurrency: reduxTargetCurrency,
+      });
+      setBaseCurrency(reduxBaseCurrency);
+      setTargetCurrency(reduxTargetCurrency);
+    }
+  }, [currencyOptions, reduxBaseCurrency, reduxTargetCurrency, form]);
 
   // Handle currency swap
   const handleSwapCurrencies = useCallback(() => {

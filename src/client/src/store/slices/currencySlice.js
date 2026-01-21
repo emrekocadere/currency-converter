@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  baseCurrency: 'AUD',
-  targetCurrency: 'CAD',
+  baseCurrency: 'EUR',
+  targetCurrency: 'USD',
 };
 
 const currencySlice = createSlice({
