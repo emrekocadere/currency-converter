@@ -1,0 +1,19 @@
+using System;
+using CurrencyConverter.API.Entities;
+using CurrencyConverter.BLL.Results;
+
+namespace CurrencyConverter.BLL.Service;
+
+public interface ICurrencyConverterService
+{
+    Result<decimal> ConvertCurrency(int amount, string currencies);
+    Result<decimal> ConvertCurrencyForSpecificDate(string date, string currencies, int amount);
+    Result<List<Currency>> GetCurrencies();
+    Result<List<CurrencyRatio>> GetCurrencyRates(string currentCurrency);
+    dynamic GetCurrencyRatesForThreeMonths(string currencies);
+    void GetCurrencyRatesFromDb();
+    Result<List<News>> Paginate(int pageNumber);
+    // Task Save();
+    Result SaveTheCurencyRatesToDb(List<CurrencyRatio> currencyRatioList);
+    Result SaveTheNewsToDb(List<News> news);
+}

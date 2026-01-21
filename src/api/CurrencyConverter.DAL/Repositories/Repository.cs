@@ -7,7 +7,7 @@ namespace CurrencyConverter.DAL;
 public class Repository<T> : IRepository<T> where T : class
 {
     protected readonly CurrencyConverterDbContext _context;
-    private readonly DbSet<T> _dbSet;
+    public readonly DbSet<T> _dbSet;
 
     public Repository(CurrencyConverterDbContext context)
     {
