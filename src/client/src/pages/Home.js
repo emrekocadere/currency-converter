@@ -1,9 +1,8 @@
 import '../index.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Typography, Col, Row } from 'antd';
 import CurrencyConverter from '../features/converter/CurrencyConverter';
 import CurrencyChart from '../features/chart/CurrencyChart';
-import WelcomeModal from '../features/welcome/WelcomeModal';
 import NewsPage from './NewsPage';
 import CommonCurrenciesRates from '../features/rates/CommonCurrenciesRates';
 import { useResponsive } from '../shared/hooks/useResponsive';
@@ -12,20 +11,9 @@ export default function HomePage() {
     const { isDesktop, isMobile, isTablet } = useResponsive();
     
     const [currencyGraph, setCurrencyGraph] = useState("HomePage");
-    const [isModalVisible, setIsModalVisible] = useState(true);
-
-    useEffect(() => {
-        setIsModalVisible(true);
-    }, []);
-
-    const handleModalClose = () => {
-        setIsModalVisible(false);
-    };
 
     return (
         <div className='home-page-div'>
-            <WelcomeModal isVisible={isModalVisible} onClose={handleModalClose} />
-
             <Row className="page-title-container">
                 <Typography.Title 
                     level={1} 

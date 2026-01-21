@@ -545,13 +545,16 @@ code {
 
 .header-img {
   height: 60px;
-  width: auto;
+  width: 155px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .footer-logo {
-  height: 40px;
-  width: auto;
-  opacity: 0.9;
+   height: 40px;
+  width: 115px;
+    object-fit: cover;
+
 }
 
 .custom-footer-div {
@@ -849,104 +852,6 @@ code {
 .ant-modal .ant-modal-title {
   color: #e8eaed !important;
 }
-
-
-.modal-title-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #ff8000;
-}
-
-.modal-content-wrapper {
-  padding: 10px 0;
-}
-
-.modal-intro-text {
-  font-size: 1.05rem;
-  margin-bottom: 24px;
-  color: #a0aec0;
-  line-height: 1.6;
-}
-
-.modal-section-wrapper-arch,
-.modal-section-wrapper-frontend,
-.modal-section-wrapper-backend {
-  margin-bottom: 24px;
-}
-
-.modal-badge-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.modal-badge {
-  color: white;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  transition: transform 0.2s ease;
-  cursor: default;
-}
-
-.modal-badge-arch-1 { background: linear-gradient(135deg, #2E8B57, #3CB371); box-shadow: 0 2px 8px rgba(46, 139, 87, 0.3); }
-.modal-badge-arch-2 { background: linear-gradient(135deg, #FF6347, #FF7F50); box-shadow: 0 2px 8px rgba(255, 99, 71, 0.3); }
-.modal-badge-arch-3 { background: linear-gradient(135deg, #4682B4, #5F9EA0); box-shadow: 0 2px 8px rgba(70, 130, 180, 0.3); }
-.modal-badge-arch-4 { background: linear-gradient(135deg, #9932CC, #BA55D3); box-shadow: 0 2px 8px rgba(153, 50, 204, 0.3); }
-.modal-badge-frontend-1 { background: linear-gradient(135deg, #61DAFB, #4FA8C5); box-shadow: 0 2px 8px rgba(97, 218, 251, 0.3); }
-.modal-badge-frontend-2 { background: linear-gradient(135deg, #1890ff, #40a9ff); box-shadow: 0 2px 8px rgba(24, 144, 255, 0.3); }
-.modal-badge-frontend-3 { background: linear-gradient(135deg, #007FFF, #0066CC); box-shadow: 0 2px 8px rgba(0, 127, 255, 0.3); }
-.modal-badge-frontend-4 { background: linear-gradient(135deg, #5A67D8, #7B68EE); box-shadow: 0 2px 8px rgba(90, 103, 216, 0.3); }
-.modal-badge-frontend-5 { background: linear-gradient(135deg, #671DDF, #8B44F7); box-shadow: 0 2px 8px rgba(103, 29, 223, 0.3); }
-.modal-badge-frontend-6 { background: linear-gradient(135deg, #10B981, #34D399); box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
-.modal-badge-backend-1 { background: linear-gradient(135deg, #512BD4, #6A3FDB); box-shadow: 0 2px 8px rgba(81, 43, 212, 0.3); }
-.modal-badge-backend-2 { background: linear-gradient(135deg, #68217A, #7E2A92); box-shadow: 0 2px 8px rgba(104, 33, 122, 0.3); }
-.modal-badge-backend-3 { background: linear-gradient(135deg, #CC2927, #E63946); box-shadow: 0 2px 8px rgba(204, 41, 39, 0.3); }
-.modal-badge-backend-4 { background: linear-gradient(135deg, #FF6B35, #FF8547); box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3); }
-.modal-badge-backend-5 { background: linear-gradient(135deg, #1E3A8A, #2952B8); box-shadow: 0 2px 8px rgba(30, 58, 138, 0.3); }
-.modal-badge-backend-6 { background: linear-gradient(135deg, #10B981, #14D89A); box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
-
-.modal-section-description {
-  font-size: 0.9rem;
-  color: #a0aec0;
-  margin: 5px 0;
-  line-height: 1.5;
-}
-
-.modal-feature-card {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: rgba(255, 128, 0, 0.05);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 128, 0, 0.1);
-}
-
-.modal-feature-icon {
-  color: #ff8000;
-}
-
-.modal-footer-button-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #e8eaed;
-  border-radius: 6px;
-  font-weight: 500;
-}
-
-.modal-footer-button-primary {
-  background: linear-gradient(135deg, #ff8000, #ff6b35);
-  border: none;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(255, 128, 0, 0.2);
-  font-weight: 500;
-}
-
 
 .page-title-container {
   margin-bottom: 24px;
