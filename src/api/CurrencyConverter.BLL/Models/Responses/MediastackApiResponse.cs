@@ -1,7 +1,7 @@
 using System;
 using CurrencyConverter.API.Entities;
 
-namespace CurrencyConverter.API;
+namespace CurrencyConverter.BLL.Models.Responses;
 
 public class Pagination
 {

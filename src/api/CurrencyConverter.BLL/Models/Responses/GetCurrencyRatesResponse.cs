@@ -1,6 +1,6 @@
 using System;
 
-namespace CurrencyConverter.API;
+namespace CurrencyConverter.BLL.Models.Responses;
 
 public class GetCurrencyRatesResponse
 {
