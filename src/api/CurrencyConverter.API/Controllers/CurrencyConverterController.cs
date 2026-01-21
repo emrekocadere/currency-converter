@@ -1,31 +1,26 @@
-using CurrencyConverter.API.DTOs;
-using CurrencyConverter.BLL;
-using Microsoft.AspNetCore.Http;
+using CurrencyConverter.BLL.Service;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace CurrencyConverter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CurrencyConverterController : ControllerBase
+    public class CurrencyConverterController(
+        ICurrencyConverterService service)
+        : ControllerBase
     {
-        private readonly CurrencyConverterService _service;
-        public CurrencyConverterController(CurrencyConverterService service)
-        {
-            _service = service;
-        }
+
         [HttpGet("exchange")]
         public ActionResult ConvertCurrency(int amount, string currencies)
         {
-            var result = _service.ConvertCurrency(amount, currencies);
+            var result = service.ConvertCurrency(amount, currencies);
             return Ok(result);
         }
 
         [HttpGet("currencies")]
         public IActionResult GetCurrencies()
         {
-            var result = _service.GetCurrencies();
+            var result = service.GetCurrencies();
             return Ok(result);
         }
 
@@ -33,39 +28,29 @@ namespace CurrencyConverter.API.Controllers
         [HttpGet("currency-rates")]
         public ActionResult GetCurrencyRates(string currency)
         {
-            var response = _service.GetCurrencyRates(currency);
+            var response = service.GetCurrencyRates(currency);
             return Ok(response);
         }
 
         [HttpGet("currency-rates/history")]
         public ActionResult GetCurrencyRatesForThreeMonths(string currencies)
         {
-            var response = _service.GetCurrencyRatesForThreeMonths(currencies);
+            var response = service.GetCurrencyRatesForThreeMonths(currencies);
             return Ok(response);
         }
 
         [HttpGet("exchange/by-date")]
         public ActionResult ConvertCurrencyForSpecificDate(string date, string currencies, int amount)
         {
-            var response = _service.ConvertCurrencyForSpecificDate(date, currencies, amount);
+            var response = service.ConvertCurrencyForSpecificDate(date, currencies, amount);
             return Ok(response);
         }
-        
+
         [HttpGet("news")]
         public ActionResult Paginate(int pageNumber)
         {
-            return Ok(_service.Paginate(pageNumber));
+            return Ok(service.Paginate(pageNumber));
         }
-
-
-        // [HttpPost("user-locations")]
-        // public ActionResult SaveUserLocation(UserLocationDTO dto)
-        // {
-        //     var response = _service.SaveUserLocation(dto);
-        //     return Ok(response);
-        // }
-
- 
 
     }
 }
