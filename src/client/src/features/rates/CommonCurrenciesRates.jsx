@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { Button } from 'antd';
 
 import RateItem from '../../shared/ui/RateItem';
 import { useRates } from './useRates';
@@ -10,6 +11,7 @@ import { selectBaseCurrency } from '../../store/slices/currencySlice';
 const CommonCurrenciesRates = ({ onRateClick }) => {
   const currentBaseCurrency = useSelector(selectBaseCurrency);
   const { rates, loading, error } = useRates(currentBaseCurrency);
+  const [showAll, setShowAll] = useState(false);
 
 
   const parsedRates = useMemo(() => {
@@ -19,6 +21,8 @@ const CommonCurrenciesRates = ({ onRateClick }) => {
       fullCode: item.currencies
     }));
   }, [rates]);
+
+  const displayedRates = showAll ? parsedRates : parsedRates.slice(0, 5);
 
   const handleRateClick = (rateData) => {
     if (onRateClick) {
@@ -55,14 +59,45 @@ const CommonCurrenciesRates = ({ onRateClick }) => {
         {loading && rates.length === 0 ? (
           <div className="rates-loading">Loading rates...</div>
         ) : (
-          parsedRates.map((rate, index) => (
-            <RateItem
-              key={`${rate.currencyCode}-${index}`}
-              currencyCode={rate.currencyCode}
-              rate={rate.rate}
-              onClick={() => handleRateClick(rate)}
-            />
-          ))
+          <>
+            <div className="rates-list-desktop">
+              {parsedRates.map((rate, index) => (
+                <RateItem
+                  key={`${rate.currencyCode}-${index}`}
+                  currencyCode={rate.currencyCode}
+                  rate={rate.rate}
+                  onClick={() => handleRateClick(rate)}
+                />
+              ))}
+            </div>
+            
+            <div className="rates-list-mobile">
+              {displayedRates.map((rate, index) => (
+                <RateItem
+                  key={`${rate.currencyCode}-${index}`}
+                  currencyCode={rate.currencyCode}
+                  rate={rate.rate}
+                  onClick={() => handleRateClick(rate)}
+                />
+              ))}
+              
+              {parsedRates.length > 5 && (
+                <Button
+                  type="text"
+                  onClick={() => setShowAll(!showAll)}
+                  className="rates-see-all-button"
+                  style={{
+                    width: '100%',
+                    marginTop: '12px',
+                    color: '#ff8000',
+                    fontWeight: '500'
+                  }}
+                >
+                  {showAll ? 'Show Less' : `See All (${parsedRates.length})`}
+                </Button>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>

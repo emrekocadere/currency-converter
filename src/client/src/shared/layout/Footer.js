@@ -34,13 +34,7 @@ function Footer() {
                     >
                         GitHub
                     </Button>
-                    <Button 
-                        type="link" 
-                        className='cutom-footer-links'
-                        icon={<MailOutlined />}
-                    >
-                        Email
-                    </Button>
+
                 </div>
 
                 {!isMobile && <Divider type="vertical" className="custom-footer-divider" />}

@@ -1,8 +1,8 @@
-# HotFixCurrency
+# Currvia
 
 <div align="center">
 
-<img src="./src/client/public/logo.png" alt="Currency Converter Logo" width="150" />
+<img src="./src/client/public/logo.png" alt="Currency Converter Logo" width="250" />
 
 ### Full-Stack Currency Exchange Platform
 
@@ -30,20 +30,21 @@ Full-stack web application that provides real-time currency exchange rates, hist
 ## Tech Stack
 
 ### Frontend
-- React 18.3.1
-- Ant Design 5.26.1
-- MUI X-Charts 7.27.0
-- Axios 1.7.7
-- Framer Motion 11.11.11
-- react-responsive 10.0.0
-- CSS3 (custom styles)
+- React 
+- Ant Design 
+- MUI X-Charts 
+- Axios 
+- Framer Motion 
+- react-responsive 
+- CSS3 
 
 ### Backend
-- ASP.NET Core 8.0
-- Entity Framework Core 8.0.15
-- Quartz.NET 3.14.0
-- Serilog 8.0.0
-- Swagger 6.4.0
+- ASP.NET Core 
+- Entity Framework Core 
+- Memory Cache 
+- Quartz.NET 
+- Serilog 
+- Swagger 
 
 ### Database
 - SQL Server / PostgreSQL
@@ -142,11 +143,12 @@ utils/           → Helper functions and formatters
 - **Accessibility** - WCAG compliant design patterns
 
 ### Backend Capabilities
-- **Background Jobs** - Quartz.NET scheduled tasks (ready to enable)
-- **Database Caching** - Store exchange rates locally
+- **Memory Caching** - In-memory cache for API responses with TTL
+- **Background Jobs** - Quartz.NET scheduled tasks for rate updates
+- **Database Persistence** - Store historical exchange rates
 - **Dual Database Support** - SQL Server or PostgreSQL
-- **Structured Logging** - Serilog for production debugging
-- **API Documentation** - Built-in Swagger UI
+- **Structured Logging** - Serilog for debugging and monitoring
+- **API Documentation** - Interactive Swagger UI
 
 
 
@@ -171,16 +173,16 @@ Base URL: `http://localhost:5203/api/CurrencyConverter`
 
 ## Performance Optimizations
 
+- **Memory Cache** - Reduced external API calls with in-memory caching
 - **React.memo** - Prevent unnecessary re-renders
 - **useCallback/useMemo** - Optimize expensive calculations
-- **Background Jobs** - Scheduled rate updates (configurable)
+- **Background Jobs** - Scheduled rate updates with Quartz.NET
 - **Database Indexing** - Fast query performance
 - **Responsive Images** - SVG flags for minimal load time
-- **Code Splitting** - Feature-based bundle splitting
 
 ---
 
-## 👨‍💻 Created By
+## Created By
 
 <div align="center">
 
@@ -188,7 +190,6 @@ Base URL: `http://localhost:5203/api/CurrencyConverter`
 
 Full-Stack Developer
 
-[![GitHub](https://img.shields.io/badge/GitHub-emrekocadere-181717?style=for-the-badge&logo=github)](https://github.com/emrekocadere)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/salih-emre-kocadere-7a61b0203/)
 
 
