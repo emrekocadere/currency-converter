@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="./frontend/currency-converter/src/images/logo.png" alt="Currency Converter Logo" width="150" />
+<img src="./src/client/public/logo.png" alt="Currency Converter Logo" width="150" />
 
 ### Full-Stack Currency Exchange Platform
 
@@ -149,45 +149,6 @@ utils/           → Helper functions and formatters
 - **API Documentation** - Built-in Swagger UI
 
 
-## Quick Start
-
-### Prerequisites
-- Node.js 18+ and npm
-- .NET 8.0 SDK
-- SQL Server or PostgreSQL
-
-### Installation
-
-**1. Clone the repository**
-```bash
-git clone https://github.com/emrekocadere/currency-converter.git
-cd currency-converter
-```
-
-**2. Backend Setup**
-```bash
-cd backend/CurrencyConverter.API
-
-# Update connection string in appsettings.json
-# Run migrations
-dotnet ef database update --project ../CurrencyConverter.DAL
-
-# Start the API
-dotnet run
-```
-API will be available at `http://localhost:5203`
-
-**3. Frontend Setup**
-```bash
-cd frontend/currency-converter
-
-# Install dependencies
-npm install
-
-# Start development server
-npm start
-```
-Frontend will open at `http://localhost:3000`
 
 ---
 
@@ -205,27 +166,6 @@ Base URL: `http://localhost:5203/api/CurrencyConverter`
 | GET | `/news` | Get paginated financial news |
 
 ---
-
-## Configuration
-
-### Backend (appsettings.json)
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=.;Database=CurrencyConverterDB;Trusted_Connection=True;"
-  },
-  "ApiSettings": {
-    "ExchangeRateApiUrl": "https://api.exchangerate-api.com/v4/latest/",
-    "MediaStackApiKey": "your-api-key"
-  }
-}
-```
-
-### Frontend
-Update API base URL in `src/services/api.js`:
-```javascript
-const API_BASE_URL = 'http://localhost:5203/api/CurrencyConverter';
-```
 
 
 
@@ -251,13 +191,6 @@ Full-Stack Developer
 [![GitHub](https://img.shields.io/badge/GitHub-emrekocadere-181717?style=for-the-badge&logo=github)](https://github.com/emrekocadere)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/salih-emre-kocadere-7a61b0203/)
 
----
-
-### ⭐ Star this repo if you find it useful!
-
-Made with ❤️ by Salih Emre Kocadere
-
-![Profile Views](https://komarev.com/ghpvc/?username=emrekocadere&color=orange&style=flat-square&label=Profile+Views)
 
 </div>
 
