@@ -6,6 +6,10 @@
 # dotenv files
 .env
 
+proxy-server/
+!proxy-server/README.md
+!proxy-server/package.json
+
 # User-specific files
 *.rsuser
 *.suo
@@ -488,3 +492,6 @@ backend/CurrencyConverter.API/appsettings.json
 backend/CurrencyConverter.API/appsettings.Development.json
 backend/CurrencyConverter.API/appsettings.Production.json
 backend/CurrencyConverter.API/appsettings.Development.json
+src/client/.env.development
+src/client/.env.example
+src/client/.env.production
