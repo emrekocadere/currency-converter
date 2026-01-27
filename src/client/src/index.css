@@ -81,22 +81,22 @@ code {
 .converter-top-row,
 .firstRowOfForm {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-end;
   gap: 1rem;
   margin-bottom: 1.75rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .converter-amount-item {
-  flex: 2;
+  flex: 1;
   min-width: 15.625rem;
   margin-bottom: 0 !important;
 }
 
 .converter-date-item {
   flex: 1;
-  min-width: 13.75rem;
+  min-width: 15.625rem;
   margin-bottom: 0 !important;
 }
 
@@ -638,10 +638,17 @@ code {
     min-height: 3rem;
   }
 
+  .converter-top-row,
+  .firstRowOfForm {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
   .converter-amount-item,
   .converter-date-item {
     min-width: 0;
-    flex: 1 1 0;
+    flex: 1;
   }
 
   .firstRowOfForm .select-width {
@@ -709,59 +716,62 @@ code {
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  .home-page-div { padding: 1.875rem 4vw; }
-  .convert-currency-div, .common-currencies-rates { padding: 1.75rem; }
-  .header-img { height: 3rem; width: 8rem; }
+  .home-page-div { padding: 1.5rem 3vw; }
+  .convert-currency-div, .common-currencies-rates { padding: 1.25rem; }
+  .chart { min-height: 35vh; }
   
+  .converter-top-row,
+  .firstRowOfForm {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .converter-amount-item,
+  .converter-date-item {
+    min-width: 0;
+    flex: 1;
+  }
+
   .input-number,
   .button,
   .date-picker,
   .select-width {
     width: 100%;
-    max-width: 18rem;
-    min-height: 3rem;
+    min-height: 3.5rem;
   }
 
-  .converter-top-row,
-  .firstRowOfForm {
-    gap: 0.875rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .converter-amount-item,
-  .converter-date-item {
+  .firstRowOfForm .select-width {
+    min-width: 0;
     flex: 1;
-    min-width: 12rem;
-  }
-
-  .firstRowOfForm .ant-form-item {
-    flex: 1;
-    min-width: 11rem;
-  }
-
-  .chart {
-    min-height: 45vh;
-  }
-
-  .common-currencies-rates {
-    width: 100%;
-    max-width: 25rem;
-  }
-
-  .news-cards-container {
-    gap: 1.25rem;
-  }
-
-  .news-card-horizontal .news-card-cover-container {
-    width: 14rem;
-    min-width: 14rem;
   }
 
   .converter-swap-button {
-    width: 2.875rem !important;
-    height: 2.875rem !important;
-    min-width: 2.875rem !important;
-    min-height: 2.875rem !important;
+    width: 3rem !important;
+    height: 3rem !important;
+    min-width: 3rem !important;
+    min-height: 3rem !important;
+  }
+
+  .currency-converter-output {
+    font-size: 0.95em;
+    padding: 0.75rem 1rem;
+  }
+
+  .converter-output-flex {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .converter-output-currency,
+  .converter-output-currency-right {
+    min-width: 0;
+    flex: 0 1 auto;
+  }
+
+  .converter-output-value {
+    font-size: 0.9em;
   }
 }
 
