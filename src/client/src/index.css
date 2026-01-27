@@ -664,6 +664,23 @@ code {
     min-height: 2.75rem !important;
   }
 
+
+  .converter-output-flex {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .converter-output-currency,
+  .converter-output-currency-right {
+    min-width: 0;
+    flex: 0 1 auto;
+  }
+
+  .converter-output-value {
+    font-size: 0.85em;
+  }
+
   .chart {
     margin: 1.25rem 0;
     min-height: 40vh;
@@ -1086,16 +1103,16 @@ code {
 }
 
 .news-cards-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
 }
 
 .news-card-container {
   padding: 0;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   overflow: hidden;
 }
 
@@ -1111,6 +1128,7 @@ code {
 
 .news-card-horizontal-layout {
   display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -1123,15 +1141,14 @@ code {
 }
 
 .news-card-horizontal .news-card-cover-container {
-  flex-shrink: 0;
-  width: 12.5rem;
-  min-width: 12.5rem;
+  width: 100%;
+  min-width: 100%;
 }
 
 .news-card-cover-mobile { height: 10rem; }
-.news-card-cover-desktop { height: 12.5rem; }
+.news-card-cover-desktop { height: 10rem; }
 
-.news-card-horizontal .news-card-cover-mobile { height: 8.75rem; }
+.news-card-horizontal .news-card-cover-mobile { height: 10rem; }
 .news-card-horizontal .news-card-cover-desktop { height: 10rem; }
 
 .news-card-image {
@@ -1140,11 +1157,11 @@ code {
   object-fit: cover;
   object-position: center;
   display: block;
-  border-radius: 0.9375rem;
+  border-radius: 0.75rem;
 }
 
 .news-card-content {
-  padding: 1rem;
+  padding: 0.75rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1155,25 +1172,24 @@ code {
   color: #ff8000;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.3;
 }
-.news-card-title-mobile { font-size: 1rem; }
-.news-card-title-desktop { font-size: 1.1rem; }
+.news-card-title-mobile { font-size: 0.95rem; }
+.news-card-title-desktop { font-size: 0.95rem; }
+
+.news-card-source {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
 
 .news-card-action-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
+  display: none;
 }
 
 .news-card-read-more {
-  color: #ff8000;
-  font-size: 0.85rem;
-  font-weight: 500;
-  background: rgba(255, 128, 0, 0.1);
-  padding: 0.25rem 0.625rem;
-  border-radius: 0.375rem;
+  display: none;
 }
 
 .news-load-more-container {

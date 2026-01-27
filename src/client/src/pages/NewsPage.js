@@ -151,6 +151,11 @@ function NewsPage() {
                                 >
                                     {item.title}
                                 </h5>
+                                {item.source && (
+                                    <div className="news-card-source">
+                                        {item.source}
+                                    </div>
+                                )}
                                 <div className="news-card-action-container">
                                     <span className="news-card-read-more">
                                         Read more →
