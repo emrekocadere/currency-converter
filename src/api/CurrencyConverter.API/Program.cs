@@ -1,27 +1,72 @@
-    using CurrencyConverter.API;
-using CurrencyConverter.API.Jobs;
+using CurrencyConverter.API.Endpoints;
 using CurrencyConverter.BLL;
+using CurrencyConverter.BLL.Service;
 using CurrencyConverter.DAL;
-using Microsoft.EntityFrameworkCore;
-using Quartz;
-using Serilog;
-using SerilogTracing;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "Currency Converter API", Version = "v1" });
+});
 
-builder.Services.AddBll(); // ,
+builder.Services.AddBll(); 
 builder.Services.AddCurrencyConverterDAL(builder.Configuration);
+
+
 
 // builder.Services.AddQuartzHostedService(options =>
 // {
 //     options.WaitForJobsToComplete = true;
 // });
+
+
+// builder.Services.AddQuartz(options =>
+// {
+//     options.AddJob<MediaStackNewsFetcherJob>(job => job
+//         .StoreDurably()
+//         .WithIdentity("MediaStackNewsFetcherJob"));
+
+//     options.AddTrigger(trigger => trigger
+//         .ForJob("MediaStackNewsFetcherJob")
+//         .WithIdentity("MediaStackNewsFetcherJob-trigger")
+//         .StartNow()
+//         .WithSimpleSchedule(x => x
+//             .WithInterval(TimeSpan.FromMinutes(450))
+//             .RepeatForever()));
+
+//     options.UsePersistentStore(persistenceOptions =>
+//     {
+//         persistenceOptions.UsePostgres(cfg =>
+//         {
+//             cfg.ConnectionString = "User ID=ubuntu_db_admin;Password=admin;Host=3.73.248.105;Port=5432;Database=CurrencyConverterDB;";
+
+//             cfg.TablePrefix = "qrtz_";
+//         });
+
+//         persistenceOptions.UseProperties = false; // sadece string data varsa OK
+//         persistenceOptions.UseNewtonsoftJsonSerializer(); // complex object data varsa bu gerekli
+//     });
+// });
+
+// builder.Services
+//     .AddRefitClient<IMediastackApi>()
+//     .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ApiUrls:MediastackApiUrl"]!));
+
+//     builder.Services
+//     .AddRefitClient<ICurrencyDataApi>()
+//     .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ApiUrls:CurrencyDataApiUrl"]!));
+    
+    builder.Services
+    .AddRefitClient<IFixerAPi>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ApiUrls:FixerApiUrl"]!));
+
+
+        builder.Services
+    .AddRefitClient<IRatingApi>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ApiUrls:Ekrem"]!));
 
 // Log.Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
@@ -36,11 +81,9 @@ builder.Services.AddCurrencyConverterDAL(builder.Configuration);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost3000", policy =>
-    {
-        policy.WithOrigins("http://localhost:3000") 
-              .AllowAnyHeader() 
-              .AllowAnyMethod(); 
-    });
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
 });
 
 
@@ -62,27 +105,26 @@ builder.Services.AddCors(options =>
 
 // });
 
-builder.Services.AddHttpClient<CurrencyConverterService>();//sdf
+
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-builder.Services.AddScoped<CurrencyConverterService>();
 
-// var connString = builder.Configuration.GetConnectionString("ConnectionString");
+builder.Services.AddScoped<ICurrencyConverterService, CurrencyConverterService>();
 
-// builder.Services.AddDbContext<CurrencyConverterDbContext>(builder => builder.UseSqlServer(connString));
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("AllowLocalhost3000");
 
+app.UseCors("AllowLocalhost3000");
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.MapCurrencyConverterEndpoints();
 
-app.MapControllers();
+
 
 app.Run();
