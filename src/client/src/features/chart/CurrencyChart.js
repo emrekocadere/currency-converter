@@ -199,7 +199,9 @@ function CurrencyChart(props) {
             scaleType: "time", 
             label: "Date",
             labelStyle: { fill: '#a0aec0', fontSize: 14 },
-            tickLabelStyle: { fill: '#e8eaed', fontSize: 12 }
+            tickLabelStyle: { fill: '#e8eaed', fontSize: 12 },
+            min: times.length > 0 ? new Date(Math.min(...times)) : undefined,
+            max: times.length > 0 ? new Date(Math.max(...times)) : undefined
           }]}
           yAxis={[{ 
             min: minValue - yPadding, 
