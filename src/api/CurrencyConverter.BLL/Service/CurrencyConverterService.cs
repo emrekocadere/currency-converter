@@ -10,25 +10,23 @@ public class CurrencyConverterService : ICurrencyConverterService
     private readonly ICurrencyRatioRepository _currencyRatioRepository;
     private readonly INewsRepository _newsRepository;
     private readonly ICurrencyRatesTimestampRepository _currencyRatesTimestampRepository;
-    private List<CurrencyRatio> _currencyRates;
+
     private readonly ICacheService _cache;
 
     public CurrencyConverterService(ICurrencyRepository currencyRepository,
         ICurrencyRatioRepository currencyRatioRepository,
         INewsRepository newsRepository,
         ICurrencyRatesTimestampRepository currencyRatesTimestampRepository,
-        List<CurrencyRatio> currencyRates,
         ICacheService cache)
     {
         _currencyRepository = currencyRepository;
         _currencyRatioRepository = currencyRatioRepository;
         _newsRepository = newsRepository;
         _currencyRatesTimestampRepository = currencyRatesTimestampRepository;
-        _currencyRates = currencyRates;
         _cache = cache;
     }
 
-    public Result<decimal> ConvertCurrency(int amount, string currencies)
+    public Result<decimal> ConvertCurrency(decimal amount, string currencies)
     {
         var anan = GetCurrencyRatios();
         var currencyRatio = anan.FirstOrDefault(x => x.Currencies == currencies);

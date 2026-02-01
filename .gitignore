@@ -495,3 +495,5 @@ backend/CurrencyConverter.API/appsettings.Development.json
 src/client/.env.development
 src/client/.env.example
 src/client/.env.production
+src/api/CurrencyConverter.API/appsettings.Development.json
+src/api/CurrencyConverter.API/appsettings.Production.json

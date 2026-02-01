@@ -3,9 +3,23 @@ using CurrencyConverter.BLL;
 using CurrencyConverter.BLL.Service;
 using CurrencyConverter.DAL;
 using CurrencyConverter.API;
-using Refit;
+using Serilog;
+using SerilogTracing;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.Seq("http://localhost:5342")
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+
+using var _ = new ActivityListenerConfiguration()
+    .Instrument.AspNetCoreRequests()
+    .TraceToSharedLogger();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -19,16 +33,9 @@ builder.Services.AddCurrencyConverterDAL(builder.Configuration);
 
 builder.Services.AddRefit(builder.Configuration);
 
-builder.Services.AddQuartzJobs(builder.Configuration);
-// Log.Logger = new LoggerConfiguration()
-//             .WriteTo.Console()
-//             .WriteTo.Seq(builder.Configuration["Seq:Url"]!,apiKey:builder.Configuration["Seq:ApiKey"])
-//             .CreateLogger();
+// builder.Services.AddQuartzJobs(builder.Configuration);
 
 
-//         using var _ = new ActivityListenerConfiguration()
-//             .Instrument.AspNetCoreRequests()
-//             .TraceToSharedLogger();
 
 builder.Services.AddCors(options =>
 {
@@ -39,23 +46,6 @@ builder.Services.AddCors(options =>
 });
 
 
-// builder.Services.AddQuartz(configure =>
-// {
-//     var jobKey = new JobKey("GetNewsFromMediastack");
-//     configure
-//         .AddJob<MediaStackNewsFetcherJob>(jobKey)
-//         .AddTrigger(
-//             trigger => trigger.ForJob(jobKey).WithSimpleSchedule(
-//                 schedule => schedule.WithIntervalInHours(12).RepeatForever()));
-
-//     var jobKey2 = new JobKey("GetCurrencyRates");
-//     configure
-//         .AddJob<CurrencyRatesFetcherJob>(jobKey2)
-//         .AddTrigger(
-//             trigger => trigger.ForJob(jobKey2).WithSimpleSchedule(
-//                 schedule => schedule.WithIntervalInHours(12).RepeatForever()));
-
-// });
 
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
@@ -73,10 +63,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowLocalhost3000");
+
 app.UseHttpsRedirection();
 
 app.MapCurrencyConverterEndpoints();
-
-
 
 app.Run();

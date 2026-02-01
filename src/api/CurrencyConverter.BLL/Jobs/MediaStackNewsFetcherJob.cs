@@ -1,15 +1,12 @@
-using System;
-using System.Text.Json;
 using CurrencyConverter.API.Entities;
 using CurrencyConverter.BLL;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using CurrencyConverter.BLL.Models.Responses;
 using CurrencyConverter.BLL.Service;
 using CurrencyConverter.DAL.Interfaces;
 
-namespace CurrencyConverter.API;
+namespace CurrencyConverter.BLL.Jobs;
 
 public class MediaStackNewsFetcherJob(
     INewsRepository newsRepository,

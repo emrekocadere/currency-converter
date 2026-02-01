@@ -5,7 +5,7 @@ public static class CurrencyConverterEndpoints
 {
     public static void MapCurrencyConverterEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/currency-converter");
+        var group = app.MapGroup("/api/CurrencyConverter");
 
         group.MapGet("/exchange", 
             (decimal amount, string currencies, ICurrencyConverterService service) 
@@ -20,7 +20,7 @@ public static class CurrencyConverterEndpoints
                 => service.GetCurrencyRates(currency));
 
         group.MapGet("/currency-rates/history", 
-            (string currencies, ICurrencyConverterService service) 
+            (string currencies, ICurrencyConverterService service)
                 => service.GetCurrencyRatesForThreeMonths(currencies));
 
         group.MapGet("/exchange/by-date", 

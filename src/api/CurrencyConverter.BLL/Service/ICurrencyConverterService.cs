@@ -6,7 +6,7 @@ namespace CurrencyConverter.BLL.Service;
 
 public interface ICurrencyConverterService
 {
-    Result<decimal> ConvertCurrency(int amount, string currencies);
+    Result<decimal> ConvertCurrency(decimal amount, string currencies);
     Result<decimal> ConvertCurrencyForSpecificDate(string date, string currencies, int amount);
     Result<List<Currency>> GetCurrencies();
     Result<List<CurrencyRatio>> GetCurrencyRates(string currentCurrency);
