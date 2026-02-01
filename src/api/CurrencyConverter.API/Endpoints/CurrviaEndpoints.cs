@@ -1,13 +1,11 @@
 using CurrencyConverter.BLL.Service;
 
 namespace CurrencyConverter.API.Endpoints;
-
 public static class CurrencyConverterEndpoints
 {
-    public static IEndpointRouteBuilder MapCurrencyConverterEndpoints(this IEndpointRouteBuilder app)
+    public static void MapCurrencyConverterEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/currency-converter")
-            .WithTags("Currency Converter");
+        var group = app.MapGroup("/api/currency-converter");
 
         group.MapGet("/exchange", 
             (decimal amount, string currencies, ICurrencyConverterService service) 
@@ -33,6 +31,5 @@ public static class CurrencyConverterEndpoints
             (int pageNumber, ICurrencyConverterService service) 
                 => service.Paginate(pageNumber));
 
-        return app;
     }
 }
