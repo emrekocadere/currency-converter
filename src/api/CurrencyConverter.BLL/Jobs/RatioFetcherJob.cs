@@ -41,6 +41,7 @@ public class RatioFetcherJob(
                     {
                         currencyRatioRepository.Add(new CurrencyRatio
                         {
+                            UpdatedAt = DateTime.UtcNow,
                             Currencies = baseCurrency.Code + targetCurrency.Code,
                             Rate = decimal.TryParse(ratio.data.value, NumberStyles.Any, CultureInfo.InvariantCulture,
                                 out parsedRate)
@@ -50,6 +51,7 @@ public class RatioFetcherJob(
                     }
                     else
                     {
+                        currencyRatio.UpdatedAt = DateTime.UtcNow;
                         currencyRatio.Rate = decimal.TryParse(ratio.data.value, NumberStyles.Any,
                             CultureInfo.InvariantCulture, out parsedRate)
                             ? parsedRate
