@@ -1,8 +1,10 @@
 using System;
+using System.Globalization;
 using CurrencyConverter.API.Entities;
 using CurrencyConverter.BLL.Service;
 using CurrencyConverter.DAL.Entities;
 using CurrencyConverter.DAL.Interfaces;
+using Microsoft.Extensions.Logging;
 using Quartz;
 
 namespace CurrencyConverter.BLL.Jobs;
@@ -12,56 +14,79 @@ public class RatioFetcherJob(
     ICurrencyRatioRepository currencyRatioRepository,
     ICurrencyConverterService service,
     ICurrencyRatesTimestampRepository timestampRepository,
-    IRateFetchHistoryRepository rateFetchHistoryRepository)
+    IRateFetchHistoryRepository rateFetchHistoryRepository,
+    ILogger<RatioFetcherJob> logger)
     : IJob
 {
     public async Task Execute(IJobExecutionContext context)
     {
-        var currencies = service.GetCurrencies();
-        decimal parsedRate;
-        foreach (var baseCurrency in currencies.Value)
+        try
         {
-            foreach (var targetCurrency in currencies.Value)
+            logger.LogInformation("[{JobName}] Job started. Time: {ExecutionTime}", "RatioFetcherJob", DateTime.UtcNow);
+
+            var currencies = service.GetCurrencies();
+            decimal parsedRate;
+            foreach (var baseCurrency in currencies.Value)
             {
-                if (baseCurrency.Id == targetCurrency.Id)
+                foreach (var targetCurrency in currencies.Value)
                 {
-                    continue;
-                }
-                var ratio = await ratingApi.GetRatio(baseCurrency.Id, targetCurrency.Id);
-                var currencyRatio = currencyRatioRepository.FindByName(baseCurrency.Code + targetCurrency.Code);
-                if (currencyRatio == null)
-                {
-                    currencyRatioRepository.Add(new CurrencyRatio
+                    if (baseCurrency.Id == targetCurrency.Id)
                     {
-                        Currencies = baseCurrency.Code + targetCurrency.Code,
-                        Rate = decimal.TryParse(ratio.data.value, out parsedRate) ? parsedRate : 0
-                    });
-                }
-                else
-                {
-                    currencyRatio.Rate = decimal.TryParse(ratio.data.value, out parsedRate) ? parsedRate : 0;
+                        continue;
+                    }
 
-                }
-                DateOnly today = DateOnly.FromDateTime(DateTime.Now);
-                var lastRecordDate = rateFetchHistoryRepository.GetLastRecordDate();
-                if (lastRecordDate.date != today)
-                {
-                    rateFetchHistoryRepository.Add(new CurrencyRateFetchHistory
+                    var ratio = await ratingApi.GetRatio(baseCurrency.Id, targetCurrency.Id);
+                    var currencyRatio = currencyRatioRepository.FindByName(baseCurrency.Code + targetCurrency.Code);
+                    if (currencyRatio == null)
                     {
-                        date = today,
-                    });
-
-                    timestampRepository.Add(new CurrencyRatesTimestamp
+                        currencyRatioRepository.Add(new CurrencyRatio
+                        {
+                            Currencies = baseCurrency.Code + targetCurrency.Code,
+                            Rate = decimal.TryParse(ratio.data.value, NumberStyles.Any, CultureInfo.InvariantCulture,
+                                out parsedRate)
+                                ? parsedRate
+                                : 0
+                        });
+                    }
+                    else
                     {
-                        Currencies = baseCurrency.Code + targetCurrency.Code,
-                        Timestamp = $"{today.Year}-{today.Month}-{today.Day}",
-                        Rate = decimal.TryParse(ratio.data.value, out parsedRate) ? parsedRate : 0
-                    });
+                        currencyRatio.Rate = decimal.TryParse(ratio.data.value, NumberStyles.Any,
+                            CultureInfo.InvariantCulture, out parsedRate)
+                            ? parsedRate
+                            : 0;
+                    }
+
+                    DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+                    var abc = rateFetchHistoryRepository.IsExist(today, baseCurrency.Code + targetCurrency.Code);
+                    if (!abc)
+                    {
+                        rateFetchHistoryRepository.Add(new CurrencyRateFetchHistory
+                        {
+                            Currencies = baseCurrency.Code + targetCurrency.Code,
+                            date = today
+                        });
+
+                        timestampRepository.Add(new CurrencyRatesTimestamp
+                        {
+                            Currencies = baseCurrency.Code + targetCurrency.Code,
+                            Timestamp = today.ToString(),
+                            Rate = decimal.TryParse(ratio.data.value, NumberStyles.Any, CultureInfo.InvariantCulture,
+                                out parsedRate)
+                                ? parsedRate
+                                : 0
+                        });
+                    }
+
+                    currencyRatioRepository.SaveChanges();
                 }
 
-                currencyRatioRepository.SaveChanges();
+                logger.LogInformation("[{JobName}] Job completed successfully. Time: {ExecutionTime}", "RatioFetcherJob", DateTime.UtcNow);
             }
-
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "[{JobName}] An error occurred while running the job. Time: {ExecutionTime}", "RatioFetcherJob", DateTime.UtcNow);
+            throw;
         }
     }
 }

@@ -13,6 +13,13 @@ public class RateFetchHistoryRepository : Repository<CurrencyRateFetchHistory>, 
 
     public CurrencyRateFetchHistory? GetLastRecordDate()
     {
-       return _dbSet.LastOrDefault();
+        return _dbSet
+        .OrderByDescending(x => x.Id)
+        .FirstOrDefault();
+    }
+
+    public bool IsExist(DateOnly date, string currencies)
+    {
+        return _dbSet.Any(x=>x.date==date&&x.Currencies==currencies);
     }
 }

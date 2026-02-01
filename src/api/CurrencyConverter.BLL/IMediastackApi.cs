@@ -8,13 +8,13 @@ namespace CurrencyConverter.BLL;
 public interface IMediastackApi
 {
     [Get("/v1/news")]
-    Task<MediastackResponse> GetNewsAsync([Query] QueryParams queryParams);
+    Task<MediastackResponse> GetNewsAsync([Query] GetNewsQueryParams queryParams);
 }
 
-public class QueryParams
+public class GetNewsQueryParams
 {
     public string access_key { get; set; }
-    public string date { get; set; }
+    public string date { get; set; } 
     public string categories { get; set; }
     public string languages { get; set; }
     public string keywords { get; set; }

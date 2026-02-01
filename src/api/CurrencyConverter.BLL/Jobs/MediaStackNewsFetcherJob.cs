@@ -3,36 +3,62 @@ using System.Text.Json;
 using CurrencyConverter.API.Entities;
 using CurrencyConverter.BLL;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Quartz;
+using CurrencyConverter.BLL.Models.Responses;
+using CurrencyConverter.BLL.Service;
+using CurrencyConverter.DAL.Interfaces;
 
 namespace CurrencyConverter.API;
 
-public class MediaStackNewsFetcherJob : IJob
+public class MediaStackNewsFetcherJob(
+    INewsRepository newsRepository,
+    IMediastackApi mediastackApi,
+    HttpClient httpClient,
+    IConfiguration configuration,
+    CurrencyConverterService currencyConverterService,
+    ILogger<MediaStackNewsFetcherJob> logger)
+    : IJob
 {
-    readonly private HttpClient _httpClient;
-    readonly private IConfiguration _configuration;
-    readonly private CurrencyConverterService _currencyConverterService;
-    public MediaStackNewsFetcherJob(HttpClient httpClient,IConfiguration configuration,CurrencyConverterService currencyConverterService){
-        _httpClient=httpClient;
-        _configuration=configuration;
-        _currencyConverterService=currencyConverterService;
-    }
+    private readonly HttpClient _httpClient = httpClient;
+
     public async Task Execute(IJobExecutionContext context)
     {
-        
-        using HttpResponseMessage response = await _httpClient.GetAsync($"http://api.mediastack.com/v1/news?access_key={_configuration["ApiKeyMediastack"]}&limit=100&languages=en&categories=business");
-        var jsonResponse = await response.Content.ReadAsStringAsync();
-        var mediastackResponse = JsonSerializer.Deserialize<MediastackResponse>(jsonResponse);
-        var newsList=new List<News>();
-        foreach(var data in mediastackResponse.data!)
+        try
         {
-            if(data.Image!=null)
+            logger.LogInformation("[{JobName}] Job started. Time: {ExecutionTime}", "MediaStackNewsFetcherJob", DateTime.Now);
+
+
+            var newsList=new List<News>();
+            
+            var mediastackResponse = await mediastackApi.GetNewsAsync(new GetNewsQueryParams
             {
-                newsList.Add(data);
+                access_key = configuration["Mediastack:AccessKey"]!,
+                date = DateTime.Now.ToString("yyyy-MM-dd"),
+                categories = "business,-sports,-science",
+                languages = "en",
+                keywords = "currency,finance,economy,market,investment",
+                limit = 100
+            });
+
+            foreach(var data in mediastackResponse.data!)
+            {
+                var isExist =  newsRepository.IsNewsExist(data.Title);
+                if(data.Image != null || !isExist)
+                {
+                    newsList.Add(data);
+                }
+                else
+                    continue;
             }
+            currencyConverterService.SaveTheNewsToDb(newsList);
+            
+            logger.LogInformation("[{JobName}] Job completed successfully. {NewsCount} news items saved. Time: {ExecutionTime}", "MediaStackNewsFetcherJob", newsList.Count, DateTime.Now);
         }
-        _currencyConverterService.SaveTheNewsToDb(newsList);
-
-
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "[{JobName}] An error occurred while executing the job. Time: {ExecutionTime}", "MediaStackNewsFetcherJob", DateTime.Now);
+            throw;
+        }
     }
 }
