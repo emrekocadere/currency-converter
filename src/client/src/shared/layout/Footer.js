@@ -8,7 +8,7 @@ function Footer() {
     const { isMobile } = useResponsive();
     return (
         <footer className='custom-footer-div'>
-            <div className={`custom-footer-content ${isMobile ? 'custom-footer-content-mobile' : 'custom-footer-content-desktop'}`}>
+            <div className={`custom-footer-content`}>
                 <img className="footer-logo" src={logo} alt="Currency Converter" />
                 
                 {!isMobile && <Divider type="vertical" className="custom-footer-divider" />}
