@@ -28,6 +28,17 @@ function NewsPage() {
     const lastCardRef = useRef(null);
     const { isMobile } = useResponsive();
     
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        if (Number.isNaN(date.getTime())) return dateString;
+        return date.toLocaleDateString('tr-TR', { 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit' 
+        });
+    };
+    
     // Redux selectors
     const news = useSelector(selectNews);
     const loading = useSelector(selectNewsLoading);
@@ -125,46 +136,59 @@ function NewsPage() {
             ) : (
                 <>
             <div className='card-div news-cards-container'>
-                {news.map((item, index) => (
-                    <Card
-                        key={index}
-                        hoverable
-                        className='news-card news-card-container news-card-horizontal'
-                        onClick={() => window.open(item.url, '_blank')}
-                        ref={index === news.length - 1 ? lastCardRef : null}
-                    >
-                        <div className="news-card-horizontal-layout">
-                            <div className={`news-card-img-div news-card-cover-container ${isMobile ? 'news-card-cover-mobile' : 'news-card-cover-desktop'}`}>
-                                <img
-                                    className='news-card-img news-card-image'
-                                    alt={item.title || "News image"}
-                                    src={item.image}
-                                    onError={(e) => {
-                                        e.target.src = 'https://via.placeholder.com/800x400/1a1f3a/ff8000?text=Financial+News';
-                                    }}
-                                />
-                            </div>
-                            <div className="news-card-content">
-                                <h5
-                                    
-                                    className={`news-card-title ${isMobile ? 'news-card-title-mobile' : 'news-card-title-desktop'}`}
-                                >
-                                    {item.title}
-                                </h5>
-                                {item.source && (
-                                    <div className="news-card-source">
-                                        {item.source}
+                {news.map((item, index) => {
+                    const publishedAt = item.publishedAt || item.published_at;
+                    return (
+                        <Card
+                            key={index}
+                            hoverable
+                            className='news-card news-card-container news-card-horizontal'
+                            onClick={() => window.open(item.url, '_blank')}
+                            ref={index === news.length - 1 ? lastCardRef : null}
+                        >
+                            <div className="news-card-horizontal-layout">
+                                <div className={`news-card-img-div news-card-cover-container ${isMobile ? 'news-card-cover-mobile' : 'news-card-cover-desktop'}`}>
+                                    <img
+                                        className='news-card-img news-card-image'
+                                        alt={item.title || "News image"}
+                                        src={item.image}
+                                        onError={(e) => {
+                                            e.target.src = 'https://via.placeholder.com/800x400/1a1f3a/ff8000?text=Financial+News';
+                                        }}
+                                    />
+                                </div>
+                                <div className="news-card-content">
+                                    <h5
+                                        
+                                        className={`news-card-title ${isMobile ? 'news-card-title-mobile' : 'news-card-title-desktop'}`}
+                                    >
+                                        {item.title}
+                                    </h5>
+                                    <div className="news-card-metadata">
+                                        {item.source && (
+                                            <span className="news-card-source">
+                                                {item.source}
+                                            </span>
+                                        )}
+                                        {item.source && publishedAt && (
+                                            <span className="news-card-separator"> • </span>
+                                        )}
+                                        {publishedAt && (
+                                            <span className="news-card-date">
+                                                {formatDate(publishedAt)}
+                                            </span>
+                                        )}
                                     </div>
-                                )}
-                                <div className="news-card-action-container">
-                                    <span className="news-card-read-more">
-                                        Read more →
-                                    </span>
+                                    <div className="news-card-action-container">
+                                        <span className="news-card-read-more">
+                                            Read more →
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </Card>
-                ))}  
+                        </Card>
+                    );
+                })}  
             </div>
             
             {error && news.length > 0 && (
