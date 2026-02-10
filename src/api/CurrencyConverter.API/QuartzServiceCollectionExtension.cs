@@ -7,10 +7,7 @@ public static class QuartzServiceCollectionExtensions
 {
     public static void AddQuartzJobs(this IServiceCollection service, IConfiguration configuration)
     {
-        service.AddQuartzHostedService(options =>
-        {
-            options.WaitForJobsToComplete = true;
-        });
+        service.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
 
         service.AddQuartz(options =>
         {
@@ -19,23 +16,25 @@ public static class QuartzServiceCollectionExtensions
             options.AddJob<MediaStackNewsFetcherJob>(job => job
                 .StoreDurably()
                 .WithIdentity("MediaStackNewsFetcherJob"));
-            
+
             options.AddTrigger(trigger => trigger
                 .ForJob("MediaStackNewsFetcherJob")
                 .WithIdentity("MediaStackNewsFetcherJob-trigger")
-            .WithCronSchedule("0 0 0/8 * * ?",
-        x => x.WithMisfireHandlingInstructionDoNothing()
-    ));
+                .WithCronSchedule("0 0 0/8 * * ?",
+                    x => x.WithMisfireHandlingInstructionDoNothing()
+                        .InTimeZone(TimeZoneInfo.Utc)
+                ));
 
             options.AddJob<RatioFetcherJob>(job => job
                 .StoreDurably()
                 .WithIdentity("RatioFetcherJob"));
-            
+
             options.AddTrigger(trigger => trigger
                 .ForJob("RatioFetcherJob")
                 .WithIdentity("RatioFetcherJob-trigger")
                 .WithCronSchedule("*/30 * * * * ?",
-      x => x.WithMisfireHandlingInstructionDoNothing()));
+                    x => x.WithMisfireHandlingInstructionDoNothing().InTimeZone(TimeZoneInfo.Utc)
+                ));
 
             options.UsePersistentStore(persistenceOptions =>
             {
@@ -46,10 +45,8 @@ public static class QuartzServiceCollectionExtensions
                     cfg.TablePrefix = "qrtz_";
                 });
 
-                persistenceOptions.UseProperties = false; // sadece string data varsa OK
-                persistenceOptions.UseNewtonsoftJsonSerializer(); // complex object data varsa bu gerekli
+                persistenceOptions.UseNewtonsoftJsonSerializer();
             });
         });
-
     }
 }

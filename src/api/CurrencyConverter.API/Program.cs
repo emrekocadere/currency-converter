@@ -8,16 +8,17 @@ using SerilogTracing;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    .WriteTo.Seq("http://localhost:5342")
-    .CreateLogger();
-
-builder.Host.UseSerilog();
-
+builder.Host.UseSerilog((context, services, configuration) =>
+{
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .WriteTo.Console()
+        .WriteTo.Seq(context.Configuration["SeqUrl"]!);
+});
 
 using var _ = new ActivityListenerConfiguration()
     .Instrument.AspNetCoreRequests()
+    .Instrument.HttpClientRequests()
     .TraceToSharedLogger();
 
 
@@ -33,7 +34,7 @@ builder.Services.AddCurrencyConverterDAL(builder.Configuration);
 
 builder.Services.AddRefit(builder.Configuration);
 
-// builder.Services.AddQuartzJobs(builder.Configuration);
+builder.Services.AddQuartzJobs(builder.Configuration);
 
 
 
@@ -42,7 +43,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowLocalhost3000", policy =>
         policy.WithOrigins("http://localhost:3000")
               .AllowAnyHeader()
-              .AllowAnyMethod());
+              .AllowAnyMethod()
+              .AllowCredentials());
 });
 
 
@@ -65,7 +67,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowLocalhost3000");
 
 app.UseHttpsRedirection();
-
+       
 app.MapCurrencyConverterEndpoints();
 
 app.Run();
