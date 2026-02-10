@@ -15,7 +15,10 @@ function Header() {
             <header className='custom-header'>
                 <div className='header-inner'>
                     <div className='brand'>
-                        <img className="header-img" src={imagee} alt="Currency Converter" />
+                        <picture>
+                            <source media="(max-width: 768px)" srcSet="/mobil-logo.svg" />
+                            <img className="header-img" src={imagee} alt="Currency Converter" />
+                        </picture>
                     </div>
                     <div className='header-actions'>
                         <Button 

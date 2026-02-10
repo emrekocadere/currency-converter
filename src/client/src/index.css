@@ -626,8 +626,8 @@ code {
 @media (max-width: 768px) {
   .home-page-div { padding: 1.25rem 0.75rem; }
   .convert-currency-div, .common-currencies-rates { padding: 1.25rem; }
-  .custom-header { padding: 0.75rem 1rem; }
-  .header-img{height: 2.5rem;width: 7.5rem;}
+  .custom-header { padding: 0 1rem; position: static; top: auto; }
+  .header-img{height: 3.75rem;width: 3.75rem;   }
 
   .input-number,
   .button,
