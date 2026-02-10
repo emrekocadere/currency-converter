@@ -30,7 +30,7 @@ public class MediaStackNewsFetcherJob(
             
             var mediastackResponse = await mediastackApi.GetNewsAsync(new GetNewsQueryParams
             {
-                access_key = configuration["Mediastack:AccessKey"]!,
+                access_key = configuration["ApiKey:Mediastack"]!,
                 date = DateTime.Now.ToString("yyyy-MM-dd"),
                 categories = "business,-sports,-science",
                 languages = "en",

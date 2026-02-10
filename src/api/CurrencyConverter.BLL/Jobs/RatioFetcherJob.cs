@@ -71,7 +71,7 @@ public class RatioFetcherJob(
                         timestampRepository.Add(new CurrencyRatesTimestamp
                         {
                             Currencies = baseCurrency.Code + targetCurrency.Code,
-                            Timestamp = today.ToString(),
+                            Timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd"),
                             Rate = decimal.TryParse(ratio.data.value, NumberStyles.Any, CultureInfo.InvariantCulture,
                                 out parsedRate)
                                 ? parsedRate
