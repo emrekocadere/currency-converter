@@ -28,21 +28,32 @@ public class CurrencyConverterService : ICurrencyConverterService
 
     public Result<decimal> ConvertCurrency(decimal amount, string currencies)
     {
-        var anan = GetCurrencyRatios();
-        var currencyRatio = anan.FirstOrDefault(x => x.Currencies == currencies);
-        decimal result = amount * currencyRatio.Rate;
+        var fromCurrency = currencies?.Substring(0, 3);
+        var toCurrency = currencies?.Substring(3, 3);
+        if (fromCurrency == toCurrency)
+        {
+            return amount;
+        }
+        else
+        {
+            var ratios  = GetCurrencyRatios();
+            var currencyRatio = ratios.FirstOrDefault(x => x.Currencies == currencies);
+            decimal result = amount * currencyRatio.Rate;
+            return result;
+        }
 
-        return result;
+
+      
     }
 
     public Result<List<CurrencyRatio>> GetCurrencyRates(string currentCurrency)
     {
-        var anan = GetCurrencyRatios();
-        return anan.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
+        var ratios = GetCurrencyRatios();
+        return ratios.Where(x => x.Currencies.StartsWith(currentCurrency)).ToList();
     }
 
     public Result<List<Currency>> GetCurrencies()
-    {  
+    {
         var currencies = _cache.GetOrCreate("Currencies", () =>
                 _currencyRepository.GetAll()
             , TimeSpan.FromHours(1));
@@ -67,10 +78,10 @@ public class CurrencyConverterService : ICurrencyConverterService
 
     private List<CurrencyRatio> GetCurrencyRatios()
     {
-        var anan = _cache.GetOrCreate("CurrencyRatios", () =>
+        var ratios = _cache.GetOrCreate("CurrencyRatios", () =>
                 _currencyRatioRepository.GetAll()
             , TimeSpan.FromHours(1));
-        return anan;
+        return ratios;
     }
 
 
