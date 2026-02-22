@@ -32,7 +32,7 @@ public static class QuartzServiceCollectionExtensions
             options.AddTrigger(trigger => trigger
                 .ForJob("RatioFetcherJob")
                 .WithIdentity("RatioFetcherJob-trigger")
-                .WithCronSchedule("*/30 * * * * ?",
+                .WithCronSchedule("0 */5 * * * ?",
                     x => x.WithMisfireHandlingInstructionDoNothing().InTimeZone(TimeZoneInfo.Utc)
                 ));
 
