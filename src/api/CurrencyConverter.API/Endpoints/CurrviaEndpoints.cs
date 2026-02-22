@@ -1,3 +1,4 @@
+using CurrencyConverter.BLL.Results;
 using CurrencyConverter.BLL.Service;
 
 namespace CurrencyConverter.API.Endpoints;
@@ -8,8 +9,13 @@ public static class CurrencyConverterEndpoints
         var group = app.MapGroup("/api/CurrencyConverter");
 
         group.MapGet("/exchange", 
-            (decimal amount, string currencies, ICurrencyConverterService service) 
-                => service.ConvertCurrency(amount, currencies));
+            (decimal amount, string currencies, ICurrencyConverterService service) =>
+            {
+                if (amount <= 0)
+                    return Results.BadRequest(new Result(false, Errors.InvalidAmount));
+
+                return Results.Ok(service.ConvertCurrency(amount, currencies));
+            });
 
         group.MapGet("/currencies", 
             (ICurrencyConverterService service) 
@@ -24,12 +30,21 @@ public static class CurrencyConverterEndpoints
                 => service.GetCurrencyRatesForThreeMonths(currencies));
 
         group.MapGet("/exchange/by-date", 
-            (string date, string currencies, int amount, ICurrencyConverterService service) 
-                => service.ConvertCurrencyForSpecificDate(date, currencies, amount));
+            (string date, string currencies, int amount, ICurrencyConverterService service) =>
+            {
+                if (amount <= 0)
+                    return Results.BadRequest(new Result(false, Errors.InvalidAmount));
+
+                return Results.Ok(service.ConvertCurrencyForSpecificDate(date, currencies, amount));
+            });
 
         group.MapGet("/news", 
-            (int pageNumber, ICurrencyConverterService service) 
-                => service.Paginate(pageNumber));
+            (int pageNumber, ICurrencyConverterService service) =>
+            {
+                if (pageNumber < 1)
+                    return Results.BadRequest(new Result(false, Errors.InvalidPageNumber));
 
+                return Results.Ok(service.Paginate(pageNumber));
+            });
     }
 }
