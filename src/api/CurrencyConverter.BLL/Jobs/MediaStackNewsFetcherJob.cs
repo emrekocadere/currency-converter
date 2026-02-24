@@ -31,24 +31,24 @@ public class MediaStackNewsFetcherJob(
             var mediastackResponse = await mediastackApi.GetNewsAsync(new GetNewsQueryParams
             {
                 access_key = configuration["ApiKey:Mediastack"]!,
-                date = DateTime.Now.ToString("yyyy-MM-dd"),
                 categories = "business,-sports,-science",
                 languages = "en",
-                keywords = "currency,finance,economy,market,investment",
+                keywords = "currency",
                 limit = 100
             });
 
             foreach(var data in mediastackResponse.data!)
             {
                 var isExist =  newsRepository.IsNewsExist(data.Title);
-                if(data.Image != null || !isExist)
+                if(data.Image != null && !isExist)
                 {
                     newsList.Add(data);
                 }
                 else
                     continue;
             }
-            currencyConverterService.SaveTheNewsToDb(newsList);
+            newsRepository.Addrange(newsList);
+            newsRepository.SaveChanges();
             
             logger.LogInformation("[{JobName}] Job completed successfully. {NewsCount} news items saved. Time: {ExecutionTime}", "MediaStackNewsFetcherJob", newsList.Count, DateTime.Now);
         }

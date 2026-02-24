@@ -11,6 +11,7 @@ public static class ServiceCollectionsExtensions
     {
         services.AddScoped<CurrencyConverterService>();
         services.AddScoped<ICacheService,CacheService>();
+        services.AddMemoryCache();
   
     }
 }

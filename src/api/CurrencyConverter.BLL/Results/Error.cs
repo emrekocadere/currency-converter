@@ -10,4 +10,8 @@ public static class Errors
       public static Error AccountNotFound { get; } = new("AccountNotFound", "Account not found.");
       public static Error InsufficientFunds { get; } = new("InsufficientFunds", "Insufficient balance.");
       public static Error NotSavedToDb { get; } = new("NotSaveToDb", "NotSaveToDb.");
+      
+      // Validation Errors
+      public static Error InvalidAmount { get; } = new("InvalidAmount", "Amount must be greater than 0");
+      public static Error InvalidPageNumber { get; } = new("InvalidPageNumber", "Page number must be greater than 0");
 }
