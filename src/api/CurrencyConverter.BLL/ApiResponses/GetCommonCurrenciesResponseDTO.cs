@@ -7,6 +7,6 @@ public class GetCommonCurrenciesResponseDTO
 {
     [JsonPropertyName("base")]
     public string? Base { get; set;}
-    public Dictionary <string,double> rates{ get; set;}
+    public Dictionary <string, Dictionary<string, double>> rates{ get; set;}
 
 }

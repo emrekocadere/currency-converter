@@ -24,15 +24,15 @@ public static class QuartzServiceCollectionExtensions
                     x => x.WithMisfireHandlingInstructionDoNothing()
                         .InTimeZone(TimeZoneInfo.Utc)
                 ));
-
+            
             options.AddJob<RatioFetcherJob>(job => job
                 .StoreDurably()
                 .WithIdentity("RatioFetcherJob"));
-
+            
             options.AddTrigger(trigger => trigger
                 .ForJob("RatioFetcherJob")
                 .WithIdentity("RatioFetcherJob-trigger")
-                .WithCronSchedule("0 */5 * * * ?",
+                .WithCronSchedule("0 */10 * * * ?",
                     x => x.WithMisfireHandlingInstructionDoNothing().InTimeZone(TimeZoneInfo.Utc)
                 ));
 

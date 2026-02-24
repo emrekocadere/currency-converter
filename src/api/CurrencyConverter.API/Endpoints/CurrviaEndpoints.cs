@@ -11,7 +11,7 @@ public static class CurrencyConverterEndpoints
         group.MapGet("/exchange", 
             (decimal amount, string currencies, ICurrencyConverterService service) =>
             {
-                if (amount <= 0)
+                if (amount < 1)
                     return Results.BadRequest(new Result(false, Errors.InvalidAmount));
 
                 return Results.Ok(service.ConvertCurrency(amount, currencies));
@@ -32,7 +32,7 @@ public static class CurrencyConverterEndpoints
         group.MapGet("/exchange/by-date", 
             (string date, string currencies, int amount, ICurrencyConverterService service) =>
             {
-                if (amount <= 0)
+                if (amount < 1)
                     return Results.BadRequest(new Result(false, Errors.InvalidAmount));
 
                 return Results.Ok(service.ConvertCurrencyForSpecificDate(date, currencies, amount));
