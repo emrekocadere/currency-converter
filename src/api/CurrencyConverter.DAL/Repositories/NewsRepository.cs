@@ -22,9 +22,12 @@ public class NewsRepository:Repository<News>, INewsRepository
 
     public List<News> GetNewsByPage(int pageNumber,int pageSize)
     {
-      return  _context.News.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+      return  _context.News
+        .OrderByDescending(n => n.PublishedAt)
+        .Skip((pageNumber - 1) * pageSize)
+        .Take(pageSize)
+        .ToList();
     }
-
-
+    
 }
 

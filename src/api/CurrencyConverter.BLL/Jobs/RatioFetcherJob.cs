@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using CurrencyConverter.API.Entities;
 using CurrencyConverter.BLL.Service;
+using CurrencyConverter.BLL.Refit;
 using CurrencyConverter.DAL.Entities;
 using CurrencyConverter.DAL.Interfaces;
 using Microsoft.Extensions.Logging;

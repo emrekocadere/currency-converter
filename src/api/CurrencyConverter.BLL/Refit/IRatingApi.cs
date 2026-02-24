@@ -2,7 +2,7 @@ using System;
 using CurrencyConverter.BLL.ApiResponses;
 using Refit;
 
-namespace CurrencyConverter.BLL;
+namespace CurrencyConverter.BLL.Refit;
 
 public interface IRatingApi
 {

@@ -1,5 +1,5 @@
 using CurrencyConverter.API.Entities;
-using CurrencyConverter.BLL;
+using CurrencyConverter.BLL.Refit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Quartz;

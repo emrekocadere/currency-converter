@@ -3,7 +3,7 @@ using CurrencyConverter.API;
 using CurrencyConverter.BLL.Models.Responses;
 using Refit;
 
-namespace CurrencyConverter.BLL;
+namespace CurrencyConverter.BLL.Refit;
 
 public interface IMediastackApi
 {
@@ -14,7 +14,6 @@ public interface IMediastackApi
 public class GetNewsQueryParams
 {
     public string access_key { get; set; }
-    public string date { get; set; } 
     public string categories { get; set; }
     public string languages { get; set; }
     public string keywords { get; set; }

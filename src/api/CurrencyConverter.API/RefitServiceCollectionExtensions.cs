@@ -1,3 +1,4 @@
+using CurrencyConverter.BLL.Refit;
 using CurrencyConverter.BLL;
 using Refit;
 
